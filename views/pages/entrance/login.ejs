@@ -1,29 +1,76 @@
-<div id="login" v-cloak>
-  <div class="container-fluid pt-5 pb-5">
-    <h1 class="text-center">Sign in to your account</h1>
-    <div style="max-width: 450px;" class="mx-auto">
-      <hr/>
-      <ajax-form action="login" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedForm()">
-        <div class="form-group">
-          <input type="email" class="form-control" placeholder="Email address" :class="[formErrors.emailAddress ? 'is-invalid' : '']" v-model.trim="formData.emailAddress" autocomplete="email" focus-first>
-          <div class="invalid-feedback" v-if="formErrors.emailAddress">Please provide a valid email address.</div>
+<main class="main-content mt-0" id="login" v-cloak>
+  <div class="page-header align-items-start min-vh-100"
+    style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
+    <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="container my-auto">
+      <div class="row">
+        <div class="col-lg-4 col-md-8 col-12 mx-auto">
+          <div class="card z-index-0 fadeIn3 fadeInBottom">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                <!-- <div class="row mt-3">
+                  <div class="col-2 text-center ms-auto">
+                    <a class="btn btn-link px-3" href="javascript:;">
+                      <i class="fa fa-facebook text-white text-lg"></i>
+                    </a>
+                  </div>
+                  <div class="col-2 text-center px-1">
+                    <a class="btn btn-link px-3" href="javascript:;">
+                      <i class="fa fa-github text-white text-lg"></i>
+                    </a>
+                  </div>
+                  <div class="col-2 text-center me-auto">
+                    <a class="btn btn-link px-3" href="javascript:;">
+                      <i class="fa fa-google text-white text-lg"></i>
+                    </a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="card-body">
+              <ajax-form class="text-start" action="login" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+                :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors"
+                @submitted="submittedForm()">
+                <div class="input-group input-group-outline my-3">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-control" placeholder=""
+                    :class="[formErrors.emailAddress ? 'is-invalid' : '']" v-model.trim="formData.emailAddress"
+                    autocomplete="email" focus-first>
+                  <div class="invalid-feedback" v-if="formErrors.emailAddress">Please provide a valid email address.
+                  </div>
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" class="form-control" placeholder=""
+                    :class="[formErrors.password ? 'is-invalid' : '']" v-model.trim="formData.password"
+                    autocomplete="current-password">
+                  <div class="invalid-feedback" v-if="formErrors.password">Please enter your password.</div>
+                </div>
+                <div class="form-check form-switch d-flex align-items-center mb-3">
+                  <input class="form-check-input" type="checkbox" id="remember" name="rememberMe"
+                    v-model="formData.rememberMe" checked>
+                  <label class="form-check-label mx-1" for="remember">Remember me</label>
+                </div>
+                <cloud-error v-if="cloudError==='badCombo'">The credentials you entered are not associated with an
+                  account.
+                  Please check your email and/or password and try again.</cloud-error>
+                <cloud-error v-else-if="cloudError"></cloud-error>
+                <div class="text-center">
+                  <ajax-button type="submit" :syncing="syncing" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign
+                    in</ajax-button>
+                </div>
+                <p class="mt-4 text-sm text-center">
+                  Don't have an account?
+                  <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                </p>
+              </ajax-form>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password" :class="[formErrors.password ? 'is-invalid' : '']" v-model.trim="formData.password" autocomplete="current-password">
-          <div class="invalid-feedback" v-if="formErrors.password">Please enter your password.</div>
-        </div>
-        <div class="form-group form-check">
-          <input class="form-check-input" type="checkbox" id="remember" name="rememberMe" v-model="formData.rememberMe"/>
-          <label class="form-check-label" for="remember">Remember me</label>
-        </div>
-        <cloud-error v-if="cloudError==='badCombo'">The credentials you entered are not associated with an account. Please check your email and/or password and try again.</cloud-error>
-        <cloud-error v-else-if="cloudError"></cloud-error>
-        <div class="form-group">
-          <ajax-button :syncing="syncing" class="btn-dark btn-lg btn-block">Sign in</ajax-button>
-        </div>
-      </ajax-form>
-      <p class="text-center"><a href="/password/forgot">Forgot your password?</a></p>
+      </div>
     </div>
   </div>
-</div>
+</main>
+
 <%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
