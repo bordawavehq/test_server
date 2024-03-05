@@ -1,102 +1,278 @@
 <div id="welcome">
   <account-notification-banner></account-notification-banner>
   <div class="container pt-5 pb-5">
-    <h1>Welcome!</h1>
-    <hr/>
-    <p>This is a page that only logged-in people can visit. Don't you feel special? Try clicking on a button below to do some things you can't do when you're logged out.</p>
-    <div class="buttons">
-      <a class="btn btn-info" href="/account/profile">Update my email</a>
-      <button class="btn btn-outline-info ml-2" @click="clickOpenExampleModalButton()">Open a modal</button>
-    </div>
-  </div>
-
-  <router-view></router-view>
-
-  <!--  ╔═╗═╗ ╦╔═╗╔╦╗╔═╗╦  ╔═╗  ┌┬┐┌─┐┌┬┐┌─┐┬
-        ║╣ ╔╩╦╝╠═╣║║║╠═╝║  ║╣   ││││ │ ││├─┤│
-        ╚═╝╩ ╚═╩ ╩╩ ╩╩  ╩═╝╚═╝  ┴ ┴└─┘─┴┘┴ ┴┴─┘  -->
-  <modal class="example-modal" v-if="modal==='example'" @close="closeExampleModal()" v-cloak>
-    <div class="modal-header">
-      <h2 class="modal-title">Example modal</h2>
-      <p class="modal-intro">At your leisure, please peruse this excerpt from a whale of a tale.</p>
-      <hr>
-    </div>
-    <div class="modal-body">
-      <h5 class="pb-2 mb-3 border-bottom">Chapter 1: Loomings.</h5>
-      <p>Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people's hats off—then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.</p>
-      <div class="js-timestamp-examples">
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">About 2 years ago</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt-(2*365*24*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*365*24*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*365*24*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">About 2 months ago</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt-(2*30*24*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*30*24*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*30*24*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">2 days ago</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt-(2*24*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*24*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*24*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">2 hours ago</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt-(2*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(2*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">15 minutes ago</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt-(15*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(15*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(15*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">45 seconds ago</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt-(45*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(45*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt-(45*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">Right now</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">In an hour</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt+(60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">In two days</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt+(2*24*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(2*24*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(2*24*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">In about two months</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt+(2*30*24*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(2*30*24*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(2*30*24*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
-        <h5 class="pt-4 pb-2 mb-3 border-bottom">In about two years</h5>
-        <p>
-          <js-timestamp :at="pageLoadedAt+(2*365*24*60*60*1000)"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(2*365*24*60*60*1000)" format="timeago" short="true"></js-timestamp><br/>
-          <js-timestamp :at="pageLoadedAt+(2*365*24*60*60*1000)" format="calendar"></js-timestamp><br/>
-        </p>
+    <h1 class="mt-1 mb-5">
+      Welcome <% if(me.isSuperAdmin===true) {%> Admin<% } else { %>
+          {{ me.username }} <% } %>!
+    </h1>
+    <% if(me.isSuperAdmin===true) {%>
+      <div class="row mt-4" id="adminDashboard">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div
+                class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">key</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">License Keys Left</p>
+                <h4 class="mb-0" id="licenseKeysLeft"></h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0" />
+            <div class="card-footer p-3">
+              <p class="mb-0">
+                <a href="/generate-keys"><span class="text-dark text-sm font-weight-bolder">Generate More</span></a>
+                License Keys
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div
+                class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">person</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Total Users</p>
+                <h4 class="mb-0" id="totalUsers"></h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0" />
+            <div class="card-footer p-3">
+              <p class="mb-0">
+                <span class="text-primary text-sm font-weight-bolder">Audiobaze </span>Platform
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div
+                class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">key</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Activated Licenses</p>
+                <h4 class="mb-0" id="activatedLicenses"></h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0" />
+            <div class="card-footer p-3">
+              <p class="mb-0">
+                <span class="text-success text-sm font-weight-bolder">Current Licenses</span>
+                in Use
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div
+                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">person</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Unactivated Users</p>
+                <h4 class="mb-0" id="unactivatedUsers"></h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0" />
+            <div class="card-footer p-3">
+              <p class="mb-0">
+                <span class="text-info text-sm font-weight-bolder">Users </span>without a license
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="modal-footer flex-row-reverse justify-content-between">
-      <button type="button" data-dismiss="modal" class="btn btn-info">Close</button>
-      <button type="button" data-dismiss="modal" class="btn btn-outline-info">Cancel</button>
-    </div>
-  </modal>
+
+      <div class="row mt-4">
+        <div class="col-xl-4 col-md-4 col-lg-4">
+          <div class="card shadow-dark p-3">
+            <div class="my-2">
+              <h3>Hey Admin</h3>
+              <p>
+                You have access to the entire platform, its license keys and
+                ability to manage its resources.
+                <br />
+                You can even generate license keys.
+              </p>
+              <a href="/generate-keys" class="btn btn-info shadow-info">Generate 100 Keys!</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+          <div class="card bg-gradient-dark shadow-dark p-2">
+            <div class="my-2 text-white">
+              <h3 class="text-white">User Management</h3>
+              <p>
+                Only Activated Users will be able to use the streaming bot
+                services.
+              </p>
+              <a href="/list-audiobaze-normalusers" class="btn btn-primary shadow-primary">List Users</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+        <% if(!me.isSuperAdmin) { %>
+          <div class="row mt-4 mb-5" id="userdashboard">
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+              <div class="card">
+                <div class="card-header p-3 pt-2">
+                  <div
+                    class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                    <i class="material-icons opacity-10">person</i>
+                  </div>
+                  <div class="text-end pt-3">
+                    <p class="text-sm mb-0 text-capitalize">User</p>
+                    <h4 class="mb-0 mt-2">{{ me.fullName }}</h4>
+                  </div>
+                </div>
+                <hr class="dark horizontal my-0" />
+                <div class="card-footer p-3">
+                  <p class="mb-0">
+                    <span class="text-dark text-sm font-weight-bolder">Email </span>
+                    {{ me.emailAddress }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+              <div class="card">
+                <div class="card-header p-3 pt-2">
+                  <div
+                    class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                    <i class="material-icons opacity-10">key</i>
+                  </div>
+                  <div class="text-end pt-3">
+                    <p class="text-sm mb-0 mt-2 text-capitalize">Activation Status</p>
+                    <h4 class="mb-0 text-capitalize">
+                      <%= me.activeSubscription ? "Currently Activated" : "No Active Subscription" %>
+                    </h4>
+                  </div>
+                </div>
+                <hr class="dark horizontal my-0" />
+                <div class="card-footer p-3">
+                  <p class="mb-0">
+                    <span class="text-primary text-sm font-weight-bolder">Audiobaze </span>Platform
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+              <div class="card">
+                <div class="card-header p-3 pt-2">
+                  <div
+                    class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                    <i class="material-icons opacity-10">lock</i>
+                  </div>
+                  <div class="text-end pt-3">
+                    <% if(me.expiryDate){ %>
+                      <p class="text-sm mb-0 text-capitalize">Service Expiry Date</p>
+                      <h4 class="mb-0">
+                        <%= me.expiryDate %>
+                      </h4>
+                      <% } else {%>
+                        <p class="text-sm mb-0 text-capitalize">Service Expiry Date</p>
+                        <h4 class="mb-0" id="serviceExpiry">...</h4>
+                        <% } %>
+                  </div>
+                </div>
+                <hr class="dark horizontal my-0" />
+                <div class="card-footer p-3">
+                  <p class="mb-0">
+                    <span class="text-success text-sm font-weight-bolder">License</span>
+                    Expiry
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+              <div class="card">
+                <div class="card-header p-3 pt-2">
+                  <div
+                    class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                    <i class="material-icons opacity-10">calendar_today</i>
+                  </div>
+                  <div class="text-end pt-3">
+                    <p class="text-sm mb-0 text-capitalize">Account Creation Date</p>
+                    <h4 class="mb-0">{{ me.accountCreationDate }}</h4>
+                  </div>
+                </div>
+                <hr class="dark horizontal my-0" />
+                <div class="card-footer p-3">
+                  <p class="mb-0">
+                    <span class="text-info text-sm font-weight-bolder"><a href="https://t.me/musicprofit4">Contact
+                        Admin:</a>
+                    </span>
+                    Purchase a License
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+              <div class="card shadow-dark p-3">
+                <div class="my-3">
+                  <h3>Activate License Key</h3>
+                  <p>
+                    You will need to activate your license key to use Audiobaze
+                    spotify bot services.
+                  </p>
+                  <a href="/activatelicense" class="btn btn-info">Go Activate!</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+              <div class="card bg-gradient-primary shadow-dark p-3">
+                <div class="my-3 text-white">
+                  <h3 class="text-white">VPS Hosting and Streaming Services</h3>
+                  <p>
+                    We offer Fast and Reliable VPS Hosting Services, as well as HQ
+                    streaming accounts.
+                  </p>
+                  <a href="/services" class="btn btn-light">View Services</a>
+                </div>
+              </div>
+            </div>
+            <% if(me.activationStatus !=="activated" ){ %>
+              <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+                <div class="card bg-gradient-dark shadow-dark p-3">
+                  <div class="my-3 text-white">
+                    <h3 class="text-white">Confirm Status</h3>
+                    <p>
+                      Make sure your activation status changes to "active" before trying
+                      to use the bot.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+                <% if(me.activationStatus==="revoked" ){ %>
+                  <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+                    <div class="card bg-gradient-warning shadow-warning p-3">
+                      <div class="my-3 text-white">
+                        <h3 class="text-white">Access Revoked</h3>
+                        <p>
+                          Your access to the bot has been revoked for violating the platform's policies.
+
+                          Contact Admin to restore Audiobaze Bot service.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+          </div>
+          <% } %>
+  </div>
+  <router-view></router-view>
 </div>
 <%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
