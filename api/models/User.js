@@ -162,6 +162,12 @@ without necessarily having a billing card.`,
       moreInfoUrl: "https://en.wikipedia.org/wiki/Know_your_customer",
     },
 
+    accountCreationDate: {
+      type: "string",
+      description:
+        "Data account was created on the back end in dd/mm/yyyy format",
+    },
+
     lastSeenAt: {
       type: "number",
       description:
