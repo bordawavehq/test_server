@@ -46,6 +46,6 @@ module.exports.datastores = {
      *                                                                          *
      ***************************************************************************/
     adapter: "sails-mongo",
-    url: process.env.LOCAL_MONGODB_DATABASE,
+    url: "mongodb://localhost:27017/audiobaze_dev",
   },
 };
