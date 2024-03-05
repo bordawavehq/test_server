@@ -80,6 +80,7 @@ module.exports.custom = {
   // signs up, or when an existing user attempts to change their email address.
   verifyEmailAddresses: false,
   LOCAL_MONGODB_DATABASE: "mongodb://localhost:27017/audiobaze_dev",
+  secret:'1234512313123123'
 
   /**************************************************************************
    *                                                                         *
