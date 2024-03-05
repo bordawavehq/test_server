@@ -1,8 +1,10 @@
-<% if(typeof me === 'undefined') {
-  // In case we're displaying the 404 or 500 page and relevant code in the "custom" hook was not able to run,
-  // we make sure `me` exists.  This ensures we don't have to do `typeof` checks below.
-  var me = undefined;
-} %>
+<% if(typeof me === 'undefined') { %>
+<% // In case we're displaying the 404 or 500 page and relevant code in the "custom" hook
+    // was not able to run, we make sure `me` exists.
+    // This ensures we don't have to do `typeof` checks below.
+    var me = undefined;
+  %>
+<% } %>
 <!DOCTYPE html>
 <html>
 
@@ -14,37 +16,38 @@
   <meta name="author" content="Adefeyitimi Adeyeloja (Timmy.Zorin)" />
   <meta name="keywords" content="Audiobaze" />
 
-  <% /* Script tags should normally be included further down the page- but any
-    scripts that load fonts (e.g. Fontawesome ≥v5) are special exceptions to the
-    rule. (Include them up here along with any hard-coded «link» tags for Typekit,
-    Google Fonts, etc. - above the «body» to prevent the page flickering when fonts
-    load.) */ %>
+  <% /* Script tags should normally be included further down the page- but any scripts that load fonts (e.g.
+        Fontawesome ≥v5) are special exceptions to the rule. (Include them up here along with any hard-coded «link» tags
+        for Typekit, Google Fonts, etc. - above the «body» to prevent the page flickering when fonts load.) */ %>
 
-  <% /* Certain scripts, normally analytics tools like Google Tag Manager and
-    Google Analytics, should only be included in production: */
-    if (sails.config.environment === 'production') { %>
+  <% /* Certain scripts, normally analytics tools like Google Tag Manager and Google Analytics, should only be
+          included in production: */ if (sails.config.environment==='production' ) { %>
   <!-- Google Analytics, Google Tag Manager, etc. -->
-  <% }
-    /* Otherwise, any such scripts are excluded, and we instead inject a
-    robots/noindex meta tag to help prevent any unwanted visits from search engines. */
-    else { %>
+  <% } /* Otherwise, any such scripts are excluded, and we instead inject a robots/noindex meta tag to help
+            prevent any unwanted visits from search engines. */ else { %>
   <meta name="robots" content="noindex">
   <% } %>
 
-  <% /*
-        Stylesheets
-        ========================
-
-        Stylesheets can be hard-coded as «link» tags, automatically injected
-        by the asset pipeline between "STYLES" and "STYLES END", or both.
-        (https://sailsjs.com/docs/concepts/assets/task-automation)
-    */ %>
+  <% /* Stylesheets========================Stylesheets can be hard-coded as «link» tags, automatically
+                injected by the asset pipeline between "STYLES" and "STYLES END" , or both.
+                (https://sailsjs.com/docs/concepts/assets/task-automation) */ %>
 
   <% /* Auto-injected «link» tags: */ %>
   <!--STYLES-->
   <link rel="stylesheet" href="/dependencies/bootstrap-4/bootstrap-4.css">
   <link rel="stylesheet" href="/dependencies/fontawesome.css">
   <link rel="stylesheet" href="/styles/importer.css">
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <!--STYLES END-->
 </head>
 
@@ -88,22 +91,29 @@
 
     <%}%>
 
-    
 
-    <!-- Alert if email has not been confirmed -->
-    <% if(me&&me.emailChangeCandidate) { %>
+
+          <!-- Alert if email has not been confirmed -->
+          <% if(me&&me.emailChangeCandidate) { %>
     <div class="container-fluid">
       <div class="alert alert-secondary mt-2 small" role="alert">
         Your updated email address needs verification. Until you click the link sent to
-        <strong><%= me.emailChangeCandidate %></strong>, you'll still need to sign in as
-        <strong><%= me.emailAddress %></strong>.
+        <strong>
+          <%= me.emailChangeCandidate %>
+        </strong>, you'll still need to sign in as
+        <strong>
+          <%= me.emailAddress %>
+        </strong>.
       </div>
     </div>
-    <% } else if(me&&me.emailStatus === 'unconfirmed') { %>
+    <% } else if(me&&me.emailStatus==='unconfirmed' ) { %>
     <div class="container-fluid">
       <div class="alert alert-secondary mt-2 small" role="alert">
-        Your email address still needs verification. Your account access may be limited until you click the link sent to
-        <strong><%= me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress%></strong>.
+        Your email address still needs verification. Your account access may be limited until you click the
+        link sent to
+        <strong>
+          <%= me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress%>
+        </strong>.
       </div>
     </div>
     <% } %>
@@ -111,26 +121,22 @@
     <%- body %>
 
 
-    <% /*
-      Client-side JavaScript
-      ========================
+    <% /* Client-side JavaScript========================Scripts can be hard-coded as «script» tags,
+                    automatically injected by the asset pipeline between "SCRIPTS" and "SCRIPTS END" , or both.
+                    (https://sailsjs.com/docs/concepts/assets/task-automation) */ %>
 
-      Scripts can be hard-coded as «script» tags, automatically injected
-      by the asset pipeline between "SCRIPTS" and "SCRIPTS END", or both.
-      (https://sailsjs.com/docs/concepts/assets/task-automation)
-    */ %>
-
-    <%/* Stripe.js */%>
+    <% /* Stripe.js */%>
     <script src="https://js.stripe.com/v3/"></script>
 
-    <% /* Delete the global `self` to help avoid client-side bugs.
-    (see https://developer.mozilla.org/en-US/docs/Web/API/Window/self) */ %>
+    <% /* Delete the global `self` to help avoid client-side bugs. (see
+                        https://developer.mozilla.org/en-US/docs/Web/API/Window/self) */ %>
     <script>
       delete window.self;
 
     </script>
 
-    <%/* bowser.js (for browser detection) -- included inline to avoid issues with minification that could affect the unsupported browser overlay */%>
+    <% /* bowser.js (for browser detection) -- included inline to avoid issues with minification
+                          that could affect the unsupported browser overlay */%>
     <script>
       ! function (e, i, s) {
         if ("undefined" != typeof module && module.exports) module.exports = s();
@@ -444,10 +450,10 @@
           if (B.msedge || B.msie && B.version >= 10 || B.yandexbrowser && B.version >= 15 || B.vivaldi && B.version >=
             1 || B.chrome && B.version >= 20 || B.samsungBrowser && B.version >= 4 || B.firefox && B.version >= 20 ||
             B.safari && B.version >= 6 || B.opera && B.version >= 10 || B.ios && B.osversion && B.osversion.split(
-            ".")[0] >= 6 || B.blackberry && B.version >= 10.1 || B.chromium && B.version >= 20) B.a = e;
+              ".")[0] >= 6 || B.blackberry && B.version >= 10.1 || B.chromium && B.version >= 20) B.a = e;
           else if (B.msie && B.version < 10 || B.chrome && B.version < 20 || B.firefox && B.version < 20 || B
             .safari && B.version < 6 || B.opera && B.version < 10 || B.ios && B.osversion && B.osversion.split(".")[
-            0] < 6 || B.chromium && B.version < 20) B.c = e;
+              0] < 6 || B.chromium && B.version < 20) B.c = e;
           else B.x = e;
           return B
         }
@@ -527,6 +533,7 @@
     <script src="/dependencies/jquery.min.js"></script>
     <script src="/dependencies/vue.js"></script>
     <script src="/dependencies/vue-router.js"></script>
+    <script src="/js/core/popper.min.js"></script>
     <script src="/dependencies/bootstrap-4/bootstrap-4.bundle.js"></script>
     <script src="/dependencies/cloud.js"></script>
     <script src="/dependencies/moment.js"></script>
@@ -540,10 +547,8 @@
     <script src="/js/components/modal.component.js"></script>
     <script src="/js/components/stripe-card-element.component.js"></script>
     <script src="/js/utilities/open-stripe-checkout.js"></script>
-    <script src="/js/core/bootstrap.bundle.min.js"></script>
-    <script src="/js/core/bootstrap.min.js"></script>
-    <script src="/js/core/popper.min.js"></script>
-    <script src="/js/material-dashboard.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/material-dashboard.js" defer></script>
     <script src="/js/pages/account/account-overview.page.js"></script>
     <script src="/js/pages/account/edit-password.page.js"></script>
     <script src="/js/pages/account/edit-profile.page.js"></script>
@@ -559,12 +564,21 @@
     <script src="/js/pages/legal/privacy.page.js"></script>
     <script src="/js/pages/legal/terms.page.js"></script>
     <script src="/js/plugins/bootstrap-notify.js"></script>
-    <script src="/js/plugins/Chart.extension.js"></script>
-    <script src="/js/plugins/chartjs.min.js"></script>
     <script src="/js/plugins/countup.min.js"></script>
-    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="/js/plugins/world.js"></script>
+    <script>
+      var win = navigator.platform.indexOf('Win') > -1;
+      if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+          damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+      }
+
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!--SCRIPTS END-->
 
 </body>
