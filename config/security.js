@@ -14,36 +14,39 @@
  */
 
 module.exports.security = {
-
   /***************************************************************************
-  *                                                                          *
-  * CORS is like a more modern version of JSONP-- it allows your application *
-  * to circumvent browsers' same-origin policy, so that the responses from   *
-  * your Sails app hosted on one domain (e.g. example.com) can be received   *
-  * in the client-side JavaScript code from a page you trust hosted on _some *
-  * other_ domain (e.g. trustedsite.net).                                    *
-  *                                                                          *
-  * For additional options and more information, see:                        *
-  * https://sailsjs.com/docs/concepts/security/cors                          *
-  *                                                                          *
-  ***************************************************************************/
-
-  // cors: {
-  //   allRoutes: false,
-  //   allowOrigins: '*',
-  //   allowCredentials: false,
-  // },
-
+   *                                                                          *
+   * CORS is like a more modern version of JSONP-- it allows your application *
+   * to circumvent browsers' same-origin policy, so that the responses from   *
+   * your Sails app hosted on one domain (e.g. example.com) can be received   *
+   * in the client-side JavaScript code from a page you trust hosted on _some *
+   * other_ domain (e.g. trustedsite.net).                                    *
+   *                                                                          *
+   * For additional options and more information, see:                        *
+   * https://sailsjs.com/docs/concepts/security/cors                          *
+   *                                                                          *
+   ***************************************************************************/
+  cors: {
+    allRoutes: true,
+    allowOrigins: [
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "http://192.168.14.145:3000",
+      "http://127.0.0.1",
+    ],
+    allowCredentials: true,
+    allowRequestHeaders:
+      "content-type,access-control-allow-origin, authorization",
+  },
 
   /****************************************************************************
-  *                                                                           *
-  * CSRF protection should be enabled for this application.                   *
-  *                                                                           *
-  * For more information, see:                                                *
-  * https://sailsjs.com/docs/concepts/security/csrf                           *
-  *                                                                           *
-  ****************************************************************************/
+   *                                                                           *
+   * CSRF protection should be enabled for this application.                   *
+   *                                                                           *
+   * For more information, see:                                                *
+   * https://sailsjs.com/docs/concepts/security/csrf                           *
+   *                                                                           *
+   ****************************************************************************/
 
-  csrf: true
-
+  // csrf: true,
 };
