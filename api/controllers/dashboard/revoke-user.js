@@ -31,7 +31,10 @@ module.exports = {
         activeSubscription: false,
       });
 
-      await License.updateOne({ currentKeyUser: userRecord.emailAddress }).set({
+      await License.updateOne({
+        currentKeyUser: userRecord.emailAddress,
+        keyStatus: "activated",
+      }).set({
         keyStatus: "revoked",
       });
 
