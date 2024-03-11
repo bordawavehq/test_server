@@ -9,6 +9,7 @@
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
     "connect-mongo": "^5.1.0",
+    "connect-mongodb-session": "^5.0.0",
     "date-fns": "^3.3.1",
     "dotenv": "^16.4.5",
     "fingerprintjs2": "^2.1.4",
