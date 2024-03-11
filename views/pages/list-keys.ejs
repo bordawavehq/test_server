@@ -1,0 +1,70 @@
+<div class="container mt-5" id="list-keys" v-cloak>
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">List of License Keys</h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">License Key</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">License User</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Key Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% keys.forEach((key)=> {%>
+                <tr id="licenses">
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <p class="text-xs text-secondary mb-0">
+                          <%= key.licenseKey %>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      <%= key.currentKeyUser ? key.currentKeyUser : "No User Currently" %>
+                    </p>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <% if(key.keyStatus==="unactivated" ){ %>
+                    <span class="badge badge-sm bg-gradient-secondary text-capitalize">
+                      <%= key.keyStatus %>
+                    </span>
+                    <% } %>
+                    <% if(key.keyStatus==="activated" ){ %>
+                    <span class="badge badge-sm bg-gradient-success text-capitalize">
+                      <%= key.keyStatus %>
+                    </span>
+                    <% } %>
+                    <% if(key.keyStatus==="revoked" ){ %>
+                    <span class="badge badge-sm bg-gradient-warning text-capitalize">
+                      <%= key.keyStatus %>
+                    </span>
+                    <% } %>
+                    <% if(key.keyStatus==="expired" ){ %>
+                    <span class="badge badge-sm bg-gradient-error text-capitalize">
+                      <%= key.keyStatus %>
+                    </span>
+                    <% } %>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

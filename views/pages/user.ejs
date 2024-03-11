@@ -1,0 +1,55 @@
+<div id="user" class="container-fluid" v-cloak>
+  <div class="row mt-5">
+    <div class="col-lg-12">
+      <div class="col-lg-12">
+        <h2>{{ user.fullName }}</h2>
+        <p>{{ user.emailAddress }}</p>
+      </div>
+      <div class="col-lg-12">
+        <h3>Subscription Status</h3>
+        <% if(activeSubscription){ %>
+          <p class="badge badge-md bg-gradient-success">Active Subscription</p>
+          <p>Activated : <%= activeSubscription.activationDate %>
+          </p>
+          <p>Currently Active Till <%= activeSubscription.expiryDate %>
+          </p>
+          <div>
+            <a href="/user/revoke/<%= user.id %>" class="btn btn-primary">Revoke Access</a>
+
+            <a data-toggle="modal" data-target="#deleteModal<%= user.id %>"
+              class="btn btn-outline-info text-info">Delete User <i class="fas fa-trash"></i></a>
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteModal<%= user.id %>" tabindex="-1" role="dialog"
+              aria-labelledby="deleteModalLabel<%= user.id %>" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel<%= user.id %>">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete <%= user.fullName %>?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <a href="/user/delete/<%= user.id %>" class="btn btn-danger">Yes</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } else { %>
+            <p class="badge badge-md bg-gradient-success">No Subscription</p>
+            <p>This user has no active subscription</p>
+            <% } %>
+      </div>
+      <div class="col-lg-12">
+        <a href="/users" class="btn btn-outline-secondary">Back</a>
+      </div>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

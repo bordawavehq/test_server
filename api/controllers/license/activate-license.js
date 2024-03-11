@@ -43,7 +43,7 @@ module.exports = {
 
     const licenseRecord = await License.findOne({
       licenseKey,
-      keyStatus: "valid",
+      keyStatus: "unactivated",
     });
 
     if (!licenseRecord) {
@@ -58,16 +58,14 @@ module.exports = {
       const license = await License.updateOne({
         licenseKey,
         keyStatus: "unactivated",
-      })
-        .set({
-          keyStatus: "activated",
-          currentKeyUser: this.req.me.emailAddress,
-        })
-        .fetch();
+      }).set({
+        keyStatus: "activated",
+        currentKeyUser: this.req.me.emailAddress,
+      });
 
       const user = await User.updateOne({ id: this.req.me.id }).set({
         activeSubscription: true,
-      }).fetch;
+      });
 
       await Sub.create({
         licenseData: license,

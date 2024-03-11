@@ -124,7 +124,7 @@
           </li>
           <% if(me.isSuperAdmin === true){ %>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/list-audiobaze-normalusers" id="listUsersLink">
+            <a class="nav-link text-white" href="/users" id="listUsersLink">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">manage_accounts</i>
               </div>
@@ -132,7 +132,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/list-keys" id="listLicenseKeys">
+            <a class="nav-link text-white" href="/keys" id="listLicenseKeys">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">key</i>
               </div>
@@ -670,7 +670,9 @@
     <script src="/js/pages/entrance/confirmed-email.page.js"></script>
     <script src="/js/pages/entrance/forgot-password.page.js"></script>
     <script src="/js/pages/entrance/login.page.js"></script>
+    <script src="/js/pages/user.page.js"></script>
     <script src="/js/pages/entrance/new-password.page.js"></script>
+    <script src="/js/pages/activatelicense.page.js"></script>
     <script src="/js/pages/entrance/signup.page.js"></script>
     <script src="/js/pages/faq.page.js"></script>
     <script src="/js/pages/homepage.page.js"></script>
@@ -711,7 +713,7 @@
       if (url.includes('/account/password')) {
         changePasswordLink.classList.add('active');
       }
-      if (url.includes('list-audiobaze-normalusers')) {
+      if (url.includes('users')) {
         listUsersLink.classList.add('active');
       }
       if (url.includes('keys')) {

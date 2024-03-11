@@ -16,7 +16,9 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">License Keys Left</p>
-                <h4 class="mb-0" id="licenseKeysLeft"></h4>
+                <h4 class="mb-0" id="licenseKeysLeft">
+                  {{ unactivated }}
+                </h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -37,7 +39,7 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Users</p>
-                <h4 class="mb-0" id="totalUsers"></h4>
+                <h4 class="mb-0" id="totalUsers">{{ totalNoOfUsers }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -57,7 +59,7 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Activated Licenses</p>
-                <h4 class="mb-0" id="activatedLicenses"></h4>
+                <h4 class="mb-0" id="activatedLicenses">{{ activated }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -78,7 +80,7 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Unactivated Users</p>
-                <h4 class="mb-0" id="unactivatedUsers"></h4>
+                <h4 class="mb-0" id="unactivatedUsers">{{ unactivatedUsers }}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -102,7 +104,7 @@
                 <br />
                 You can even generate license keys.
               </p>
-              <a href="/generate-keys" class="btn btn-info shadow-info">Generate 100 Keys!</a>
+              <a href="/api/v1/generate/license/100" class="btn btn-info shadow-info">Generate 100 Keys!</a>
             </div>
           </div>
         </div>
@@ -114,7 +116,7 @@
                 Only Activated Users will be able to use the streaming bot
                 services.
               </p>
-              <a href="/list-audiobaze-normalusers" class="btn btn-primary shadow-primary">List Users</a>
+              <a href="/users" class="btn btn-primary shadow-primary">List Users</a>
             </div>
           </div>
         </div>
@@ -173,10 +175,10 @@
                     <i class="material-icons opacity-10">lock</i>
                   </div>
                   <div class="text-end pt-3">
-                    <% if(me.expiryDate){ %>
+                    <% if(currentSubscription?.expiryDate){ %>
                       <p class="text-sm mb-0 text-capitalize">Service Expiry Date</p>
                       <h4 class="mb-0">
-                        <%= me.expiryDate %>
+                        <%= currentSubscription?.expiryDate %>
                       </h4>
                       <% } else {%>
                         <p class="text-sm mb-0 text-capitalize">Service Expiry Date</p>
@@ -243,13 +245,13 @@
                 </div>
               </div>
             </div>
-            <% if(me.activationStatus !=="activated" ){ %>
+            <% if(!me.activeSubscription ){ %>
               <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
                 <div class="card bg-gradient-dark shadow-dark p-3">
                   <div class="my-3 text-white">
                     <h3 class="text-white">Confirm Status</h3>
                     <p>
-                      Make sure your activation status changes to "active" before trying
+                      Make sure your Activation status changes to "Active" before trying
                       to use the bot.
                     </p>
                   </div>

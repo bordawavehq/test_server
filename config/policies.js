@@ -22,5 +22,5 @@ module.exports.policies = {
   'legal/view-privacy': true,
   'deliver-contact-form-message': true,
   "key/generate-license": "is-super-admin",
-  "bot/auth/login": true
+  "bot/auth/bot-login": true
 };

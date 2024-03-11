@@ -33,6 +33,8 @@ module.exports = {
           licenseKey: generateKey(),
         });
       }
+
+      return res.redirect("/welcome");
     } catch (error) {
       return res.serverError({ message: "Failed to generate license key(s)" });
     }
