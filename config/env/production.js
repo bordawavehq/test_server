@@ -229,7 +229,7 @@ module.exports = {
      * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
      *                                                                          *
      ***************************************************************************/
-    onlyAllowOrigins: ["https://audiobazev2.onrender.com/"],
+    onlyAllowOrigins: ["https://audiobazev2.onrender.com"],
     /***************************************************************************
      *                                                                          *
      * If you are deploying a cluster of multiple servers and/or processes,     *
@@ -335,7 +335,7 @@ module.exports = {
    *                                                                         *
    ***************************************************************************/
   custom: {
-    baseUrl: "https://audiobazev2.onrender.com/",
+    baseUrl: "https://audiobazev2.onrender.com",
     internalEmailAddress: "support@example.com",
 
     // sendgridSecret: 'SG.fake.3e0Bn0qSQVnwb1E4qNPz9JZP5vLZYqjh7sn8S93oSHU',
