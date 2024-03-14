@@ -1,5 +1,19 @@
 <div id="list-users" class="container-fluid" v-cloak>
   <div class="row mt-5">
+    <div class="col-lg-12 d-flex justify-content-between align-items-center">
+      <div class="w-100">
+        <h4 class="card-title mt-0">Search Users</h4>
+        <p class="card-category">Type to filter users</p>
+      </div>
+
+      <div class="input-group input-group-outline w-100">
+        <!-- <label class="bmd-label-floating">Search by Name or Email</label> -->
+        <input type="text" class="form-control" id="searchInput">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <% if(users.length> 0){ %>
       <div class="col-12">
         <div class="card my-4">
@@ -13,18 +27,12 @@
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                      User Info
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Info</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User Class</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Activity
                     </th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                      User Class
-                    </th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                      Activity
-                    </th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                      Account Creation
-                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Account
+                      Creation</th>
                     <th></th>
                     <th></th>
                   </tr>
@@ -60,9 +68,7 @@
                         </span>
                       </td>
                       <td>
-                        <a class="btn-primary btn text-white" href="/user/<%= user.id %>">
-                          View User
-                        </a>
+                        <a class="btn-primary btn text-white" href="/user/<%= user.id %>">View User</a>
                       </td>
                       <td>
                         <a class="btn-warning btn text-white" data-toggle="modal"
@@ -70,7 +76,6 @@
                           <i class="fas fa-trash"></i>
                         </a>
 
-                        <!-- Delete Confirmation Modal -->
                         <div class="modal fade" id="deleteModal<%= user.id %>" tabindex="-1" role="dialog"
                           aria-labelledby="deleteModalLabel<%= user.id %>" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -100,7 +105,6 @@
           </div>
         </div>
       </div>
-
       <% } else { %>
         <div class="d-flex justify-content-center align-items-center">
           <h3>You currently have no active users</h3>
@@ -108,4 +112,26 @@
         <% } %>
   </div>
 </div>
+
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById('searchInput');
+    const rows = document.querySelectorAll('#users');
+
+    searchInput.addEventListener('input', function (event) {
+      const searchString = event.target.value.toLowerCase();
+
+      rows.forEach(row => {
+        const fullName = row.querySelector('h6').textContent.toLowerCase();
+        const email = row.querySelector('p').textContent.toLowerCase();
+
+        if (fullName.includes(searchString) || email.includes(searchString)) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
