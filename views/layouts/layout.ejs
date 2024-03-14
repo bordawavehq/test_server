@@ -122,9 +122,8 @@
               <span class="nav-link-text ms-1">Profile</span>
             </a>
           </li>
-          <% if(me.isSuperAdmin === true){ %>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/store" id="listUsersLink">
+            <a class="nav-link text-white" href="/store" id="store">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons">
                   storefront
@@ -132,6 +131,7 @@
               <span class="nav-link-text ms-1">Store</span>
             </a>
           </li>
+          <% if(me.isSuperAdmin === true){ %>
           <li class="nav-item">
             <a class="nav-link text-white" href="/users" id="listUsersLink">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -157,14 +157,6 @@
             </a>
           </li>
           <% } else {%>
-          <li class="nav-item">
-            <a class="nav-link text-white " href="/services" id="servicesLink">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">store</i>
-              </div>
-              <span class="nav-link-text ms-1">Store</span>
-            </a>
-          </li>
           <li class="nav-item">
             <a class="nav-link text-white " href="/faq" id="faqLink">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -675,7 +667,8 @@
     <script src="/js/pages/account/edit-password.page.js"></script>
     <script src="/js/pages/account/edit-profile.page.js"></script>
     <script src="/js/pages/contact.page.js"></script>
-    <script src="/js/pages/dashboard/welcome.page.js"></script>
+    <script src="/js/pages/contact.page.js"></script>
+    <script src="/js/pages/add-product.page.js"></script>
     <script src="/js/pages/entrance/confirmed-email.page.js"></script>
     <script src="/js/pages/entrance/forgot-password.page.js"></script>
     <script src="/js/pages/entrance/login.page.js"></script>
@@ -710,6 +703,7 @@
       const changePasswordLink = document.getElementById('changePasswordLink');
       const faqLink = document.getElementById('faqLink');
       const licenseKeyLink = document.getElementById('listLicenseKeys')
+      const store = document.getElementById("store")
 
       let url = window.location.href;
       if (url.includes('welcome')) {}
@@ -721,6 +715,9 @@
       }
       if (url.includes('/account/password')) {
         changePasswordLink.classList.add('active');
+      }
+      if(url.includes('/store')){
+        store.classList.add('active')
       }
       if (url.includes('users')) {
         listUsersLink.classList.add('active');
