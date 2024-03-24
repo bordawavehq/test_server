@@ -3,7 +3,8 @@
   <div class="container pt-5 pb-5">
     <h1 class="mt-1 mb-5">
       Welcome <% if(me.isSuperAdmin===true) {%> Admin<% } else { %>
-          {{ me.username }} <% } %>!
+          <%= me.fullName %>
+        <% } %>!
     </h1>
     <% if(me.isSuperAdmin===true) {%>
       <div class="row mt-4" id="adminDashboard">
@@ -17,7 +18,7 @@
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">License Keys Left</p>
                 <h4 class="mb-0" id="licenseKeysLeft">
-                  {{ unactivated }}
+                  <%= unactivated %>
                 </h4>
               </div>
             </div>
@@ -39,7 +40,9 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Users</p>
-                <h4 class="mb-0" id="totalUsers">{{ totalNoOfUsers }}</h4>
+                <h4 class="mb-0" id="totalUsers">
+                  <%= totalNoOfUsers %>
+                </h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -59,7 +62,9 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Activated Licenses</p>
-                <h4 class="mb-0" id="activatedLicenses">{{ activated }}</h4>
+                <h4 class="mb-0" id="activatedLicenses">
+                  <%= activated %>
+                </h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -80,7 +85,9 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Unactivated Users</p>
-                <h4 class="mb-0" id="unactivatedUsers">{{ unactivatedUsers }}</h4>
+                <h4 class="mb-0" id="unactivatedUsers">
+                  <%= unactivatedUsers %>
+                </h4>
               </div>
             </div>
             <hr class="dark horizontal my-0" />
@@ -133,14 +140,16 @@
                   </div>
                   <div class="text-end pt-3">
                     <p class="text-sm mb-0 text-capitalize">User</p>
-                    <h4 class="mb-0 mt-2">{{ me.fullName }}</h4>
+                    <h4 class="mb-0 mt-2">
+                      <%= me.fullName %>
+                    </h4>
                   </div>
                 </div>
                 <hr class="dark horizontal my-0" />
                 <div class="card-footer p-3">
                   <p class="mb-0">
                     <span class="text-dark text-sm font-weight-bolder">Email </span>
-                    {{ me.emailAddress }}
+                    <%= me.emailAddress %>
                   </p>
                 </div>
               </div>
@@ -204,7 +213,9 @@
                   </div>
                   <div class="text-end pt-3">
                     <p class="text-sm mb-0 text-capitalize">Account Creation Date</p>
-                    <h4 class="mb-0">{{ me.accountCreationDate }}</h4>
+                    <h4 class="mb-0">
+                      <%= me.accountCreationDate %>
+                    </h4>
                   </div>
                 </div>
                 <hr class="dark horizontal my-0" />

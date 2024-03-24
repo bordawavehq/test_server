@@ -4,6 +4,11 @@ module.exports = {
   description: "",
 
   inputs: {
+    id: {
+      type: "string",
+      required: true,
+    },
+
     productTitle: {
       type: "string",
       description: "Product Title",
@@ -48,18 +53,14 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     const { req, res } = this;
-    const { id } = req.params;
     const {
+      id,
       productTitle,
       productDescription,
       productFeatures,
       serviceType,
       price,
     } = inputs;
-
-    if (!id) {
-      throw "invalid";
-    }
 
     const logos = {
       spotify: {

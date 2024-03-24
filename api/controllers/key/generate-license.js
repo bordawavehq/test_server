@@ -34,7 +34,7 @@ module.exports = {
         });
       }
 
-      return res.redirect("/welcome");
+      return res.redirect("/dashboard");
     } catch (error) {
       return res.serverError({ message: "Failed to generate license key(s)" });
     }

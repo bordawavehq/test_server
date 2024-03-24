@@ -28,14 +28,14 @@ module.exports = {
         activeStatus: true,
       });
 
-      const record = subscriptionRecord || null
+      const record = subscriptionRecord || null;
 
-      return res.view("pages/dashboard/welcome", {
+      return res.view("pages/dashboard/dashboard", {
         unactivated: unactivated.length,
         totalNoOfUsers: totalNoOfUsers.length,
         activated: activated.length,
         unactivatedUsers: unactivatedUsers.length,
-        currentSubscription:record 
+        currentSubscription: record,
       });
     } catch (error) {
       sails.log.error(error);

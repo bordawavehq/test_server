@@ -13,7 +13,7 @@ module.exports.routes = {
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
   "GET /": { action: "view-homepage-or-redirect" },
-  "GET /welcome/:unused?": { action: "dashboard/view-welcome" },
+  "GET /dashboard": { action: "dashboard/view-welcome" },
 
   "GET /faq": { action: "view-faq" },
   "GET /legal/terms": { action: "legal/view-terms" },
@@ -90,6 +90,21 @@ module.exports.routes = {
 
   // Delete User
   "GET /user/delete/:id": { action: "dashboard/user/delete" },
+
+  // Store Functions
+  "GET /store": { action: "view-store" },
+  "GET /store/product": { action: "view-add-product" },
+  "GET /store/product/:id": { action: "store/view-get-product" },
+  "GET /store/product/modify/:id": { action: "store/view-edit-product" },
+
+  // Add Product
+  "POST /store/product": { action: "store/add-product" },
+  "PATCH /store/product/:id": { action: "store/edit-product" },
+  "GET /store/product/delete/:id": { action: "store/delete-product" },
+
+  // Order Process
+  "GET /order": { action: "store/view-get-orders" },
+  "GET /order/:id": { action: "store/get-order" },
 
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
