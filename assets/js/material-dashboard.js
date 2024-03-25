@@ -403,12 +403,6 @@ function debounce(func, wait, immediate) {
 
 // initialization of Toasts
 document.addEventListener("DOMContentLoaded", function () {
-  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-
-  var toastList = toastElList.map(function (toastEl) {
-    return new bootstrap.Toast(toastEl);
-  });
-
   var toastButtonList = [].slice.call(document.querySelectorAll(".toast-btn"));
 
   toastButtonList.map(function (toastButtonEl) {
@@ -418,12 +412,15 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       if (toastToTrigger) {
-        var toast = bootstrap.Toast.getInstance(toastToTrigger);
-        toast.show();
+        toastToTrigger.classList.add("show");
+        setTimeout(function () {
+          toastToTrigger.classList.remove("show");
+        }, 2000); // Adjust the delay as needed
       }
     });
   });
 });
+
 
 // Tabs navigation
 
