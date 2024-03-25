@@ -1,73 +1,107 @@
-<div id="store" class="my-3" v-cloak>
-  <div class="container">
-    <% if(user.isSuperAdmin){ %>
-    <div class="row">
-      <div class="col-lg-12 d-flex justify-content-end">
-        <a class="btn btn-primary" href="/store/product">Add Product</a>
+<div id="store" class="my-3 position-relative" v-cloak>
+  <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 9999999999999999999999; bottom: 0; right: 0;">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000">
+      <div class="toast-header">
+        <!-- <img src="..." class="rounded mr-2" alt="..."> -->
+        <strong class="mr-auto">Still Working on It 😢</strong>
+        <!-- <small>11 mins ago</small> -->
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-    <% } %>
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="row">
-          <!-- Add a row wrapper -->
-          <% products.forEach(data=> { %>
-          <div class="col-xl-3 mt-4">
-            <!-- Add column classes -->
-            <div class="card shadow-dark p-2 d-flex flex-column align-items-center justify-content-center">
-              <img src="<%= data.productImage %>" alt="Product Image" width="100" height="100">
-              <h3>
-                <%= data.productTitle %>
-              </h3>
-              <p>
-                <%= data.productDescription %>
-              </p>
-              <p>
-                <%= data.productFeatures %>
-              </p>
-              <p class="font-weight-bold">$<%= data.price %>
-              </p>
-              <% if(user.isSuperAdmin) { %>
-              <div class="w-full d-flex flex-column align-items-center justify-content-between gap-2">
-                <a class="btn btn-primary text-white" href="/store/product/modify/<%= data.id %>"> Edit Service <i
-                    class="fas fa-pencil-alt"></i></a>
-                <button class="btn btn-outline-secondary" data-toggle="modal"
-                  data-target="#deleteServiceModal<%= data.id %>">Delete Service <i class="fas fa-trash"></i></button>
-              </div>
-              <% } else { %>
-              <a class="btn-primary btn text-white" data-toggle="modal" data-target="#buyModal<%= data.id %>">Buy
-                Service <i class="fas fa-cart"></i></a>
-              <% } %>
-              <div class="modal fade" id="deleteServiceModal<%= data.id %>" tabindex="-1" role="dialog"
-                aria-labelledby="deleteModalLabel<%= data.id %>" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="deleteServiceModal<%= data.id %>">Confirm Deletion</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      Are you sure you want to delete this Service?
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                      <a class="btn btn-danger" href="/store/product/delete/<%=data.id%> ">Yes</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <% }) %>
-          <% if(products.length===0) { %>
-          <p class="text-center">There are no Products Available for Sale</p>
-          <% } %>
-        </div> <!-- Close the row wrapper -->
+      <div class="toast-body">
+        This Feature is still in development...
       </div>
-
     </div>
   </div>
+  <div class="container">
+    <% if(user.isSuperAdmin){ %>
+      <div class="row">
+        <div class="col-lg-12 d-flex justify-content-end">
+          <a class="btn btn-primary" href="/store/product">Add Product</a>
+        </div>
+      </div>
+      <% } %>
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="row">
+
+              <!-- Add a row wrapper -->
+              <% products.forEach(data=> { %>
+                <div class="col-xl-3 mt-4">
+                  <!-- Add column classes -->
+                  <div class="card shadow-dark p-2 d-flex flex-column align-items-center justify-content-center">
+                    <img src="<%= data.productImage %>" alt="Product Image" width="100" height="100">
+                    <h3>
+                      <%= data.productTitle %>
+                    </h3>
+                    <p>
+                      <%= data.productDescription %>
+                    </p>
+                    <p>
+                      <%= data.productFeatures %>
+                    </p>
+                    <p class="font-weight-bold">$<%= data.price %>
+                    </p>
+                    <% if(user.isSuperAdmin) { %>
+                      <div class="w-full d-flex flex-column align-items-center justify-content-between gap-2">
+                        <button class="btn btn-primary text-white" id="liveToastBtn"> Edit Service <i
+                            class="fas fa-pencil-alt"></i></button>
+                        <button class="btn btn-outline-secondary" data-toggle="modal"
+                          data-target="#deleteServiceModal<%= data.id %>">Delete Service <i
+                            class="fas fa-trash"></i></button>
+                      </div>
+                      <% } else { %>
+                        <a class="btn-primary btn text-white" data-toggle="modal"
+                          data-target="#buyModal<%= data.id %>">Buy
+                          Service <i class="fas fa-cart"></i></a>
+                        <% } %>
+                          <div class="modal fade" id="deleteServiceModal<%= data.id %>" tabindex="-1" role="dialog"
+                            aria-labelledby="deleteModalLabel<%= data.id %>" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="deleteServiceModal<%= data.id %>">Confirm Deletion</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  Are you sure you want to delete this Service?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                  <a class="btn btn-danger" href="/store/product/delete/<%=data.id%> ">Yes</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                  </div>
+                </div>
+                <% }) %>
+                  <% if(products.length===0) { %>
+                    <p class="text-center">There are no Products Available for Sale</p>
+                    <% } %>
+            </div> <!-- Close the row wrapper -->
+          </div>
+
+        </div>
+  </div>
 </div>
+<script>
+  // Trigger the toast when the button is clicked
+  document.getElementById('liveToastBtn').addEventListener('click', function () {
+    var toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      toastEl.classList.add('show');
+      setTimeout(function () {
+        toastEl.classList.remove('show');
+      }, 2000); // Adjust the delay as needed
+    }
+  });
+
+</script>
+
+
+
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
