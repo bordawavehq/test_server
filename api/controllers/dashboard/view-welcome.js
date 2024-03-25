@@ -30,7 +30,7 @@ module.exports = {
 
       const record = subscriptionRecord || null;
 
-      return res.view("pages/dashboard/dashboard", {
+      return res.view("pages/dashboard/welcome", {
         unactivated: unactivated.length,
         totalNoOfUsers: totalNoOfUsers.length,
         activated: activated.length,
