@@ -103,8 +103,8 @@ module.exports.routes = {
   "GET /store/product/delete/:id": { action: "store/delete-product" },
 
   // Order Process
-  "GET /order": { action: "store/view-get-orders" },
-  "GET /order/:id": { action: "store/get-order" },
+  "GET /orders": { action: "store/view-get-orders" },
+  "GET /orders/:id": { action: "store/view-get-order" },
 
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
