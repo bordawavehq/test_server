@@ -107,7 +107,7 @@
       <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-primary" href="/">
+            <a class="nav-link text-white active bg-gradient-primary" href="/dashboard">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">dashboard</i>
               </div>
@@ -129,6 +129,15 @@
                   storefront
                 </span></div>
               <span class="nav-link-text ms-1">Store</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/orders" id="store">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <span class="material-icons">
+                  shopping_cart
+                </span></div>
+              <span class="nav-link-text ms-1">Orders</span>
             </a>
           </li>
           <% if(me.isSuperAdmin === true){ %>
@@ -204,32 +213,6 @@
     <% } %>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-
-      <!-- Alert if email has not been confirmed -->
-      <% if(me&&me.emailChangeCandidate) { %>
-      <div class="container-fluid">
-        <div class="alert alert-secondary mt-2 small" role="alert">
-          Your updated email address needs verification. Until you click the link sent to
-          <strong>
-            <%= me.emailChangeCandidate %>
-          </strong>, you'll still need to sign in as
-          <strong>
-            <%= me.emailAddress %>
-          </strong>.
-        </div>
-      </div>
-      <% } else if(me&&me.emailStatus==='unconfirmed' ) { %>
-      <div class="container-fluid">
-        <div class="alert alert-secondary mt-2 small" role="alert">
-          Your email address still needs verification. Your account access may be limited until you click the
-          link sent to
-          <strong>
-            <%= me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress%>
-          </strong>.
-        </div>
-      </div>
-      <% } %>
-
 
       <%- body %>
     </main>
@@ -705,6 +688,7 @@
       const faqLink = document.getElementById('faqLink');
       const licenseKeyLink = document.getElementById('listLicenseKeys')
       const store = document.getElementById("store")
+      const orders = document.getElementById("orders");
 
       let url = window.location.href;
       if (url.includes('welcome')) {}
@@ -717,7 +701,10 @@
       if (url.includes('/account/password')) {
         changePasswordLink.classList.add('active');
       }
-      if(url.includes('/store')){
+      if (url.includes('/store')) {
+        store.classList.add('active')
+      }
+      if (url.includes('/orders')) {
         store.classList.add('active')
       }
       if (url.includes('users')) {
