@@ -10,13 +10,13 @@ module.exports = {
 
     try {
       if (req.me.isSuperAdmin) {
-        const orders = await Order.find({});
+        const orders = await Order.find({}).populate('owner');
 
         return res.view("pages/get-orders", {
           orders,
         });
       } else {
-        const orders = await Order.find({ owner: req.me.id });
+        const orders = await Order.find({ owner: req.me.id }).populate("owner");
         
         return res.view("pages/get-orders", {
           orders,
