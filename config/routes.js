@@ -106,6 +106,14 @@ module.exports.routes = {
   "GET /orders": { action: "store/view-get-orders" },
   "GET /orders/:id": { action: "store/view-get-order" },
 
+  // Transaction
+  "GET /order/transaction/:id": { action: "store/view-transaction-process" },
+
+  // Buy Product
+  "GET /order/buy/:id": { action: "store/buy-product" },
+  //Payment Action
+  "GET /order/transaction/:id/:action": { action: "store/payment-action" },
+
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
 
