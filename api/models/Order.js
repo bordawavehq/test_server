@@ -23,7 +23,8 @@ module.exports = {
 
     status: {
       type: "string",
-      isIn: ["processing", "completed"],
+      isIn: ["processing", "completed","canceled"],
+      defaultsTo: "processing",
     },
 
     owner: {
