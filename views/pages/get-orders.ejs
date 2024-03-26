@@ -1,7 +1,132 @@
-<div id="get-orders" v-cloak>
+<div id="get-orders" class="container-fluid" v-cloak>
+  <div class="row mt-5">
+    <div class="col-lg-12 d-flex justify-content-between align-items-center">
+      <div class="w-100">
+        <h4 class="card-title mt-0">Search Order</h4>
+        <p class="card-category">Type to filter Order</p>
+      </div>
 
-  <h1>TODO: Implement this page.</h1>
-  <p>(See also <em>assets/styles/pages/get-orders.less</em>, <em>assets/js/pages/get-orders.page.js</em>, and <em>api/controllers/view-get-orders.js</em>.)</p>
+      <div class="input-group input-group-outline w-100">
+        <!-- <label class="bmd-label-floating">Search by Transaction ID</label> -->
+        <input type="text" class="form-control" id="searchInput" placeholder="Search By Transaction ID">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <% if(orders.length> 0){ %>
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Audiobaze Bot Orders</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0" style="overflow-x:auto;">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Purchased Product
+                    </th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Buyer</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order
+                      Date</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TxID
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% orders.forEach(order=> { %>
+                    <tr id="orders" class="order-row">
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                              <%= order.purchasedProduct.productTitle %>
+                            </h6>
+                            <p class="text-xs text-secondary mb-0">
+                              <%= order.purchasedProduct.transactionId %>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">
+                          <%= order.owner.fullName %>
+                        </p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <% if (order.status==="processing" ) { %>
+                          <span class="badge badge-sm bg-gradient-warning">Processing</span>
+                          <% } %>
+                            <% if(order.status==="completed" ){ %>
+                              <span class="badge badge-sm bg-gradient-success">Completed</span>
+                              <% } %>
+                                <% if(order.status==="canceled" ){ %>
+                                  <span class="badge badge-sm bg-gradient-danger">Canceled</span>
+                                  <% } %>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">
+                          <%= order.orderDate %>
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs txid">
+                          <%= order.transactionId %>
+                        </span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <p class="text-secondary text-xs">
+                          $<%= order.purchasedProduct.price %>
+                        </p>
+                      </td>
+                      <td>
+                        <a class="btn-primary btn text-white" href="/order/transaction/<%= order.id %>">View Order</a>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } else { %>
+        <div class="d-flex justify-content-center align-items-center">
+          <% if(me.isSuperAdmin){ %>
+            <h3>You currently have no orders made on the platform</h3>
+            <% } else { %>
+              <h3>You currently have no orders made on the platform</h3>
+              <% } %>
+        </div>
+        <% } %>
+  </div>
 
 </div>
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById('searchInput');
+    const rows = document.querySelectorAll('.order-row');
+
+    searchInput.addEventListener('input', function (event) {
+      const searchString = event.target.value.toLowerCase();
+
+      rows.forEach(row => {
+        const txId = row.querySelector('span.txid').textContent.toLowerCase();
+
+        if (txId.includes(searchString)) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
