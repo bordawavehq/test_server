@@ -54,44 +54,7 @@
 
 <body class="g-sidenav-show bg-gray-200">
   <div purpose="page-wrap">
-    <% if(!me){ %>
-    <header class="navbar navbar-expand-sm navbar-dark bg-dark flex-column flex-md-row justify-content-between"
-      purpose="page-header">
-      <a style="cursor: pointer;" class="navbar-brand mr-0" href="/"><img style="height: 20px;" class="logo"
-          alt="AudioBaze logo" src="audiobaze.png" /></a>
-      <div class="navbar-nav flex-row">
-        <!-- LOGGED-IN NAVIGATION -->
-        <% if(me) { %>
-        <a class="nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/contact">Help</a>
-        <!-- Only in desktop nav -->
-        <div class="nav-item dropdown d-none d-sm-block">
-          <a class="nav-link dropdown-toggle" id="header-account-menu-link" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Account</a>
-          <div style="left: auto; right: 0;" class="dropdown-menu" aria-labelledby="header-account-menu-link">
-            <a class="dropdown-item" href="/account">Settings</a>
-            <a class="dropdown-item" href="/logout">Sign out</a>
-          </div>
-        </div>
-        <!-- Only in mobile nav -->
-        <a class="nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/account">Account Settings</a>
-        <a class="nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/logout">Sign out</a>
-        <% } else { %>
-        <!-- LOGGED-OUT NAVIGATION -->
-        <a class="nav-item nav-link text-info ml-2 ml-md-0 mr-2" href="/services">Store</a>
-        <a class="nav-item nav-link text-info ml-2 ml-md-0 mr-2" href="/faq">FAQ</a>
-        <a class="nav-item nav-link text-info ml-2 ml-md-0 mr-2" href="/login">Log in</a>
-        <a class="nav-item nav-link text-info ml-2 ml-md-0 mr-2 btn btn-outline-secondary"
-          href="https://discord.gg/qFGxmrPAtT">Join Discord <span class="material-icons">discord</span></a>
-        <!-- Only in desktop nav -->
-        <div class="form-inline d-none text-info ml-2 d-md-block">
-          <a class="btn btn-outline-info text-info" href="/signup">Sign up</a>
-        </div>
-        <!-- Only in mobile nav -->
-        <a class="nav-item nav-link text-info ml-2 d-block d-md-none" href="/signup">Sign up</a>
-        <% } %>
-      </div>
-    </header>
-    <% } else { %>
+    <% if(me){ %>
     <aside
       class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
       id="sidenav-main">
