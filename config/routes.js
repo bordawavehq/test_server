@@ -119,4 +119,7 @@ module.exports.routes = {
 
   // Check Expired Subscriptions
   "GET /api/v1/system/subscription": { action: "system/sub-check" },
+
+  // Stay Alive Cron Job
+  "GET /cron-job": { action: "system/status" },
 };
