@@ -114,6 +114,9 @@ module.exports.routes = {
   //Payment Action
   "GET /order/transaction/:id/:action": { action: "store/payment-action" },
 
+  // Submit Review
+  "POST /review/:productId": { action: "review/submit-review" },
+
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
 
