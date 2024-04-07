@@ -14,6 +14,7 @@
     "dotenv": "^16.4.5",
     "fingerprintjs2": "^2.1.4",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.13",
     "sails": "^1.5.2",
     "sails-hook-apianalytics": "^2.0.3",
     "sails-hook-dotenv": "^0.1.1",
