@@ -13,6 +13,9 @@
   </p>
   <h4>Transaction Status</h4>
   <% if (order.status==="completed" ) { %>
+    <h3>Transaction Completed</h3>
+    <p>Your License Key is Delivered to your Email Address: <%= me?.emailAddress %>
+    </p>
     <p class="badge badge-sm bg-gradient-success">Completed</p>
     <% } %>
 
