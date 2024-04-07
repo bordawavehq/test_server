@@ -4,7 +4,7 @@
       Back To Orders
     </a>
   </div>
-  <h1>Purchased Product </h1>
+  <h1>Processing Product Order </h1>
   <h3>
     <%= order.purchasedProduct.productTitle %>
   </h3>
@@ -28,8 +28,22 @@
                 <% if (!me.isSuperAdmin) { %>
                   <div>
                     <p>You are yet to make payment for this service</p>
-                    <p>Contact Audiobaze Admin to Make Payment using ID :  <%= order.transactionId %></p>
-                    <a href="https://t.me/musicprofit4" target="_blank" class="btn btn-primary">Contact Admin</a>
+                    <h3>Make Payment to any of the Wallet Addresses below</>
+                      <p>USDT (TRC20 Network) : <span style="font-weight: bold; cursor: pointer;" id="usdtAddress"
+                          onclick="copyUSDTWallet()">TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw <img width="15" height="15"
+                            src="https://img.icons8.com/material-sharp/24/copy.png" alt="copy" /></span></p>
+                      <p>BTC : <span style="font-weight: bold; cursor: pointer;" id="btcAddress"
+                          onclick="copyBTCWalletAddress()">1GqD8jni8K9UDT5kVT9571cgvptxEGAXxS <img width="15"
+                            height="15" src="https://img.icons8.com/material-sharp/24/copy.png" alt="copy" /></span></p>
+                      <p>Contact Audiobaze Admin to confirm transaction using Crypto Tx Hash & ID : <span
+                          style="font-weight: bold; cursor: pointer;" id="audiobazetxid"
+                          onclick="copyAudiobazeTransaction()">
+                          <%= order.transactionId %>
+                            <img width="15" height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
+                              alt="copy" />
+                        </span>
+                      </p>
+                      <a href="https://t.me/musicprofit4" target="_blank" class="btn btn-primary">Contact Admin</a>
                   </div>
                   <% } %>
                     <% } %>
@@ -46,4 +60,47 @@
                         </div>
                         <% } %>
 </div>
+<script defer>
+  navigator.permissions.query({ name: "write-on-clipboard" }).then((result) => {
+    if (result.state == "granted" || result.state == "prompt") {
+      alert("Write access granted!");
+    }
+  });
+
+
+  async function copyAudiobazeTransaction() {
+    const adbzTxIDElement = document.getElementById('audiobazetxid');
+    const adbzTx = adbzTxIDElement.textContent;
+    try {
+      await navigator.clipboard.writeText(adbzTx)
+      alert("Copied Audiobaze TxId")
+    } catch (error) {
+      alert("Failed to Copy Audiobaze TxId")
+    }
+  }
+
+  async function copyUSDTWallet() {
+    const usdtAddress = document.getElementById('usdtAddress');
+    const walletAddress = usdtAddress.textContent;
+    try {
+      await navigator.clipboard.writeText(walletAddress)
+      alert("Copied USDT Wallet Address")
+    } catch (error) {
+      alert("Failed to Copy Wallet Address")
+    }
+  }
+
+  async function copyBTCWalletAddress() {
+    const btcAddress = document.getElementById('btcAddress');
+    const walletAddress = btcAddress.textContent;
+    try {
+      await navigator.clipboard.writeText(walletAddress)
+      alert("Copied BTC Wallet Address")
+    } catch (error) {
+      alert("Failed to Copy Wallet Address")
+    }
+  }
+
+
+</script>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
