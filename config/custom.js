@@ -22,6 +22,7 @@ module.exports.custom = {
    *                                                                         *
    **************************************************************************/
   baseUrl: "http://localhost:1337",
+  clientBaseURL: "https://app.audiobaze.store",
 
   /**************************************************************************
    *                                                                         *
@@ -67,20 +68,20 @@ module.exports.custom = {
   //--------------------------------------------------------------------------
 
   // The sender that all outgoing emails will appear to come from.
-  fromEmailAddress: "noreply@example.com",
+  fromEmailAddress: "support@audiobaze.store",
   fromName: "The Audiobaze Team",
 
   // Email address for receiving support messages & other correspondences.
   // > If you're using the default privacy policy, this will be referenced
   // > as the contact email of your "data protection officer" for the purpose
   // > of compliance with regulations such as GDPR.
-  internalEmailAddress: "support+development@example.com",
+  internalEmailAddress: "support@audiobaze.store",
 
   // Whether to require proof of email address ownership any time a new user
   // signs up, or when an existing user attempts to change their email address.
   verifyEmailAddresses: false,
   LOCAL_MONGODB_DATABASE: "mongodb://localhost:27017/audiobaze_dev",
-  secret:'1234512313123123'
+  secret: "1234512313123123",
 
   /**************************************************************************
    *                                                                         *
