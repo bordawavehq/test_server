@@ -11,111 +11,112 @@
  */
 
 Cloud.setup({
-
   /* eslint-disable */
   methods: {
-    "confirmEmail": {
-      "verb": "GET",
-      "url": "/email/confirm",
-      "args": ["token"]
+    confirmEmail: { verb: "GET", url: "/email/confirm", args: ["token"] },
+    logout: { verb: "GET", url: "/api/v1/account/logout", args: [] },
+    updatePassword: {
+      verb: "PUT",
+      url: "/api/v1/account/update-password",
+      args: ["password"],
     },
-    "logout": {
-      "verb": "GET",
-      "url": "/api/v1/account/logout",
-      "args": []
+    updateProfile: {
+      verb: "PUT",
+      url: "/api/v1/account/update-profile",
+      args: ["fullName", "emailAddress"],
     },
-    "updatePassword": {
-      "verb": "PUT",
-      "url": "/api/v1/account/update-password",
-      "args": ["password"]
+    updateBillingCard: {
+      verb: "PUT",
+      url: "/api/v1/account/update-billing-card",
+      args: [
+        "stripeToken",
+        "billingCardLast4",
+        "billingCardBrand",
+        "billingCardExpMonth",
+        "billingCardExpYear",
+      ],
     },
-    "updateProfile": {
-      "verb": "PUT",
-      "url": "/api/v1/account/update-profile",
-      "args": ["fullName", "emailAddress"]
+    login: {
+      verb: "PUT",
+      url: "/api/v1/entrance/login",
+      args: ["emailAddress", "password", "rememberMe"],
     },
-    "updateBillingCard": {
-      "verb": "PUT",
-      "url": "/api/v1/account/update-billing-card",
-      "args": ["stripeToken", "billingCardLast4", "billingCardBrand", "billingCardExpMonth", "billingCardExpYear"]
+    signup: {
+      verb: "POST",
+      url: "/api/v1/entrance/signup",
+      args: ["emailAddress", "password", "fullName"],
     },
-    "login": {
-      "verb": "PUT",
-      "url": "/api/v1/entrance/login",
-      "args": ["emailAddress", "password", "rememberMe"]
+    sendPasswordRecoveryEmail: {
+      verb: "POST",
+      url: "/api/v1/entrance/send-password-recovery-email",
+      args: ["emailAddress"],
     },
-    "signup": {
-      "verb": "POST",
-      "url": "/api/v1/entrance/signup",
-      "args": ["emailAddress", "password", "fullName"]
+    updatePasswordAndLogin: {
+      verb: "POST",
+      url: "/api/v1/entrance/update-password-and-login",
+      args: ["password", "token"],
     },
-    "sendPasswordRecoveryEmail": {
-      "verb": "POST",
-      "url": "/api/v1/entrance/send-password-recovery-email",
-      "args": ["emailAddress"]
+    deliverContactFormMessage: {
+      verb: "POST",
+      url: "/api/v1/deliver-contact-form-message",
+      args: ["emailAddress", "topic", "fullName", "message"],
     },
-    "updatePasswordAndLogin": {
-      "verb": "POST",
-      "url": "/api/v1/entrance/update-password-and-login",
-      "args": ["password", "token"]
+    observeMySession: {
+      verb: "POST",
+      url: "/api/v1/observe-my-session",
+      args: [],
+      protocol: "io.socket",
     },
-    "deliverContactFormMessage": {
-      "verb": "POST",
-      "url": "/api/v1/deliver-contact-form-message",
-      "args": ["emailAddress", "topic", "fullName", "message"]
+    generateLicense: {
+      verb: "GET",
+      url: "/api/v1/generate/license/:number",
+      args: [],
     },
-    "observeMySession": {
-      "verb": "POST",
-      "url": "/api/v1/observe-my-session",
-      "args": [],
-      "protocol": "io.socket"
+    activateLicense: {
+      verb: "POST",
+      url: "/activate/licensekey",
+      args: ["licenseKey"],
     },
-    "generateLicense": {
-      "verb": "GET",
-      "url": "/api/v1/generate/license/:number",
-      "args": []
+    revokeUser: { verb: "GET", url: "/user/revoke/:id", args: [] },
+    delete: { verb: "GET", url: "/user/delete/:id", args: [] },
+    addProduct: {
+      verb: "POST",
+      url: "/store/product",
+      args: [
+        "productTitle",
+        "productDescription",
+        "productFeatures",
+        "serviceType",
+        "price",
+      ],
     },
-    "activateLicense": {
-      "verb": "POST",
-      "url": "/activate/licensekey",
-      "args": ["licenseKey"]
+    editProduct: {
+      verb: "PATCH",
+      url: "/store/product/:id",
+      args: [
+        "id",
+        "productTitle",
+        "productDescription",
+        "productFeatures",
+        "serviceType",
+        "price",
+      ],
     },
-    "revokeUser": {
-      "verb": "GET",
-      "url": "/user/revoke/:id",
-      "args": []
+    deleteProduct: { verb: "GET", url: "/store/product/delete/:id", args: [] },
+    buyProduct: { verb: "GET", url: "/order/buy/:id", args: [] },
+    paymentAction: {
+      verb: "GET",
+      url: "/order/transaction/:id/:action",
+      args: [],
     },
-    "delete": {
-      "verb": "GET",
-      "url": "/user/delete/:id",
-      "args": []
+    submitReview: { verb: "POST", url: "/review/:productId", args: ["review"] },
+    botLogin: {
+      verb: "POST",
+      url: "/api/v1/bot/auth/login",
+      args: ["emailAddress", "password"],
     },
-    "addProduct": {
-      "verb": "POST",
-      "url": "/store/product",
-      "args": ["productTitle", "productDescription", "productFeatures", "serviceType", "price"]
-    },
-    "editProduct": {
-      "verb": "PATCH",
-      "url": "/store/product/:id",
-      "args": ["id", "productTitle", "productDescription", "productFeatures", "serviceType", "price"]
-    },
-    "deleteProduct": {
-      "verb": "GET",
-      "url": "/store/product/delete/:id",
-      "args": []
-    },
-    "botLogin": {
-      "verb": "POST",
-      "url": "/api/v1/bot/auth/login",
-      "args": ["emailAddress", "password"]
-    },
-    "subCheck": {
-      "verb": "GET",
-      "url": "/api/v1/system/subscription",
-      "args": []
-    }
-  }
+    subCheck: { verb: "GET", url: "/api/v1/system/subscription", args: [] },
+    status: { verb: "GET", url: "/cron-job", args: [] },
+  },
   /* eslint-enable */
-
 });
