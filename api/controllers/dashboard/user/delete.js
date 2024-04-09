@@ -15,7 +15,7 @@ module.exports = {
       return res.badRequest({ message: "Did not provide user id to delete" });
     }
 
-    const user = User.findOne({ id });
+    const user = await User.findOne({ id });
 
     if (!user) {
       return res
@@ -30,6 +30,7 @@ module.exports = {
 
       return res.status(200).redirect("/users");
     } catch (error) {
+      sails.log.error(error);
       return res.serverError({ message: "Failed to delete user" });
     }
   },
