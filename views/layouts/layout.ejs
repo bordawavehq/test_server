@@ -56,6 +56,45 @@
 <body class="g-sidenav-show bg-gray-200">
   <div purpose="page-wrap">
     <% if(me){ %>
+    <nav class="mobile_nav container-fluid">
+      <img src="img/logos/logo.png" class="mobile_nav_logo" />
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" id="ham_btn" width="32" height="32" viewBox="0 0 15 15">
+          <path fill="#888888" fill-rule="evenodd"
+            d="M1.5 3a.5.5 0 0 0 0 1h12a.5.5 0 0 0 0-1zM1 7.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5"
+            clip-rule="evenodd" /></svg>
+      </div>
+      <div class="mobile_navlinks" id="mobile_links">
+        <svg xmlns="http://www.w3.org/2000/svg" id="close_mb_nav" width="32" height="32" viewBox="0 0 24 24">
+          <path fill="#888888"
+            d="m12 13.4l-2.9 2.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l2.9-2.9l-2.9-2.875q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l2.9 2.9l2.875-2.9q.275-.275.7-.275t.7.275q.3.3.3.713t-.3.687L13.375 12l2.9 2.9q.275.275.275.7t-.275.7q-.3.3-.712.3t-.688-.3z" />
+          </svg>
+        <div class="mobile_nav_links_container">
+          <ul class="">
+            <li><a href="/dashboard">  <i class="material-icons opacity-10">dashboard</i> Dashboard</a></li>
+            <li><a href="/account"><i class="material-icons opacity-10">person</i> Account</a></li>
+            <li><a href="/store"><span class="material-icons">
+                  storefront
+                </span>Store</a></li>
+            <li><a href="/orders"><span class="material-icons">
+              shopping_cart
+            </span>Orders</a></li>
+            <% if(me.isSuperAdmin){ %>
+            <li><a href="/users"><i class="material-icons opacity-10">manage_accounts</i>Users</a></li>
+            <li><a href="/keys"><i class="material-icons opacity-10">key</i>License Keys</a></li>
+            <% }%>
+            <li><a href="/faq"><i class="material-icons opacity-10">contact_support</i>FAQ</a></li>
+            <li><a href="/account/password"><i class="material-icons opacity-10">lock</i>Change Password</a></li>
+            <li><a href="https://t.me/musicprofit4"> <i class="material-icons opacity-10">telegram</i>Contact Admin</a></li>
+            <li><a href="https://discord.gg/qFGxmrPAtT"><i class="material-icons opacity-10">discord</i>Join Discord</a></li>
+            <li><a href="/logout">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <%} %>
+
+    <% if(me){ %>
     <aside
       class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
       id="sidenav-main">
@@ -63,7 +102,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
           aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="/" target="_blank">
-          <!-- <img src="./audiobaze.png" class="navbar-brand-img h-100" alt="main_logo"> -->
+          <!-- <img src="img/logos/logo.png" class="navbar-brand-img h-100" alt="main_logo"> -->
           <span class="ms-1 font-weight-bold text-white">Audiobaze Streaming Services</span>
         </a>
       </div>
@@ -621,6 +660,7 @@
     <script src="/js/pages/entrance/login.page.js"></script>
     <script src="/js/pages/entrance/signup.page.js"></script>
     <script src="/js/pages/get-orders.page.js"></script>
+    <script src="/js/pages/review/get-reviews.page.js"></script>
     <script src="/js/pages/user.page.js"></script>
     <script src="/js/pages/entrance/new-password.page.js"></script>
     <script src="/js/pages/activatelicense.page.js"></script>
@@ -681,6 +721,28 @@
       if (url.includes('service')) {
         servicesLink.classList.add('active');
       }
+
+    </script>
+    <script type="text/javascript">
+      const hambtn = document.getElementById('ham_btn');
+      const closeBtn = document.getElementById('close_mb_nav');
+      const mobileNav = document.getElementById("mobile_links");
+
+      function openNav() {
+        mobileNav.style.left = "0"
+      }
+
+      function closeNav() {
+        mobileNav.style.left = "-100%"
+      }
+
+      hambtn.addEventListener('click', () => {
+        openNav()
+      })
+
+      closeBtn.addEventListener('click', () => {
+        closeNav()
+      })
 
     </script>
     <% }%>
