@@ -41,7 +41,7 @@ parasails.registerPage("activatelicense", {
   methods: {
     activateLicense: async function () {
       this.cloudSuccess = true;
-      window.location = "/";
+      window.location = "/dashboard";
     },
   },
 });
