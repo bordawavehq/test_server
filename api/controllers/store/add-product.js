@@ -70,7 +70,7 @@ module.exports = {
         url: "https://img.icons8.com/fluency/500/shazam.png",
       },
       audiomack: {
-        url: "https://img.icons8.com/fluency/500/shazam.png",
+        url: "https://img.icons8.com/color/500/audiomack.png",
       },
     };
 
