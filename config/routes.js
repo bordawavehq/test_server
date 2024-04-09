@@ -116,6 +116,7 @@ module.exports.routes = {
 
   // Submit Review
   "POST /review/:productId": { action: "review/submit-review" },
+  "GET /review/:productId": { action: "review/view-get-reviews" },
 
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
