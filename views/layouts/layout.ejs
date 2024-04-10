@@ -219,7 +219,7 @@
     <% } %>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-      <% if(!me?.isSuperAdmin){ %>
+      <% if(me && me.isSuperAdmin === false){ %>
       <div class="support_system">
         <button class="support_btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24">
