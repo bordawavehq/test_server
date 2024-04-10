@@ -69,25 +69,27 @@
         <svg xmlns="http://www.w3.org/2000/svg" id="close_mb_nav" width="32" height="32" viewBox="0 0 24 24">
           <path fill="#888888"
             d="m12 13.4l-2.9 2.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l2.9-2.9l-2.9-2.875q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l2.9 2.9l2.875-2.9q.275-.275.7-.275t.7.275q.3.3.3.713t-.3.687L13.375 12l2.9 2.9q.275.275.275.7t-.275.7q-.3.3-.712.3t-.688-.3z" />
-          </svg>
+        </svg>
         <div class="mobile_nav_links_container">
           <ul class="">
-            <li><a href="/dashboard">  <i class="material-icons opacity-10">dashboard</i> Dashboard</a></li>
+            <li><a href="/dashboard"> <i class="material-icons opacity-10">dashboard</i> Dashboard</a></li>
             <li><a href="/account"><i class="material-icons opacity-10">person</i> Account</a></li>
             <li><a href="/store"><span class="material-icons">
                   storefront
                 </span>Store</a></li>
             <li><a href="/orders"><span class="material-icons">
-              shopping_cart
-            </span>Orders</a></li>
+                  shopping_cart
+                </span>Orders</a></li>
             <% if(me.isSuperAdmin){ %>
             <li><a href="/users"><i class="material-icons opacity-10">manage_accounts</i>Users</a></li>
             <li><a href="/keys"><i class="material-icons opacity-10">key</i>License Keys</a></li>
             <% }%>
             <li><a href="/faq"><i class="material-icons opacity-10">contact_support</i>FAQ</a></li>
             <li><a href="/account/password"><i class="material-icons opacity-10">lock</i>Change Password</a></li>
-            <li><a href="https://t.me/musicprofit4"> <i class="material-icons opacity-10">telegram</i>Contact Admin</a></li>
-            <li><a href="https://discord.gg/qFGxmrPAtT"><i class="material-icons opacity-10">discord</i>Join Discord</a></li>
+            <li><a href="https://t.me/musicprofit4"> <i class="material-icons opacity-10">telegram</i>Contact Admin</a>
+            </li>
+            <li><a href="https://discord.gg/qFGxmrPAtT"><i class="material-icons opacity-10">discord</i>Join Discord</a>
+            </li>
             <li><a href="/logout">Log Out</a></li>
           </ul>
         </div>
@@ -217,7 +219,24 @@
     <% } %>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-
+      <% if(!me.isSuperAdmin){ %>
+      <div class="support_system">
+        <button class="support_btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24">
+            <path fill="#FFFFFF"
+              d="M11.95 18q.525 0 .888-.363t.362-.887t-.362-.888t-.888-.362t-.887.363t-.363.887t.363.888t.887.362m-.9-3.85h1.85q0-.825.188-1.3t1.062-1.3q.65-.65 1.025-1.238T15.55 8.9q0-1.4-1.025-2.15T12.1 6q-1.425 0-2.312.75T8.55 8.55l1.65.65q.125-.45.563-.975T12.1 7.7q.8 0 1.2.438t.4.962q0 .5-.3.938t-.75.812q-1.1.975-1.35 1.475t-.25 1.825M12 22q-2.075 0-3.9-.787t-3.175-2.138T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+          </svg>
+        </button>
+        <div class="support_links_container">
+          <ul class="support-links">
+            <li><a href="https://t.me/musicprofit4"> <i class="material-icons opacity-10">telegram</i>Contact Admin</a>
+            </li>
+            <li><a href="https://discord.gg/qFGxmrPAtT"><i class="material-icons opacity-10">discord</i>Join Discord</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <% }%>
       <%- body %>
     </main>
 
@@ -743,6 +762,24 @@
 
       closeBtn.addEventListener('click', () => {
         closeNav()
+      })
+
+    </script>
+
+    <script type="text/javascript">
+      const helpbtn = document.querySelector('.support_btn');
+      const supportLinks = document.querySelector('.support_links_container');
+
+      function toggleLinks() {
+        if (supportLinks.style.display === 'none') {
+          supportLinks.style.display = 'flex'
+        } else {
+          supportLinks.style.display = 'none'
+        }
+      }
+
+      helpbtn.addEventListener('click', () => {
+        toggleLinks()
       })
 
     </script>
