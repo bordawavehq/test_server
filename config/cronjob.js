@@ -7,8 +7,12 @@ module.exports.cronjob = {
     onTick: async function () {
       sails.log.info("Currently Running System Checks...");
       const url = `https://app.audiobaze.store/cron-job`;
-      const response = await axios.get(url);
-      sails.log.info(response.status);
+      try {
+        const response = await axios.get(url);
+        sails.log.info(response.status);
+      } catch (error) {
+        sails.log.error(error);
+      }
     },
   },
 };
