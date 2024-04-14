@@ -14,6 +14,11 @@
           required aria-required />
       </div>
       <div class="input-group input-group-outline my-2">
+        <label class="form-label">Detailed Product Description</label>
+        <textarea type="text" class="form-control" id="detailedProductDescription"
+          v-model.trim="formData.detailedProductDescription" rows="10" required aria-required></textarea>
+      </div>
+      <div class="input-group input-group-outline my-2">
         <label class="form-label">Product Features</label>
         <input type="text" class="form-control" id="productFeatures" v-model.trim="formData.productFeatures" required
           aria-required />
@@ -26,7 +31,16 @@
           <option value="apple">Apple</option>
           <option value="youtube">Youtube</option>
           <option value="shazam">Shazam</option>
-          <option value="audiomack">Audiomack</option>
+          <option value="smart-contract">Smart Contract</option>
+          <option value="website">Website/Artist Brand Website</option>
+          <option value="crypto-projects">Crypto Projects</option>
+          <option value="bit-bread-artist-grant">Bit Bread Artist Grant</option>
+          <option value="hq-songs">HQ Songs</option>
+          <option value="hq-distros">HQ Distros</option>
+          <option value="software-bot-development">Bot Development</option>
+          <option value="social-media-ads">Social Media Ads</option>
+          <option value="apple-play">Apple Play</option>
+          <option value="itunes-music">iTunes Music</option>
         </select>
       </div>
       <div class="input-group input-group-outline my-2">
