@@ -10,7 +10,7 @@ module.exports = {
 
     const user = await User.findOne({ id: req.me.id });
 
-    const allProducts = await Product.find({});
+    const allProducts = await Product.find({}).populate("reviews");
 
     // Respond with view.
     return res.view("pages/store", {
