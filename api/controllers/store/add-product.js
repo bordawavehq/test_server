@@ -16,6 +16,11 @@ module.exports = {
       required: true,
     },
 
+    detailedProductDescription: {
+      type: "string",
+      description: "detailed Product Description",
+    },
+
     productFeatures: {
       type: "string",
       description: "Product Features",
@@ -31,6 +36,17 @@ module.exports = {
         "youtube",
         "shazam",
         "audiomack",
+        "smart-contract",
+        "website",
+        "crypto-projects",
+        "targeted-ads",
+        "bit-bread-artist-grant",
+        "hq-songs",
+        "hq-distros",
+        "software-bot-development",
+        "social-media-ads",
+        "apple-play",
+        "itunes-music",
       ],
     },
 
@@ -54,7 +70,14 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     const { res } = this;
-    const { productTitle, productDescription, productFeatures, serviceType, price } = inputs;
+    const {
+      productTitle,
+      productDescription,
+      detailedProductDescription,
+      productFeatures,
+      serviceType,
+      price,
+    } = inputs;
 
     const logos = {
       spotify: {
@@ -72,14 +95,47 @@ module.exports = {
       audiomack: {
         url: "https://img.icons8.com/color/500/audiomack.png",
       },
+      "smart-contract": {
+        url: "https://img.icons8.com/color/500/ethereum.png",
+      },
+      website: {
+        url: "https://img.icons8.com/clouds/100/domain.png",
+      },
+      "crypto-projects": {
+        url: "https://img.icons8.com/fluency/96/cryptocurrency.png",
+      },
+      "targeted-ads": {
+        url: "https://img.icons8.com/clouds/100/commercial.png",
+      },
+      "bit-bread-artist-grant": {
+        url: "https://img.icons8.com/ios-filled/100/money-bag-euro.png",
+      },
+      "hq-songs": {
+        url: "https://img.icons8.com/fluency/500/apple-music.png",
+      },
+      "hq-distros": {
+        url: "https://img.icons8.com/fluency/500/apple-music.png",
+      },
+      "software-bot-development": {
+        url: "https://img.icons8.com/nolan/100/bot.png",
+      },
+      "social-media-ads": {
+        url: "https://img.icons8.com/bubbles/100/social-media-marketing.png",
+      },
+      "apple-play": {
+        url: "https://img.icons8.com/ios-filled/500/mac-os.png",
+      },
+      "itunes-music": {
+        url: "https://img.icons8.com/color/500/itunes.png",
+      },
     };
 
     const productImage = logos[serviceType].url;
 
-
     const newProduct = await Product.create({
       productTitle,
       productDescription,
+      detailedProductDescription,
       productFeatures,
       serviceType,
       productImage,
