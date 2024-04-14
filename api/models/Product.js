@@ -17,6 +17,11 @@ module.exports = {
       description: "Product Description",
     },
 
+    detailedProductDescription:{
+      type:'string',
+      description:"detailed Product Description"
+    },  
+
     productFeatures: {
       type: "string",
       description: "Product Features",
@@ -25,7 +30,7 @@ module.exports = {
     serviceType: {
       type: "string",
       description: "Service Type",
-      isIn: ["spotify", "apple", "youtube", "shazam", "audiomack"],
+      isIn: ["spotify", "apple", "youtube", "shazam", "audiomack", "smart-contract", "website", "crypto-projects", "targeted-ads", 'bit-bread-artist-grant', "hq-songs", "hq-distros", "software-bot-development", "social-media-ads", "apple-play", "itunes-music"],
     },
 
     productImage: {
@@ -37,5 +42,10 @@ module.exports = {
       type: "number",
       description: "Price in USD",
     },
+
+    reviews: {
+      collection:"review",
+      via:'product'
+    }
   },
 };
