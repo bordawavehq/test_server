@@ -11,7 +11,7 @@ module.exports.cronjob = {
         const response = await axios.get(url);
         sails.log.info(response.status);
       } catch (error) {
-        sails.log.error(error);
+        sails.log.error("Failed to Run Live Cron Job");
       }
     },
   },
