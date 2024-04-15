@@ -21,6 +21,11 @@ module.exports = {
       required: true,
     },
 
+    detailedProductDescription: {
+      type: "string",
+      description: "detailed Product Description",
+    },
+
     productFeatures: {
       type: "string",
       description: "Product Features",
@@ -30,7 +35,24 @@ module.exports = {
     serviceType: {
       type: "string",
       description: "Service Type",
-      isIn: ["spotify", "apple", "youtube", "shazam", "audiomack"],
+      isIn: [
+        "spotify",
+        "apple",
+        "youtube",
+        "shazam",
+        "audiomack",
+        "smart-contract",
+        "website",
+        "crypto-projects",
+        "targeted-ads",
+        "bit-bread-artist-grant",
+        "hq-songs",
+        "hq-distros",
+        "software-bot-development",
+        "social-media-ads",
+        "apple-play",
+        "itunes-music",
+      ],
     },
 
     price: {
@@ -49,6 +71,10 @@ module.exports = {
       statusCode: 400,
       description: "Bad Request",
     },
+    failed:{
+      statusCode:500,
+      description:"Server Error"
+    }
   },
 
   fn: async function (inputs, exits) {
@@ -57,10 +83,12 @@ module.exports = {
       id,
       productTitle,
       productDescription,
+      detailedProductDescription,
       productFeatures,
       serviceType,
       price,
     } = inputs;
+
 
     const logos = {
       spotify: {
@@ -76,9 +104,43 @@ module.exports = {
         url: "https://img.icons8.com/fluency/500/shazam.png",
       },
       audiomack: {
-        url: "https://img.icons8.com/fluency/500/shazam.png",
+        url: "https://img.icons8.com/color/500/audiomack.png",
+      },
+      "smart-contract": {
+        url: "https://img.icons8.com/color/500/ethereum.png",
+      },
+      website: {
+        url: "https://img.icons8.com/clouds/100/domain.png",
+      },
+      "crypto-projects": {
+        url: "https://img.icons8.com/fluency/96/cryptocurrency.png",
+      },
+      "targeted-ads": {
+        url: "https://img.icons8.com/clouds/100/commercial.png",
+      },
+      "bit-bread-artist-grant": {
+        url: "https://img.icons8.com/ios-filled/100/money-bag-euro.png",
+      },
+      "hq-songs": {
+        url: "https://img.icons8.com/fluency/500/apple-music.png",
+      },
+      "hq-distros": {
+        url: "https://img.icons8.com/fluency/500/apple-music.png",
+      },
+      "software-bot-development": {
+        url: "https://img.icons8.com/nolan/100/bot.png",
+      },
+      "social-media-ads": {
+        url: "https://img.icons8.com/bubbles/100/social-media-marketing.png",
+      },
+      "apple-play": {
+        url: "https://img.icons8.com/ios-filled/500/mac-os.png",
+      },
+      "itunes-music": {
+        url: "https://img.icons8.com/color/500/itunes.png",
       },
     };
+
 
     const productImage = logos[serviceType].url;
 
@@ -86,14 +148,15 @@ module.exports = {
       await Product.updateOne({ id }).set({
         productTitle,
         productDescription,
+        detailedProductDescription,
         productFeatures,
         productImage,
         price,
       });
 
-      return res.redirect("/store");
+      return exits.success()
     } catch (error) {
-      return res.serverError(error);
+      return exits.failed(error)
     }
   },
 };
