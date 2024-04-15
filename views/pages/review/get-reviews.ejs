@@ -1,0 +1,25 @@
+
+
+<style>
+  #form {}
+
+  .review-input {
+    /* outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent; */
+  }
+</style>
+
+<div id="get-reviews" class="my-3" v-cloak>
+  <h3>Product Review</h3>
+  <% if (reviews.length===0) { %>
+    <p>There are no reviews submitted for this listed product</p>
+    <% } %>
+      <form id="form">
+        <input type="hidden" id="productId" value="<%= productId %>">
+        <input name="review" id="review" type="text" class="review-input" />
+        <button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+      </form>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
