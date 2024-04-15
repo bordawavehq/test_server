@@ -276,7 +276,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/store" id="store">
+            <a class="nav-link text-white" href="/store" id="storeLink">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons">
                   storefront
@@ -817,6 +817,7 @@
     <script src="/js/utilities/open-stripe-checkout.js"></script>
     <script src="/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="/js/material-dashboard.js" defer></script>
+    <script src="js/pages/store.page.js" defer></script>
     <script src="/js/pages/account/account-overview.page.js"></script>
     <script src="/js/pages/account/edit-password.page.js"></script>
     <script src="/js/pages/account/edit-profile.page.js"></script>
@@ -860,7 +861,7 @@
       const changePasswordLink = document.getElementById('changePasswordLink');
       const faqLink = document.getElementById('faqLink');
       const licenseKeyLink = document.getElementById('listLicenseKeys')
-      const store = document.getElementById("store")
+      const store = document.getElementById("storeLink")
       const orders = document.getElementById("orders");
 
       let url = window.location.href;
