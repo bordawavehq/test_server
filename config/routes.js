@@ -115,7 +115,7 @@ module.exports.routes = {
   "GET /order/transaction/:id/:action": { action: "store/payment-action" },
 
   // Submit Review
-  "POST /review/:productId": { action: "review/submit-review" },
+  "POST /review": { action: "review/submit-review" },
   "GET /review/:productId": { action: "review/view-get-reviews" },
 
   // Bot Sign In
