@@ -1,19 +1,4 @@
 <div id="store" class="my-3 position-relative" v-cloak>
-  <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 9999999999999999999999; bottom: 0; right: 0;">
-    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000">
-      <div class="toast-header">
-        <!-- <img src="..." class="rounded mr-2" alt="..."> -->
-        <strong class="mr-auto">Still Working on It 😢</strong>
-        <!-- <small>11 mins ago</small> -->
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="toast-body">
-        This Feature is still in development...
-      </div>
-    </div>
-  </div>
   <div class="container">
     <% if(user.isSuperAdmin){ %>
     <div class="row">
@@ -54,8 +39,8 @@
               <div>
                 <a class="btn-primary btn text-white" data-toggle="modal" data-target="#buyModal<%= data.id %>">Buy
                   Service <i class="fas fa-cart"></i></a>
-                <!-- <button class="btn-info btn text-white" data-toggle="modal"
-                  data-target="#viewProductModal<%=data.id %>">Description</button> -->
+                <button class="btn-info btn text-white" data-toggle="modal" data-target="#viewProductModal<%=data.id %>"
+                  @click="setProductIdOnBuy(`<%= data.id %>`)">Description</button>
               </div>
               <% } %>
               <div class="modal fade" id="viewProductModal<%= data.id %>" tabindex="-1" style="z-index: 99999999999999;"
@@ -82,28 +67,36 @@
                               <%= data.productDescription %>
                             </p>
                             <p>
+                              <%= data.detailedProductDescription %>
+                            </p>
+                            <p>
                               <%= data.productFeatures %>
                             </p>
                             <p class="font-weight-bold">Price: $<%= data.price %>
                             </p>
                           </div>
                           <div class="col-md-6">
-                            <div class="">
+                            <div class="review-container">
                               <h3>Reviews</h3>
                               <% if(data.reviews.length===0){ %>
                               <p>There are no submitted reviews for this service</p>
                               <% } %>
                               <% if (data.reviews.length> 0) { %>
-                              <div class>
-                                <% data.reviews.forEach(review=> { %>
-                                <h3>
-                                  <%= review.review %>
-                                </h3>
-                                <p>
-                                  <%= review.timestamp %>
-                                </p>
+                              <% data.reviews.forEach(review=> { %>
+                                <div class="d-flex flex-column justify-content-start align-items-start" style="text-align: left;">
+                                  <div>
+                                    <h6>
+                                      <%= review.user.fullName %>
+                                    </h6>
+                                  </div>
+                                  <div class="d-flex align-items-center justify-content-between col-md-12">
+                                    <p style="font-size: 14px; text-align: left;"><%= review.review %></p>
+                                    <p style="font-size: 10px;">
+                                      <%= review.timestamp %>
+                                    </p>
+                                  </div>
+                                </div>
                                 <% }) %>
-                              </div>
                               <% } %>
                               <ajax-form action="submitReview" :form-data="formData" @submitted="submittedForm()"
                                 :form-errors.sync="formErrors" :syncing.sync="syncing" :cloud-error.sync="cloudError"
@@ -204,22 +197,4 @@
     </div>
   </div>
 </div>
-<% if (user.isSuperAdmin) { %>
-<script>
-  // Trigger the toast when the button is clicked
-  document.getElementById('liveToastBtn').addEventListener('click', function () {
-    var toastEl = document.getElementById('liveToast');
-    if (toastEl) {
-      toastEl.classList.add('show');
-      setTimeout(function () {
-        toastEl.classList.remove('show');
-      }, 2000); // Adjust the delay as needed
-    }
-  });
-
-</script>
-<% } %>
-
-
-
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
