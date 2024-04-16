@@ -118,6 +118,9 @@ module.exports.routes = {
   "POST /review": { action: "review/submit-review" },
   "GET /review/:productId": { action: "review/view-get-reviews" },
 
+  // Delete Review
+  "DELETE /review/:id": { action: "review/delete-review" },
+
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
 
