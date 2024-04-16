@@ -1,49 +1,69 @@
 <div id="edit-product" class="m-3" v-cloak>
-  <%= product.productTitle %>
-    <h3>Edit Product</h3>
-    <div class="card col-xl-4 mt-4 shadow-dark p-3 w-100">
-      <ajax-form action="editProduct" :form-data="formData" @submitted="editProduct()" :form-errors.sync="formErrors"
-        :syncing.sync="syncing" :cloud-error.sync="cloudError">
-        <input type="text" class="hidden" id="id" v-model.trim="formData.id" required value="<%= product.id %>"
+ <h2><%= product.productTitle %></h2>
+  <h3><%= product.productDescription %></h3>
+  <h3>Edit Product</h3>
+  <p>Provide Changes to the Selected Product</p>
+  <div class="card col-xl-4 mt-4 shadow-dark p-3 w-100">
+    <ajax-form action="editProduct" :form-data="formData" @submitted="editProduct()" :form-errors.sync="formErrors"
+      :syncing.sync="syncing" :cloud-error.sync="cloudError">
+      <div class="input-group input-group-outline">
+        <label class="form-label">Product Title</label>
+        <input type="text" class="form-control" id="productTitle" v-model.trim="formData.productTitle" @change="setProductIdOnChange(`<%= product.id %>`)" required
+          value="<%= product.productTitle %>" aria-required />
+      </div>
+      <div class="input-group input-group-outline my-2">
+        <label class="form-label">Product Description</label>
+        <input type="text" class="form-control" id="productDescription" v-model.trim="formData.productDescription" value="<%= product.productDescription %>"
+          required aria-required />
+      </div>
+      <div class="input-group input-group-outline my-2">
+        <label class="form-label">Detailed Product Description</label>
+        <textarea type="text" class="form-control" id="detailedProductDescription"
+          v-model.trim="formData.detailedProductDescription" value="<%= product.detailedProductDescription %>" rows="10" required aria-required></textarea>
+      </div>
+      <div class="input-group input-group-outline my-2">
+        <label class="form-label">Product Features</label>
+        <input type="text" class="form-control" value="<%= product.productFeatures %>" id="productFeatures" v-model.trim="formData.productFeatures" required
           aria-required />
-        <div class="input-group input-group-outline">
-          <label class="form-label">Product Title</label>
-          <input type="text" class="form-control" id="productTitle" v-model.trim="formData.productTitle" required
-            value="<%= product.productTitle %>" aria-required />
-        </div>
-        <div class="input-group input-group-outline my-2">
-          <label class="form-label">Product Description</label>
-          <input type="text" class="form-control" id="productDescription" v-model.trim="formData.productDescription"
-            required aria-required />
-        </div>
-        <div class="input-group input-group-outline my-2">
-          <label class="form-label">Product Features</label>
-          <input type="text" class="form-control" id="productFeatures" v-model.trim="formData.productFeatures" required
-            aria-required />
-        </div>
-        <div class="input-group input-group-outline my-2">
-          <label class="form-label">Service Type</label>
-          <select type="text" class="form-control border-radius-md" id="serviceType" v-model.trim="formData.serviceType"
-            required aria-required>
-            <option value="spotify">Spotify</option>
-            <option value="apple">Apple</option>
-            <option value="youtube">Youtube</option>
-            <option value="shazam">Shazam</option>
-            <option value="audiomack">Audiomack</option>
-          </select>
-        </div>
-        <div class="input-group input-group-outline my-2">
-          <label class="form-label">Price ($)</label>
-          <input type="text" class="form-control" id="price" v-model.trim="formData.price" required aria-required />
-        </div>
-        <cloud-error v-if="cloudError==='invalid'">Bad Request</cloud-error>
-        <cloud-error v-else-if="cloudError"></cloud-error>
-        <div class="d-flex align-items-center justify-content-start gap-3">
-          <ajax-button type="submit" :syncing="syncing" class="btn btn-primary">Modify Product</ajax-button>
-          <a href="/store" class="btn-outline-primary btn">Back to Store</a>
-        </div>
-      </ajax-form>
-    </div>
+      </div>
+      <div class="input-group input-group-outline my-2">
+        <label class="form-label">Service Type</label>
+        <select type="text" class="form-control" id="serviceType" v-model.trim="formData.serviceType" required
+          aria-required>
+          <option value="spotify">Spotify</option>
+          <option value="apple">Apple</option>
+          <option value="youtube">Youtube</option>
+          <option value="shazam">Shazam</option>
+          <option value="audiomack">Audiomack</option>
+          <option value="smart-contract">Smart Contract</option>
+          <option value="website">Website/Artist Brand Website</option>
+          <option value="crypto-projects">Crypto Projects</option>
+          <option value="bit-bread-artist-grant">Bit Bread Artist Grant</option>
+          <option value="hq-songs">HQ Songs</option>
+          <option value="hq-distros">HQ Distros</option>
+          <option value="software-bot-development">Bot Development</option>
+          <option value="social-media-ads">Social Media Ads</option>
+          <option value="apple-play">Apple Play</option>
+          <option value="itunes-music">iTunes Music</option>
+        </select>
+      </div>
+      <div class="input-group input-group-outline my-2">
+        <label class="form-label">Price ($)</label>
+        <input type="text" class="form-control" id="price" v-model.trim="formData.price" required aria-required />
+      </div>
+      <div v-if="cloudSuccess">
+        <p class="text-success">
+          Successfully Edited this Product
+        </p>
+      </div>
+      <cloud-error v-if="cloudError==='invalid'">Fill the form with all values before submission</cloud-error>
+      <cloud-error v-else-if="cloudError">Server Error</cloud-error>
+      <div class="d-flex align-items-center justify-content-start gap-3">
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-primary">Modify Product</ajax-button>
+        <a href="/store" class="btn-outline-primary btn">Back to Store</a>
+      </div>
+    </ajax-form>
+  </div>
 </div>
 
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
