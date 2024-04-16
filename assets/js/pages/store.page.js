@@ -42,7 +42,22 @@ parasails.registerPage("store", {
     setProductIdOnBuy: function (productId) {
       this.formData.productId = productId;
     },
-    
+
+    deleteReview: async function(id){
+      try {
+        const response = await fetch(`/review/${id}`,{
+          method:"DELETE"
+        });
+
+        if(response.status === 200){
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error(error)
+        alert("Failed to delete review...")
+      }
+    },
+
     submittedForm: async function () {
       this.syncing = true;
       window.location.reload();
