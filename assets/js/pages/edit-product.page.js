@@ -37,9 +37,13 @@ parasails.registerPage("edit-product", {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    editProduct: async function(){
+    setProductIdOnChange: function (id) {
+      this.formData.id = id;
+    },
+
+    editProduct: async function () {
       this.cloudSuccess = true;
-      window.location = "/store"
-    }
+      window.location = "/store";
+    },
   },
 });
