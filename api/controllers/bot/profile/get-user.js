@@ -15,9 +15,9 @@ module.exports = {
     try {
       const userRecord = await User.findOne({ id });
 
-      _.omit(userRecord, "password");
+      const newRecord = _.omit(userRecord, "password");
 
-      return res.status(200).json(userRecord);
+      return res.status(200).json(newRecord);
     } catch (error) {
       return res.serverError({
         message: "Failed to retrieve user data",
