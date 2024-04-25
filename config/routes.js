@@ -123,6 +123,8 @@ module.exports.routes = {
 
   // Bot Sign In
   "POST /api/v1/bot/auth/login": { action: "bot/auth/bot-login" },
+  // Bot Get User Profile
+  "GET /api/v1/bot/user": { action: "bot/profile/get-user" },
 
   // Check Expired Subscriptions
   "GET /api/v1/system/subscription": { action: "system/sub-check" },
