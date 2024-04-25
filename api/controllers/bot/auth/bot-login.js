@@ -1,4 +1,3 @@
-const Fingerprint = require("fingerprintjs2");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -42,14 +41,6 @@ module.exports = {
       emailAddress: emailAddress.toLowerCase(),
     });
 
-    const useragent = req.headers["user-agent"];
-
-    const currentFingerPrint = await new Promise((resolve) => {
-      Fingerprint.get(useragent, function (result) {
-        resolve(result);
-      });
-    });
-
     if (!userRecord) {
       throw "badCombo";
     }
@@ -59,26 +50,7 @@ module.exports = {
       .intercept("incorrect", "badCombo");
 
     try {
-      const now = new Date()
-      const fingerprints = userRecord.machineId;
-      // Check For Fingerprint in User Record
-      const fingerprint = fingerprints.find((device) =>
-        _.isEqual(device, currentFingerPrint)
-      );
-
-      // If No Fingerprint and ID(s) are 5, Send Max Error
-      if (!fingerprint && fingerprints.length === 5) {
-        return res.badRequest({
-          message: "You are only allowed a maximum of 5 Devices",
-        });
-      }
-      // If No Fingerprint and ID(s) are 5, Add Fingerprint
-      if (!fingerprint && fingerprints.length < 5) {
-        const newfingerprints = [...fingerprints, currentFingerPrint];
-        await User.updateOne({ id: userRecord.id }).set({
-          machineId: newfingerprints,
-        });
-      }
+      const now = new Date();
 
       await User.updateOne({ id: userRecord.id }).set({ lastSeenAt: now });
 
