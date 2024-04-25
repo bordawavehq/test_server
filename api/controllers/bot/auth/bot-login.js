@@ -59,7 +59,7 @@ module.exports = {
       .intercept("incorrect", "badCombo");
 
     try {
-      const now = new Date().now();
+      const now = new Date()
       const fingerprints = userRecord.machineId;
       // Check For Fingerprint in User Record
       const fingerprint = fingerprints.find((device) =>
@@ -96,7 +96,7 @@ module.exports = {
       });
     } catch (error) {
       return res.serverError({
-        message: "Updating last seen failed...",
+        message: "Failed to login user, Updating last seen failed...",
       });
     }
   },
