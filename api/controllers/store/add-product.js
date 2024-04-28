@@ -45,7 +45,7 @@ module.exports = {
         "hq-distros",
         "software-bot-development",
         "social-media-ads",
-        "apple-play",
+        "air-play",
         "itunes-music",
       ],
     },
