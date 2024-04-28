@@ -50,7 +50,7 @@ module.exports = {
         "hq-distros",
         "software-bot-development",
         "social-media-ads",
-        "apple-play",
+        "air-play",
         "itunes-music",
       ],
     },
@@ -133,7 +133,7 @@ module.exports = {
       "social-media-ads": {
         url: "https://img.icons8.com/bubbles/100/social-media-marketing.png",
       },
-      "apple-play": {
+      "air-play": {
         url: "https://img.icons8.com/ios-filled/500/mac-os.png",
       },
       "itunes-music": {
