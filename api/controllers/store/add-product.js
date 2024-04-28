@@ -132,20 +132,25 @@ module.exports = {
 
     const productImage = logos[serviceType].url;
 
-    const newProduct = await Product.create({
-      productTitle,
-      productDescription,
-      detailedProductDescription,
-      productFeatures,
-      serviceType,
-      productImage,
-      price,
-    }).fetch();
+    try {
+      const newProduct = await Product.create({
+        productTitle,
+        productDescription,
+        detailedProductDescription,
+        productFeatures,
+        serviceType,
+        productImage,
+        price,
+      }).fetch();
 
-    if (!newProduct) {
-      throw "invalid";
+      if (!newProduct) {
+        throw "invalid";
+      }
+
+      return res.redirect("/store");
+    } catch (error) {
+      sails.log.error(error);
+      return res.serverError(error);
     }
-
-    return res.redirect("/store");
   },
 };
