@@ -1,0 +1,47 @@
+<div id="create-coupon" style="height: 100vh;" v-cloak>
+  <div class="container">
+    <div class="card col-xl-4 mt-4 shadow-dark p-3 w-100">
+      <h3>Create Coupon Code</h3>
+      <p>Generate Code to give your community members discount on purchased services.</p>
+      <ajax-form action="createCoupon" :form-data="formData" @submitted="createCoupon()" :form-errors.sync="formErrors"
+        :syncing.sync="syncing" :cloud-error.sync="cloudError">
+        <div class="input-group input-group-outline my-2"
+          style="min-width: 100%; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+          <label for="type">Coupon Type</label>
+          <select class="form-control" style="width: 100% !important;" id="type" v-model.trim="formData.type" required
+            aria-required>
+            <option value="custom">Custom</option>
+            <option value="auto-generated" @click="deselectCustom()">Auto-Generated</option>
+          </select>
+        </div>
+        <div class="input-group input-group-outline my-2" v-if="formData.type==='custom'">
+          <label class="form-label" for="coupon">Coupon Code</label>
+          <input type="text" class="form-control" id="coupon" v-model.trim="formData.coupon" required aria-required />
+        </div>
+        <div class="input-group input-group-outline my-2">
+          <label class="form-label" for="discountAmount">Discount Percentage (%)</label>
+          <input type="number" min="0" max="100" class="form-control" id="discountAmount"
+            v-model.trim="formData.discountAmount" required aria-required />
+        </div>
+        <div class="input-group input-group-outline my-2">
+          <label class="form-label" for="noOfUsesLeft">No. of Uses</label>
+          <input type="text" class="form-control" id="coupon" v-model.trim="formData.noOfUsesLeft" required
+            aria-required />
+        </div>
+        <ajax-button class="btn btn-primary mt-2">Generate</ajax-button>
+        <cloud-error v-if="cloudError==='failed'">
+          <p class="text-primary">Coupon Generation Failed ❌</p>
+        </cloud-error>
+        <cloud-error v-if="cloudError==='alreadyExisting'">
+          <p class="text-primary">Coupon Code Already Existing ❌</p>
+        </cloud-error>
+        <div v-if="cloudSuccess">
+          <p class="text-success">
+            Coupon Successfully Generated 🚀
+          </p>
+        </div>
+      </ajax-form>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
