@@ -396,6 +396,26 @@
           </ul>
         </div>
       </div>
+      <!-- Navbar -->
+      <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+        data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <ul class="navbar-nav container-fluid justify-content-end">
+              <li class="mt-2">
+                <a href="/cart" class="btn btn-primary text-white" aria-label="Shopping Cart" title="Shopping Cart">
+                  Shopping Cart
+                  <i class="material-icons opacity-10">
+                    shopping_cart
+                  </i>
+                  <span id="item-count">0</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
       <% }%>
       <%- body %>
     </main>
@@ -939,6 +959,7 @@
     <script type="text/javascript">
       const helpbtn = document.querySelector('.support_btn');
       const supportLinks = document.querySelector('.support_links_container');
+      const item_count = documnent.getElementById('item-count');
 
       function toggleLinks() {
         if (supportLinks.style.display === 'none') {
@@ -951,6 +972,14 @@
       helpbtn.addEventListener('click', () => {
         toggleLinks()
       })
+
+      const cart = window.localStorage.getItem(`audiobaze_cart_${me.id}`);
+
+      if (!cart) {
+        item_count.textContent = '0';
+      } else {
+        item_count.textContent = cart.length
+      }
 
     </script>
     <% } %>
