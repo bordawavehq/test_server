@@ -106,6 +106,17 @@ module.exports.routes = {
   "GET /orders": { action: "store/view-get-orders" },
   "GET /orders/:id": { action: "store/view-get-order" },
 
+  // Cart Page
+  "GET /checkout": { action: "cart/view-get-cart" },
+
+  // Coupon
+  "GET /coupons": { action: "coupon/view-get-coupons" },
+  "GET /coupon/:id": { action: "coupon/view-edit-coupon" },
+  "GET /coupon/generate": { action: "coupon/view-create-coupon" },
+  "POST /coupon/generate": { action: "coupon/create-coupon" },
+  "PATCH /coupon/update/:id": { action: "coupon/update-coupon" },
+  "DELETE /coupon/:id": { action: "coupon/delete-coupon" },
+
   // Transaction
   "GET /order/transaction/:id": { action: "store/view-transaction-process" },
 
