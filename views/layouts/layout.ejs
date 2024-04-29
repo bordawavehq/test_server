@@ -225,9 +225,12 @@
                   storefront
                 </span>Store</a></li>
             <li><a href="/orders"><span class="material-icons">
-                  shopping_cart
+                  receipt_long
                 </span>Orders</a></li>
             <% if(me.isSuperAdmin){ %>
+            <li><a href="/coupons"><span class="material-icons">
+                  sell
+                </span>Coupons</a></li>
             <li><a href="/users"><i class="material-icons opacity-10">manage_accounts</i>Users</a></li>
             <li><a href="/keys"><i class="material-icons opacity-10">key</i>License Keys</a></li>
             <% }%>
@@ -288,12 +291,21 @@
             <a class="nav-link text-white" href="/orders" id="orders">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons">
-                  shopping_cart
+                  receipt_long
                 </span></div>
               <span class="nav-link-text ms-1">Orders</span>
             </a>
           </li>
           <% if(me.isSuperAdmin === true){ %>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/coupons" id="coupons">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <span class="material-icons">
+                  sell
+                </span></div>
+              <span class="nav-link-text ms-1">Coupons</span>
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link text-white" href="/users" id="listUsersLink">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -830,6 +842,9 @@
     <script src="/js/pages/entrance/login.page.js"></script>
     <script src="/js/pages/entrance/signup.page.js"></script>
     <script src="/js/pages/get-orders.page.js"></script>
+    <script src="/js/pages/cart/get-cart.page.js"></script>
+    <script src="/js/pages/coupon/get-coupons.page.js"></script>
+    <script src="/js/pages/coupon/create-coupon.page.js"></script>
     <script src="/js/pages/review/get-reviews.page.js"></script>
     <script src="/js/pages/user.page.js"></script>
     <script src="/js/pages/entrance/new-password.page.js"></script>
@@ -864,6 +879,7 @@
       const licenseKeyLink = document.getElementById('listLicenseKeys')
       const store = document.getElementById("storeLink")
       const orders = document.getElementById("orders");
+      const coupons = document.getElementById("coupons");
 
       let url = window.location.href;
       if (url.includes('welcome')) {}
@@ -890,6 +906,9 @@
       }
       if (url.includes('service')) {
         servicesLink.classList.add('active');
+      }
+      if (url.includes("coupons")) {
+        coupons.classList.add('active')
       }
 
     </script>
