@@ -403,13 +403,14 @@
           <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <ul class="navbar-nav container-fluid justify-content-end">
               <li class="mt-2">
-                <a href="/cart" class="btn btn-primary text-white" aria-label="Shopping Cart" title="Shopping Cart">
-                  Shopping Cart
+                <button @click="checkoutCart()" class="btn btn-primary text-white" aria-label="Shopping Cart"
+                  title="Shopping Cart" id="app">
+                  Check Out
                   <i class="material-icons opacity-10">
                     shopping_cart
                   </i>
-                  <span id="item-count">0</span>
-                </a>
+                  <span id="item-count">{{ itemCount }}</span>
+                </button>
               </li>
             </ul>
           </div>
@@ -878,6 +879,31 @@
     <script src="/js/plugins/countup.min.js"></script>
     <script src="/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="/js/plugins/world.js"></script>
+    <% if(me && me.isSuperAdmin === false){ %>
+    <script defer>
+      new Vue({
+        el: '#app',
+        data: {
+          itemCount: 0
+        },
+        mounted() {
+          const cart = window.localStorage.getItem('audiobaze_cart');
+          if (cart) {
+            this.itemCount = cart.length;
+          }
+        },
+        methods: {
+          checkoutCart: function () {
+            if (this.itemCount === 0) {
+              return alert("Sorry User 😅 You can't check out an empty cart...")
+            }
+
+
+          }
+        }
+      })
+    </script>
+    <% } %>
     <script>
       var win = navigator.platform.indexOf('Win') > -1;
       if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -959,7 +985,6 @@
     <script type="text/javascript">
       const helpbtn = document.querySelector('.support_btn');
       const supportLinks = document.querySelector('.support_links_container');
-      const item_count = document.getElementById('item-count');
 
       function toggleLinks() {
         if (supportLinks.style.display === 'none') {
@@ -972,14 +997,6 @@
       helpbtn.addEventListener('click', () => {
         toggleLinks()
       })
-
-      const cart = window.localStorage.getItem(`audiobaze_cart`);
-
-      if (!cart) {
-        item_count.textContent = '0';
-      } else {
-        item_count.textContent = cart.length
-      }
 
     </script>
     <% } %>
