@@ -12,13 +12,11 @@ module.exports = {
     productTitle: {
       type: "string",
       description: "Product Title",
-      required: true,
     },
 
     productDescription: {
       type: "string",
       description: "Product Description",
-      required: true,
     },
 
     detailedProductDescription: {
@@ -29,7 +27,6 @@ module.exports = {
     productFeatures: {
       type: "string",
       description: "Product Features",
-      required: true,
     },
 
     serviceType: {
@@ -58,13 +55,11 @@ module.exports = {
     deliveryETA: {
       type: "number",
       description: "Time Of Delivery in Days.",
-      required:true
     },
 
     price: {
       type: "number",
       description: "Price in USD",
-      required: true,
     },
   },
 
