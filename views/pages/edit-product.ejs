@@ -1,6 +1,10 @@
 <div id="edit-product" class="m-3" v-cloak>
- <h2><%= product.productTitle %></h2>
-  <h3><%= product.productDescription %></h3>
+  <h2>
+    <%= product.productTitle %>
+  </h2>
+  <h3>
+    <%= product.productDescription %>
+  </h3>
   <h3>Edit Product</h3>
   <p>Provide Changes to the Selected Product</p>
   <div class="card col-xl-4 mt-4 shadow-dark p-3 w-100">
@@ -8,23 +12,25 @@
       :syncing.sync="syncing" :cloud-error.sync="cloudError">
       <div class="input-group input-group-outline">
         <label class="form-label">Product Title</label>
-        <input type="text" class="form-control" id="productTitle" v-model.trim="formData.productTitle" @change="setProductIdOnChange(`<%= product.id %>`)" required
-          value="<%= product.productTitle %>" aria-required />
+        <input type="text" class="form-control" id="productTitle" v-model.trim="formData.productTitle"
+          @change="setProductIdOnChange(`<%= product.id %>`)" required value="<%= product.productTitle %>"
+          aria-required />
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Product Description</label>
-        <input type="text" class="form-control" id="productDescription" v-model.trim="formData.productDescription" value="<%= product.productDescription %>"
-          required aria-required />
+        <input type="text" class="form-control" id="productDescription" v-model.trim="formData.productDescription"
+          value="<%= product.productDescription %>" required aria-required />
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Detailed Product Description</label>
         <textarea type="text" class="form-control" id="detailedProductDescription"
-          v-model.trim="formData.detailedProductDescription" value="<%= product.detailedProductDescription %>" rows="10" required aria-required></textarea>
+          v-model.trim="formData.detailedProductDescription" value="<%= product.detailedProductDescription %>" rows="10"
+          required aria-required></textarea>
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Product Features</label>
-        <input type="text" class="form-control" value="<%= product.productFeatures %>" id="productFeatures" v-model.trim="formData.productFeatures" required
-          aria-required />
+        <input type="text" class="form-control" value="<%= product.productFeatures %>" id="productFeatures"
+          v-model.trim="formData.productFeatures" required aria-required />
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Service Type</label>
@@ -50,6 +56,11 @@
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Price ($)</label>
         <input type="text" class="form-control" id="price" v-model.trim="formData.price" required aria-required />
+      </div>
+      <div class="input-group input-group-outline my-2">
+        <label class="form-label">Delivery ETA (Days)</label>
+        <input type="number" min="0" class="form-control" id="deliveryETA" v-model.trim="formData.deliveryETA" required
+          aria-required />
       </div>
       <div v-if="cloudSuccess">
         <p class="text-success">
