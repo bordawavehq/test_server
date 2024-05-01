@@ -50,10 +50,10 @@ module.exports = {
       ],
     },
 
-    deliveryETA:{
-      type:'string',
-      description:"Time Of Delivery in Days",
-      required:true
+    deliveryETA: {
+      type: "number",
+      description: "Time Of Delivery in Days",
+      required: true,
     },
 
     productImage: {
