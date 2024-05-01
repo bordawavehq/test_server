@@ -52,7 +52,9 @@ module.exports = {
       return key;
     }
 
-    if (coupon !== "") {
+    sails.log.info(coupon);
+
+    if (coupon) {
       // Existing Coupon Check
       const existingRecord = await Coupon.findOne({
         coupon: coupon.toUpperCase(),
