@@ -51,9 +51,9 @@ module.exports = {
     },
 
     deliveryETA: {
-      type: "string",
+      type: "number",
       description: "Time Of Delivery in Days.",
-      required:true
+      required: true,
     },
 
     price: {
