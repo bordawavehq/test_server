@@ -55,6 +55,12 @@ module.exports = {
       ],
     },
 
+    deliveryETA: {
+      type: "number",
+      description: "Time Of Delivery in Days.",
+      required:true
+    },
+
     price: {
       type: "number",
       description: "Price in USD",
@@ -71,10 +77,10 @@ module.exports = {
       statusCode: 400,
       description: "Bad Request",
     },
-    failed:{
-      statusCode:500,
-      description:"Server Error"
-    }
+    failed: {
+      statusCode: 500,
+      description: "Server Error",
+    },
   },
 
   fn: async function (inputs, exits) {
@@ -87,8 +93,8 @@ module.exports = {
       productFeatures,
       serviceType,
       price,
+      deliveryETA,
     } = inputs;
-
 
     const logos = {
       spotify: {
@@ -141,7 +147,6 @@ module.exports = {
       },
     };
 
-
     const productImage = logos[serviceType].url;
 
     try {
@@ -152,11 +157,12 @@ module.exports = {
         productFeatures,
         productImage,
         price,
+        deliveryETA,
       });
 
-      return exits.success()
+      return exits.success();
     } catch (error) {
-      return exits.failed(error)
+      return exits.failed(error);
     }
   },
 };
