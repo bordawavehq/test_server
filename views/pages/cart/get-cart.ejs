@@ -1,0 +1,181 @@
+<style>
+  .product_container {
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 0.75rem;
+  }
+
+  .product_title {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .product_description {
+    font-weight: 400;
+    font-size: 1rem;
+  }
+
+  .product_top_row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .product_price {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .product_card {
+    border: 1px solid #f5f5f5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 60%;
+    max-height: 60vh;
+  }
+
+  .product_container_parent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1rem;
+  }
+
+  .summary_container {
+    width: 30%;
+    border: 1px solid #f5f5f5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .product_footer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 1.3rem;
+  }
+
+  .quantity {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    column-gap: 1rem;
+  }
+
+  .quantity span {
+    font-size: 1.2rem;
+  }
+
+  .summary_container {
+    height: 100%;
+    padding: 0.75rem;
+  }
+
+  .summary_container h4 {
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .product_component {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+
+  .cart_container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  @media screen and (max-width:600px) {
+    .cart_container {
+      flex-direction: column;
+    }
+
+    .summary_container {
+      width: 100%;
+    }
+  }
+</style>
+
+<div id="get-cart" class="my-3 position-relative" style="height:85dvh;" v-cloak>
+  <div class="h-[80vh] px-3">
+    <div class="d-flex justify-content-end">
+      <a href="/store" class="btn btn-sm bg-gradient-primary">Back to Store 🏪</a>
+    </div>
+    <h3>Your Cart ({{ totalItems }})</h3>
+    <div v-if="cartItems.length > 0" class="cart_container">
+      <div class="product_container_parent">
+        <div v-for="(product, index) in cartItems" :key="index">
+          <div class="container-fluid product_card">
+            <div class="container">
+              <div class="product_top_row my-3">
+                <div class="product_container">
+                  <div v-if="product.productImage">
+                    <img :src="product.productImage" alt="product.productDescription" width="150" height="150">
+                  </div>
+                  <div class="space-y-3">
+                    <p class="product_title">{{ product.productTitle }}</p>
+                    <p class="product_description">{{ product.productDescription }}</p>
+                    <span>Audiobaze Services</span>
+                  </div>
+                </div>
+                <p class="product_price">${{ product.price }}</p>
+              </div>
+              <div class="product_footer">
+                <button class="btn bg-gradient-danger btn-sm text-uppercase" @click="removeFromCart(product.id)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5">
+                      <path
+                        d="M20.5 6h-17m15.333 2.5l-.46 6.9c-.177 2.654-.265 3.981-1.13 4.79c-.865.81-2.195.81-4.856.81h-.774c-2.66 0-3.99 0-4.856-.81c-.865-.809-.953-2.136-1.13-4.79l-.46-6.9" />
+                      <path d="M9.17 4a3.001 3.001 0 0 1 5.66 0" opacity=".5" />
+                    </g>
+                  </svg> Remove</button>
+
+                <div class="quantity">
+                  <button class="btn bg-gradient-primary btn-sm" @click="decreaseQuantity(product.id)">-</button>
+                  <span>{{ product.quantity }}</span>
+                  <button class="btn bg-gradient-primary btn-sm" @click="increaseQuantity(product.id)">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="summary_container">
+        <div class="w-auto rounded-md">
+          <h4 class="text-uppercase">Summary</h4>
+          <p style="font-weight: bold;">
+            SubTotal : ${{ totalPrice }}
+          </p>
+          <p style="font-weight: 300;">
+            Discount : ${{ discountAvailable ? discountAvailable : '0' }}
+          </p>
+          <ajax-form action="validateCoupon" :form-data="formData" @submitted="validateCoupon()"
+            :form-errors.sync="formErrors" :syncing.sync="syncing" :cloud-error.sync="cloudError">
+            <div class="input-group input-group-outline my-3">
+              <label for="coupon" class="form-label"></label>
+              <input type="text" class="form-control" placeholder="COUPON" id="coupon" v-model.trim="formData.coupon"
+                required aria-required="true">
+            </div>
+            <div>
+              <p class="text-danger">{{ asyncErrorMsg }}</p>
+              <p class="text-succes">{{ asyncSuccessMsg }}</p>
+            </div>
+            <div>
+              <ajax-button class="btn btn-md bg-gradient-primary" type="submit" :syncing="syncing">Apply Coupon
+                😊</ajax-button>
+              <ajax-button class="btn btn-md bg-gradient-info" type="button" :syncing="syncing"
+                @click="processCheckout()">CheckOut 🛒</ajax-button>
+            </div>
+          </ajax-form>
+        </div>
+      </div>
+    </div>
+    <div v-else style="height: 80vh; display: flex; justify-content: center; align-items: center;">
+      <h3 class="text-center">Your Cart is Empty 🥺 Aren't you Looking to Shop From Us?</h3>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
