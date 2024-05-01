@@ -7,9 +7,9 @@
 
 module.exports = {
   attributes: {
-    purchasedProduct: {
+    purchasedProducts: {
       type: "json",
-      description: "Product that it's order was made",
+      description: "Ordered Products",
     },
 
     transactionId: {
@@ -23,8 +23,13 @@ module.exports = {
 
     status: {
       type: "string",
-      isIn: ["processing", "completed","canceled"],
+      isIn: ["processing", "completed", "canceled"],
       defaultsTo: "processing",
+    },
+
+    amountPaid: {
+      type: "number",
+      description: "Amount Paid in USD",
     },
 
     owner: {
