@@ -23,6 +23,7 @@ parasails.registerPage("add-product", {
       productDescription: { required: true },
       productFeatures: { required: true },
       price: { required: true },
+      deliveryETA: { required: true },
     },
     // Server error state for the form
     cloudError: "",
