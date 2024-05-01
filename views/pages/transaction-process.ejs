@@ -5,11 +5,38 @@
     </a>
   </div>
   <h1>Processing Product Order </h1>
-  <h3>
-    <%= order.purchasedProduct.productTitle %>
-  </h3>
-  <p>
-    Price: $<%= order.purchasedProduct.price %>
+  <div>
+    <h3>
+      Purchased Product(s)
+    </h3>
+    <div class="container-fluid"
+      style="display: flex; column-gap: 0.75rem; justify-content: flex-start; overflow-x: scroll; width: 100%;height:100%; padding:0.5rem;">
+      <% order.purchasedProducts.forEach(product=> { %>
+        <div class="col-xl-3 mt-4">
+          <div class="card shadow-dark p-2 d-flex flex-column align-items-center justify-content-center text-center">
+            <img src="<%= product.productImage %>" alt="Product Image" width="100" height="100">
+            <h3>
+              <%= product.productTitle %>
+            </h3>
+            <p>
+              <%= product.productDescription %>
+            </p>
+            <p>
+              <%= product.productFeatures %>
+            </p>
+            <p class="font-weight-bold">$<%= product.price %>
+            </p>
+            <p>Quantity: <%= product.quantity %>
+            </p>
+            <p class="font-weight-bold">Delivery (ETA) <%= product.deliveryETA %> Days
+            </p>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+  <p style="font-weight: bold; font-size: 1.3rem;">
+    Price: $<%= order.amountPaid %>
   </p>
   <h4>Transaction Status</h4>
   <% if (order.status==="completed" ) { %>
@@ -46,6 +73,16 @@
                                   height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
                                   alt="copy" /></span>
                             </p>
+                            <p>ETH(ERC20) : <span style="font-weight: bold; cursor: pointer;" id="ethAddress"
+                                onclick="copyETHWalletAddress()">0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f <img
+                                  width="15" height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
+                                  alt="copy" /></span>
+                            </p>
+                            <p>LTC : <span style="font-weight: bold; cursor: pointer;" id="ltcAddress"
+                                onclick="copyLTCWalletAddress()">ltc1q6f7cftvd4je4f5mh0arz7my69rp0ccrp38zr79 <img
+                                  width="15" height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
+                                  alt="copy" /></span>
+                            </p>
                             <p>Contact Audiobaze Admin to confirm transaction using Crypto Tx Hash & ID : <span
                                 style="font-weight: bold; cursor: pointer;" id="audiobazetxid"
                                 onclick="copyAudiobazeTransaction()">
@@ -73,7 +110,9 @@
                               <% } %>
 </div>
 <script defer>
-  navigator.permissions.query({ name: "write-on-clipboard" }).then((result) => {
+  navigator.permissions.query({
+    name: "write-on-clipboard"
+  }).then((result) => {
     if (result.state == "granted" || result.state == "prompt") {
       alert("Write access granted!");
     }
@@ -113,6 +152,27 @@
     }
   }
 
+  async function copyETHWalletAddress() {
+    const ethAddress = document.getElementById('ethAddress');
+    const walletAddress = ethAddress.textContent;
+    try {
+      await navigator.clipboard.writeText(walletAddress)
+      alert("Copied ETH Wallet Address")
+    } catch (error) {
+      alert("Failed to Copy Wallet Address")
+    }
+  }
+
+  async function copyLTCWalletAddress() {
+    const ltcAddress = document.getElementById('ltcAddress');
+    const walletAddress = ltcAddress.textContent;
+    try {
+      await navigator.clipboard.writeText(walletAddress)
+      alert("Copied LTC Wallet Address")
+    } catch (error) {
+      alert("Failed to Copy Wallet Address")
+    }
+  }
 
 </script>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
