@@ -50,6 +50,12 @@ module.exports = {
       ],
     },
 
+    deliveryETA: {
+      type: "string",
+      description: "Time Of Delivery in Days.",
+      required:true
+    },
+
     price: {
       type: "number",
       description: "Price in USD",
@@ -77,6 +83,7 @@ module.exports = {
       productFeatures,
       serviceType,
       price,
+      deliveryETA,
     } = inputs;
 
     const logos = {
@@ -141,6 +148,7 @@ module.exports = {
         serviceType,
         productImage,
         price,
+        deliveryETA,
       }).fetch();
 
       if (!newProduct) {
