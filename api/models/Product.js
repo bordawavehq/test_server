@@ -50,6 +50,11 @@ module.exports = {
       ],
     },
 
+    deliveryETA:{
+      type:'string',
+      description:"Time Of Delivery in Days",
+    },
+
     productImage: {
       type: "string",
       description: "Product Image URL",
