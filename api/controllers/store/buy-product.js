@@ -47,7 +47,7 @@ module.exports = {
         owner: req.me.id,
       }).fetch();
 
-      return res.redirect(`/order/transaction/${order.id}`);
+      return res.status(200).json({ order });
     } catch (error) {
       return res.serverError(error);
     }
