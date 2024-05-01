@@ -118,7 +118,7 @@
                   <div class="space-y-3">
                     <p class="product_title">{{ product.productTitle }}</p>
                     <p class="product_description">{{ product.productDescription }}</p>
-                    <span>Audiobaze Services</span>
+                    <span>Delivery ETA: {{ product.deliveryETA }} Day(s)</span>
                   </div>
                 </div>
                 <p class="product_price">${{ product.price }}</p>
@@ -152,7 +152,7 @@
           <p style="font-weight: 300;">
             Discount : ${{ discountAvailable ? discountAvailable : '0' }}
           </p>
-          <ajax-form action="validateCoupon" :form-data="formData" @submitted="validateCoupon()"
+          <ajax-form action="verifyCoupon" :form-data="formData" @submitted="verifyCoupon()"
             :form-errors.sync="formErrors" :syncing.sync="syncing" :cloud-error.sync="cloudError">
             <div class="input-group input-group-outline my-3">
               <label for="coupon" class="form-label"></label>
