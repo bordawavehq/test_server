@@ -143,7 +143,9 @@ module.exports = {
       const newProduct = await Product.create({
         productTitle,
         productDescription,
-        detailedProductDescription,
+        detailedProductDescription: encodeURIComponent(
+          detailedProductDescription
+        ),
         productFeatures,
         serviceType,
         productImage,

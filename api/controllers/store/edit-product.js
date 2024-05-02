@@ -148,7 +148,9 @@ module.exports = {
       await Product.updateOne({ id }).set({
         productTitle,
         productDescription,
-        detailedProductDescription,
+        detailedProductDescription: encodeURIComponent(
+          detailedProductDescription
+        ),
         productFeatures,
         productImage,
         price,
