@@ -8,252 +8,252 @@
     display: inline;
     opacity: 1;
   }
+
 </style>
 
 <div id="store" class="my-3 position-relative" style="height:85dvh;" v-cloak>
   <div class="container">
     <% if(user.isSuperAdmin){ %>
-      <div class="row">
-        <div class="col-lg-12 d-flex justify-content-end">
-          <a class="btn btn-primary" href="/store/product">Add Product</a>
-        </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-end">
+        <a class="btn btn-primary" href="/store/product">Add Product</a>
       </div>
-      <% } %>
-        <% if (me && !me.isSuperAdmin) { %>
-          <div class="row">
-            <div class="col-lg-12 d-flex justify-content-end">
-              <button @click="checkoutCart()" class="btn btn-primary btn-lg text-white" aria-label="Shopping Cart"
-                title="Shopping Cart" id="checkout_btn">
-                <span class="checkout_text">Check Out</span>
-                <i class="material-icons opacity-10" style="font-size: 2em;">
-                  shopping_cart
-                </i>
-                <span id="item-count">{{ totalItems }}</span>
-              </button>
-            </div>
-          </div>
-          <% } %>
-            <div class="row">
-              <div class="col-xl-12">
-                <div class="row">
-                  <!-- Add a row wrapper -->
-                  <% products.forEach(data=> { %>
-                    <div class="col-xl-3 mt-4">
-                      <!-- Add column classes -->
-                      <div
-                        class="card shadow-dark p-2 d-flex flex-column align-items-center justify-content-center text-center">
-                        <img src="<%= data.productImage %>" alt="Product Image" width="100" height="100">
-                        <h3>
-                          <%= data.productTitle %>
-                        </h3>
-                        <p>
-                          <%= data.productDescription %>
-                        </p>
-                        <p>
-                          <%= data.productFeatures %>
-                        </p>
-                        <p class="font-weight-bold">$<%= data.price %>
-                        </p>
-                        <p class="font-weight-bold">Delivery (ETA) <%= data.deliveryETA %> Days
-                        </p>
-                        <% if(user.isSuperAdmin) { %>
-                          <div class="w-full d-flex flex-column align-items-center justify-content-between gap-2">
-                            <a class="btn btn-primary text-white" href="/store/product/modify/<%= data.id %>"> Edit
-                              Service
-                              <i class="fas fa-pencil-alt"></i></a>
-                            <button class="btn btn-outline-secondary" data-toggle="modal"
-                              data-target="#deleteServiceModal<%= data.id %>">Delete Service <i
-                                class="fas fa-trash"></i></button>
-                                <button class="bg-gradient-info btn text-white" data-toggle="modal" data-target="#viewProductModal<%= data.id %>"
-                                  @click="setProductIdOnBuy(`<%= data.id %>`)">Description</button>
-                          </div>
-                          <% } else { %>
-                            <div>
-                              <button class="bg-gradient-primary btn text-white toast-btn" data-target="infoToast"
-                                @click="addToCart(`<%= JSON.stringify(data) %>`)">Add To
-                                Cart 🛒 <i class="fas fa-cart"></i></button>
-                              <button class="bg-gradient-info btn text-white" data-toggle="modal"
-                                data-target="#viewProductModal<%= data.id %>"
-                                @click="setProductIdOnBuy(`<%= data.id %>`)">Description</button>
-                            </div>
+    </div>
+    <% } %>
+    <% if (me && !me.isSuperAdmin) { %>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-end">
+        <button @click="checkoutCart()" class="btn btn-primary btn-lg text-white" aria-label="Shopping Cart"
+          title="Shopping Cart" id="checkout_btn">
+          <span class="checkout_text">Check Out</span>
+          <i class="material-icons opacity-10" style="font-size: 2em;">
+            shopping_cart
+          </i>
+          <span id="item-count">{{ totalItems }}</span>
+        </button>
+      </div>
+    </div>
+    <% } %>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="row">
+          <!-- Add a row wrapper -->
+          <% products.forEach(data=> { %>
+          <div class="col-xl-3 mt-4">
+            <!-- Add column classes -->
+            <div class="card shadow-dark p-2 d-flex flex-column align-items-center justify-content-center text-center">
+              <img src="<%= data.productImage %>" alt="Product Image" width="100" height="100">
+              <h3>
+                <%= data.productTitle %>
+              </h3>
+              <p>
+                <%= data.productDescription %>
+              </p>
+              <p>
+                <%= data.productFeatures %>
+              </p>
+              <p class="font-weight-bold">$<%= data.price %>
+              </p>
+              <p class="font-weight-bold">Delivery (ETA) <%= data.deliveryETA %> Days
+              </p>
+              <% if(user.isSuperAdmin) { %>
+              <div class="w-full d-flex flex-column align-items-center justify-content-between gap-2">
+                <a class="btn btn-primary text-white" href="/store/product/modify/<%= data.id %>"> Edit
+                  Service
+                  <i class="fas fa-pencil-alt"></i></a>
+                <button class="btn btn-outline-secondary" data-toggle="modal"
+                  data-target="#deleteServiceModal<%= data.id %>">Delete Service <i class="fas fa-trash"></i></button>
+                <button class="bg-gradient-info btn text-white" data-toggle="modal"
+                  data-target="#viewProductModal<%= data.id %>"
+                  @click="setProductIdOnBuy(`<%= data.id %>`)">Description</button>
+              </div>
+              <% } else { %>
+              <% function isURIEncoded(str) { try { return decodeURIComponent(str) !==str; } catch (error)
+                              { return false; } } %>
+
+              <div>
+                <button class="bg-gradient-primary btn text-white toast-btn" data-target="infoToast"
+                  @click="addToCart(`<%= JSON.stringify(data) %>`)">Add To
+                  Cart 🛒 <i class="fas fa-cart"></i></button>
+                <button class="bg-gradient-info btn text-white" data-toggle="modal"
+                  data-target="#viewProductModal<%= data.id %>"
+                  @click="setProductIdOnBuy(`<%= data.id %>`)">Description</button>
+              </div>
+              <% } %>
+              <div class="modal fade" id="viewProductModal<%= data.id %>" tabindex="-1" style="z-index: 99999999999999;"
+                role="dialog" aria-labelledby="viewProductModal<%= data.id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="viewProductModal<%= data.id %>">
+                        <%= data.productTitle %>
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <img src="<%= data.productImage %>" alt="Product Image" width="100" height="100">
+                            <h3>
+                              <%= data.productTitle %>
+                            </h3>
+                            <p>
+                              <%= data.productDescription %>
+                            </p>
+                            <% if (data.detailedProductDescription) { %>
+                            <p>
+                              <%= isURIEncoded(data.detailedProductDescription) ?
+                                                    decodeURIComponent(data.detailedProductDescription) :
+                                                    data.detailedProductDescription %>
+                            </p>
                             <% } %>
-                              <div class="modal fade" id="viewProductModal<%= data.id %>" tabindex="-1"
-                                style="z-index: 99999999999999;" role="dialog"
-                                aria-labelledby="viewProductModal<%= data.id %>" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="viewProductModal<%= data.id %>">
-                                        <%= data.productTitle %>
-                                      </h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <div class="container">
-                                        <div class="row">
-                                          <div class="col-md-6">
-                                            <img src="<%= data.productImage %>" alt="Product Image" width="100"
-                                              height="100">
-                                            <h3>
-                                              <%= data.productTitle %>
-                                            </h3>
-                                            <p>
-                                              <%= data.productDescription %>
-                                            </p>
-                                            <p>
-                                              <%= decodeURIComponent(data.detailedProductDescription) %>
-                                            </p>
-                                            <p>
-                                              <%= data.productFeatures %>
-                                            </p>
-                                            <p class="font-weight-bold">Price: $<%= data.price %>
-                                            </p>
-                                            <p class="font-weight-bold">Delivery (ETA) <%= data.deliveryETA %> Days
-                                            </p>
-                                            <button class="bg-gradient-primary btn text-white toast-btn"
-                                              data-target="infoToast"
-                                              @click="addToCart(`<%= JSON.stringify(data) %>`)">Add To
-                                              Cart 🛒 <i class="fas fa-cart"></i></button>
-                                          </div>
-                                          <div class="col-md-6">
-                                            <div class="review-container">
-                                              <h3>Reviews</h3>
-                                              <% if(data.reviews.length===0){ %>
-                                                <p>There are no submitted reviews for this service</p>
-                                                <% } %>
-                                                  <% if (data.reviews.length> 0) { %>
-                                                    <% data.reviews.forEach(review=> { %>
-                                                      <div
-                                                        class="d-flex flex-column justify-content-start align-items-start"
-                                                        style="text-align: left;">
-                                                        <div>
-                                                          <h6>
-                                                            <%= review.user.fullName %>
-                                                          </h6>
-                                                          <% if (user.isSuperAdmin) { %>
-                                                            <button class="btn btn-sm btn-gradient-primary"
-                                                              @click="deleteReview(`<%= data.id %>`)">Delete</button>
-                                                            <% } %>
-                                                        </div>
-                                                        <div
-                                                          class="d-flex align-items-center justify-content-between col-md-12">
-                                                          <p style="font-size: 14px; text-align: left;">
-                                                            <%= review.review %>
-                                                          </p>
-                                                          <p style="font-size: 10px;">
-                                                            <%= review.timestamp %>
-                                                          </p>
-                                                        </div>
-                                                      </div>
-                                                      <% }) %>
-                                                        <% } %>
-                                                          <ajax-form action="submitReview" :form-data="formData"
-                                                            @submitted="submittedForm()" :form-errors.sync="formErrors"
-                                                            :syncing.sync="syncing" :cloud-error.sync="cloudError"
-                                                            :form-rules="formRules">
-                                                            <div class="input-group input-group-outline">
-                                                              <label class="form-label">Submit Review...</label>
-                                                              <input type="text" class="form-control" id="review"
-                                                                v-model.trim="formData.review" required aria-required />
-                                                              <ajax-button class="btn btn-primary" :syncing="syncing"
-                                                                type="submit">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                                  height="18" viewBox="0 0 24 24">
-                                                                  <g fill="none">
-                                                                    <path
-                                                                      d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
-                                                                    <path fill="#fff"
-                                                                      d="M20.235 5.686c.432-1.195-.726-2.353-1.921-1.92L3.709 9.048c-1.199.434-1.344 2.07-.241 2.709l4.662 2.699l4.163-4.163a1 1 0 0 1 1.414 1.414L9.544 15.87l2.7 4.662c.638 1.103 2.274.957 2.708-.241z" />
-                                                                  </g>
-                                                                </svg>
-                                                              </ajax-button>
-                                                            </div>
-                                                            <div v-if="formErrors.review">Please submit a review first
-                                                            </div>
-                                                            <cloud-error v-if="cloudError==='invalid'">
-                                                              <p class="text-primary">Bad Request</p>
-                                                            </cloud-error>
-                                                            <cloud-error v-if="cloudError==='failed'">
-                                                              <p class="text-primary">Failed to Submit Review</p>
-                                                            </cloud-error>
-                                                            <cloud-error v-if="cloudError==='notFound'">
-                                                              <p class="text-primary">Could not find that Product to
-                                                                submit
-                                                                a
-                                                                review for</p>
-                                                            </cloud-error>
-                                                            <cloud-error v-else-if="cloudError"></cloud-error>
-                                                            <div v-if="cloudSuccess">
-                                                              <p class="text-success">
-                                                                Successfully submited review...
-                                                              </p>
-                                                            </div>
-                                                          </ajax-form>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <!-- <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    </div> -->
-                                  </div>
+                            <p>
+                              <%= data.productFeatures %>
+                            </p>
+                            <p class="font-weight-bold">Price: $<%= data.price %>
+                            </p>
+                            <p class="font-weight-bold">Delivery (ETA) <%= data.deliveryETA %>
+                              Days
+                            </p>
+                            <button class="bg-gradient-primary btn text-white toast-btn" data-target="infoToast"
+                              @click="addToCart(`<%= JSON.stringify(data) %>`)">Add To
+                              Cart 🛒 <i class="fas fa-cart"></i></button>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="review-container">
+                              <h3>Reviews</h3>
+                              <% if(data.reviews.length===0){ %>
+                              <p>There are no submitted reviews for this service</p>
+                              <% } %>
+                              <% if (data.reviews.length> 0) { %>
+                              <% data.reviews.forEach(review=> { %>
+                              <div class="d-flex flex-column justify-content-start align-items-start"
+                                style="text-align: left;">
+                                <div>
+                                  <h6>
+                                    <%= review.user.fullName %>
+                                  </h6>
+                                  <% if (user.isSuperAdmin) { %>
+                                  <button class="btn btn-sm btn-gradient-primary"
+                                    @click="deleteReview(`<%= data.id %>`)">Delete</button>
+                                  <% } %>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between col-md-12">
+                                  <p style="font-size: 14px; text-align: left;">
+                                    <%= review.review %>
+                                  </p>
+                                  <p style="font-size: 10px;">
+                                    <%= review.timestamp %>
+                                  </p>
                                 </div>
                               </div>
-                              <div class="modal fade" id="buyModal<%= data.id %>" tabindex="-1" role="dialog"
-                                aria-labelledby="buyModal<%= data.id %>" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="buyMoal<%= data.id %>">Confirm Purchase</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      Are you sure you want to purchase this service?
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                      <a class="btn btn-danger" href="/order/buy/<%=data.id%> ">Yes</a>
-                                    </div>
-                                  </div>
+                              <% }) %>
+                              <% } %>
+                              <ajax-form action="submitReview" :form-data="formData" @submitted="submittedForm()"
+                                :form-errors.sync="formErrors" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+                                :form-rules="formRules">
+                                <div class="input-group input-group-outline">
+                                  <label class="form-label">Submit Review...</label>
+                                  <input type="text" class="form-control" id="review" v-model.trim="formData.review"
+                                    required aria-required />
+                                  <ajax-button class="btn btn-primary" :syncing="syncing" type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                                      <g fill="none">
+                                        <path
+                                          d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
+                                        <path fill="#fff"
+                                          d="M20.235 5.686c.432-1.195-.726-2.353-1.921-1.92L3.709 9.048c-1.199.434-1.344 2.07-.241 2.709l4.662 2.699l4.163-4.163a1 1 0 0 1 1.414 1.414L9.544 15.87l2.7 4.662c.638 1.103 2.274.957 2.708-.241z" />
+                                      </g>
+                                    </svg>
+                                  </ajax-button>
                                 </div>
-                              </div>
-                              <div class="modal fade" id="deleteServiceModal<%= data.id %>" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteModalLabel<%= data.id %>" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="deleteServiceModal<%= data.id %>">Confirm Deletion
-                                      </h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      Are you sure you want to delete this Service?
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                      <a class="btn btn-danger" href="/store/product/delete/<%=data.id%> ">Yes</a>
-                                    </div>
-                                  </div>
+                                <div v-if="formErrors.review">Please submit a review first
                                 </div>
-                              </div>
+                                <cloud-error v-if="cloudError==='invalid'">
+                                  <p class="text-primary">Bad Request</p>
+                                </cloud-error>
+                                <cloud-error v-if="cloudError==='failed'">
+                                  <p class="text-primary">Failed to Submit Review</p>
+                                </cloud-error>
+                                <cloud-error v-if="cloudError==='notFound'">
+                                  <p class="text-primary">Could not find that Product to
+                                    submit
+                                    a
+                                    review for</p>
+                                </cloud-error>
+                                <cloud-error v-else-if="cloudError"></cloud-error>
+                                <div v-if="cloudSuccess">
+                                  <p class="text-success">
+                                    Successfully submited review...
+                                  </p>
+                                </div>
+                              </ajax-form>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    <% }) %>
-                      <% if(products.length===0) { %>
-                        <p class="text-center">There are no Products Available for Sale</p>
-                        <% } %>
-                </div> <!-- Close the row wrapper -->
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    </div> -->
+                  </div>
+                </div>
               </div>
-
+              <div class="modal fade" id="buyModal<%= data.id %>" tabindex="-1" role="dialog"
+                aria-labelledby="buyModal<%= data.id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="buyMoal<%= data.id %>">Confirm Purchase</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to purchase this service?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                      <a class="btn btn-danger" href="/order/buy/<%=data.id%> ">Yes</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="deleteServiceModal<%= data.id %>" tabindex="-1" role="dialog"
+                aria-labelledby="deleteModalLabel<%= data.id %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteServiceModal<%= data.id %>">Confirm Deletion
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete this Service?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                      <a class="btn btn-danger" href="/store/product/delete/<%=data.id%> ">Yes</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <% }) %>
+          <% if(products.length===0) { %>
+          <p class="text-center">There are no Products Available for Sale</p>
+          <% } %>
+        </div> <!-- Close the row wrapper -->
+      </div>
+
+    </div>
   </div>
   <button class="bg-gradient-primary btn text-white toast-btn" style="visibility: hidden;" data-target="failedCheckout"
     id="failedBtn">Check Out Failed <i class="fas fa-cart"></i></button>
