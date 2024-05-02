@@ -54,7 +54,9 @@
                 </div>
                 <cloud-error v-if="cloudError==='badCombo'">The credentials you entered are not associated with an
                   account.
-                  Please check your email and/or password and try again.</cloud-error>
+                  Please check your email and/or password and try again.
+                If you forgot your password, you can recover it <a href="password/forgot">here</a>.
+                </cloud-error>
                 <cloud-error v-else-if="cloudError"></cloud-error>
                 <div class="text-center">
                   <ajax-button type="submit" :syncing="syncing" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign
