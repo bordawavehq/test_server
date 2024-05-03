@@ -113,6 +113,8 @@ parasails.registerPage("get-cart", {
       } else {
         console.error("Item does not exist in cart");
       }
+
+      this.calculateTotalPrice()
     },
 
     calculateTotalPrice: function () {
@@ -215,8 +217,9 @@ parasails.registerPage("get-cart", {
     },
 
     emptyCart: function () {
+      window.localStorage.removeItem("audiobaze_cart");
       this.cartItems = [];
-      this.saveCartItems();
+      this.totalItems = 0;
     },
   },
 });
