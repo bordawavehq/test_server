@@ -180,7 +180,7 @@ parasails.registerPage("store", {
     emptyCart: function () {
       window.localStorage.removeItem("audiobaze_cart");
       this.cartItems = [];
-      this.totalItems = 0;
+      this.calculateTotalQuantity()
     },
   },
 });
