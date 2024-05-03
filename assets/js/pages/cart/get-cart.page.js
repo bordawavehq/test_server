@@ -115,6 +115,7 @@ parasails.registerPage("get-cart", {
       }
 
       this.calculateTotalPrice()
+      this.calculateTotalQuantity()
     },
 
     calculateTotalPrice: function () {
