@@ -152,24 +152,22 @@
           <p style="font-weight: 300;">
             Discount : ${{ discountAvailable ? discountAvailable : '0' }}
           </p>
-          <ajax-form action="verifyCoupon" :form-data="formData" @submitted="verifyCoupon()"
-            :form-errors.sync="formErrors" :syncing.sync="syncing" :cloud-error.sync="cloudError">
+          <form id="submitCoupon">
             <div class="input-group input-group-outline my-3">
-              <label for="coupon" class="form-label"></label>
-              <input type="text" class="form-control" placeholder="COUPON" id="coupon" v-model.trim="formData.coupon"
-                required aria-required="true">
+              <!-- <label for="coupon" class="form-label">Coupon</label> -->
+              <input type="text" class="form-control" placeholder="COUPON" id="coupon" required aria-required="true">
             </div>
             <div>
               <p class="text-danger">{{ asyncErrorMsg }}</p>
               <p class="text-succes">{{ asyncSuccessMsg }}</p>
             </div>
             <div>
-              <ajax-button class="btn btn-md bg-gradient-primary" type="submit" :syncing="syncing">Apply Coupon
-                😊</ajax-button>
+              <button class="btn btn-md bg-gradient-primary" type="submit">Apply Coupon
+                😊</button>
               <ajax-button class="btn btn-md bg-gradient-info" type="button" :syncing="syncing"
                 @click="processCheckout()">CheckOut 🛒</ajax-button>
             </div>
-          </ajax-form>
+          </form>
         </div>
       </div>
     </div>
