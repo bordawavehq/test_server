@@ -113,6 +113,8 @@ parasails.registerPage("store", {
       } else {
         console.error("Item does not exist in cart");
       }
+
+      this.calculateTotalQuantity();
     },
 
     increaseQuantity: function (productId) {
@@ -122,6 +124,8 @@ parasails.registerPage("store", {
         itemToUpdate.quantity++; // Increase quantity of the specified item
         this.saveCartItems(); // Save updated cart items to localStorage
       }
+
+      this.calculateTotalQuantity();
     },
 
     decreaseQuantity: function (productId) {
@@ -131,6 +135,8 @@ parasails.registerPage("store", {
         itemToUpdate.quantity--; // Decrease quantity of the specified item
         this.saveCartItems(); // Save updated cart items to localStorage
       }
+
+      this.calculateTotalQuantity();
     },
 
     totalPrice: function () {
@@ -174,6 +180,7 @@ parasails.registerPage("store", {
     emptyCart: function () {
       window.localStorage.removeItem("audiobaze_cart");
       this.cartItems = [];
+      this.totalItems = 0;
     },
   },
 });
