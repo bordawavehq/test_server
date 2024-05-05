@@ -116,9 +116,19 @@ module.exports.routes = {
   "POST /coupon/generate": { action: "coupon/create-coupon" },
 
   // Validate Coupon
-  "POST /coupon/validate": { action: "coupon/validate-coupon" },
+  "POST /coupon/validate": { action: "coupon/verify-coupon" },
+  "PATCH /coupon/verify": { action: "coupon/verify-coupon" },
   "PATCH /coupon/update/:id": { action: "coupon/update-coupon" },
   "DELETE /coupon/:id": { action: "coupon/delete-coupon" },
+
+  // Sync Cart to Server Side
+  "GET /cart": { action: "cart/get-cart" },
+  "POST /cart/sync": { action: "cart/sync-cart" },
+  "DELETE /cart": { action: "cart/empty-cart" },
+
+  // Custom Order
+  "POST /order/custom": { action: "order/create-custom" },
+  "DELETE /order/custom/:id": { action: "order/delete-custom" },
 
   // Transaction
   "GET /order/transaction/:id": { action: "store/view-transaction-process" },
