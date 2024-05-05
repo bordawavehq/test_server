@@ -21,19 +21,24 @@
       <% } %>
         <% if (me && !me.isSuperAdmin) { %>
           <div class="row">
-            <div class="col-lg-12 d-flex justify-content-end">
-              <button @click="checkoutCart()" class="btn bg-gradient-primary btn-lg text-white mx-2" aria-label="Shopping Cart"
-                title="Shopping Cart" id="checkout_btn">
-                <span class="checkout_text">Check Out</span>
-                <i class="material-icons opacity-10" style="font-size: 2em;">
-                  shopping_cart
-                </i>
-                <span id="item-count">{{ totalItems }}</span>
-              </button>
-              <button @click="emptyCart()" class="btn bg-gradient-danger btn-lg text-white mx-2" aria-label="Empty Cart"
-                title="Empty Cart">
-                🚮 Empty Cart
-              </button>
+            <div class="col-lg-12 d-flex justify-content-between align-items-center">
+              <div>
+                <a href="/order/custom" class="btn bg-gradient-info btn-md">Create Custom Order</a>
+              </div>
+              <div>
+                <button @click="checkoutCart()" class="btn bg-gradient-primary btn-lg text-white mx-2" aria-label="Shopping Cart"
+                  title="Shopping Cart" id="checkout_btn">
+                  <span class="checkout_text">Check Out</span>
+                  <i class="material-icons opacity-10" style="font-size: 2em;">
+                    shopping_cart
+                  </i>
+                  <span id="item-count">{{ totalItems }}</span>
+                </button>
+                <button @click="emptyCart()" class="btn bg-gradient-danger btn-lg text-white mx-2" aria-label="Empty Cart"
+                  title="Empty Cart">
+                  🚮 Empty Cart
+                </button>
+              </div>
             </div>
           </div>
           <% } %>
@@ -124,10 +129,11 @@
                                                 <p class="font-weight-bold">Delivery (ETA) <%= data.deliveryETA %>
                                                     Days
                                                 </p>
-                                                <button class="bg-gradient-primary btn text-white toast-btn"
-                                                  data-target="infoToast"
+                                               <% if (me && !me.isSuperAdmin) { %>
+                                                <button class="bg-gradient-primary btn text-white toast-btn" data-target="infoToast"
                                                   @click="addToCart(`<%= JSON.stringify(data) %>`)">Add To
                                                   Cart 🛒 <i class="fas fa-cart"></i></button>
+                                               <% } %>
                                           </div>
                                           <div class="col-md-6">
                                             <div class="review-container">
