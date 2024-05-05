@@ -32,24 +32,16 @@ module.exports = {
     serviceType: {
       type: "string",
       description: "Service Type",
-      isIn: [
-        "spotify",
-        "apple",
-        "youtube",
-        "shazam",
-        "audiomack",
-        "smart-contract",
-        "website",
-        "crypto-projects",
-        "targeted-ads",
-        "bit-bread-artist-grant",
-        "hq-songs",
-        "hq-distros",
-        "software-bot-development",
-        "social-media-ads",
-        "air-play",
-        "itunes-music",
-      ],
+    },
+
+    customServiceType: {
+      type: "string",
+      description: "Custom Service Type",
+    },
+
+    productImage: {
+      type: "string",
+      description: "Product Image URL",
     },
 
     deliveryETA: {
@@ -79,7 +71,7 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    const { req, res } = this;
+    const { res } = this;
     const {
       id,
       productTitle,
@@ -87,9 +79,36 @@ module.exports = {
       detailedProductDescription,
       productFeatures,
       serviceType,
+      customServiceType,
       price,
       deliveryETA,
+      productImage,
     } = inputs;
+
+    sails.log.debug(inputs);
+
+    if (serviceType === "custom") {
+      try {
+        await Product.updateOne({ id }).set({
+          productTitle,
+          productDescription,
+          detailedProductDescription: detailedProductDescription
+            ? encodeURIComponent(detailedProductDescription)
+            : detailedProductDescription,
+          productFeatures,
+          serviceType: customServiceType,
+          productImage,
+          price,
+          deliveryETA,
+        });
+
+        return res.status(200).json({ message: "Successfully edited product" });
+      } catch (error) {
+        sails.log.error(error);
+
+        return res.serverError(error);
+      }
+    }
 
     const logos = {
       spotify: {
@@ -142,7 +161,7 @@ module.exports = {
       },
     };
 
-    const productImage = logos[serviceType].url;
+    const presetLogo = logos[serviceType].url;
 
     try {
       await Product.updateOne({ id }).set({
@@ -152,13 +171,14 @@ module.exports = {
           detailedProductDescription
         ),
         productFeatures,
-        productImage,
+        productImage: presetLogo,
         price,
         deliveryETA,
       });
 
       return exits.success();
     } catch (error) {
+      sails.log.error(error);
       return exits.failed(error);
     }
   },

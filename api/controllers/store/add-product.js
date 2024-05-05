@@ -30,24 +30,16 @@ module.exports = {
     serviceType: {
       type: "string",
       description: "Service Type",
-      isIn: [
-        "spotify",
-        "apple",
-        "youtube",
-        "shazam",
-        "audiomack",
-        "smart-contract",
-        "website",
-        "crypto-projects",
-        "targeted-ads",
-        "bit-bread-artist-grant",
-        "hq-songs",
-        "hq-distros",
-        "software-bot-development",
-        "social-media-ads",
-        "air-play",
-        "itunes-music",
-      ],
+    },
+    
+    customServiceType:{
+      type:"string",
+      description:"Custom Service Type"
+    },
+
+    productImage:{
+      type:'string',
+      description:"Product Image URL"
     },
 
     deliveryETA: {
@@ -82,9 +74,38 @@ module.exports = {
       detailedProductDescription,
       productFeatures,
       serviceType,
+      customServiceType,
       price,
       deliveryETA,
+      productImage
     } = inputs;
+
+    if(serviceType === 'custom'){
+      try {
+        const newProduct = await Product.create({
+          productTitle,
+          productDescription,
+          detailedProductDescription: encodeURIComponent(
+            detailedProductDescription
+          ),
+          productFeatures,
+          serviceType: customServiceType,
+          productImage,
+          price,
+          deliveryETA,
+        }).fetch();
+
+        if (!newProduct) {
+          throw "invalid";
+        }
+
+        return res.redirect("/store");
+      } catch (error) {
+        sails.log.error(error)
+
+        return res.serverError(error)
+      }
+    }
 
     const logos = {
       spotify: {
@@ -137,7 +158,9 @@ module.exports = {
       },
     };
 
-    const productImage = logos[serviceType].url;
+
+
+    const presetLogo = logos[serviceType].url;
 
     try {
       const newProduct = await Product.create({
@@ -148,7 +171,7 @@ module.exports = {
         ),
         productFeatures,
         serviceType,
-        productImage,
+        productImage: presetLogo,
         price,
         deliveryETA,
       }).fetch();
