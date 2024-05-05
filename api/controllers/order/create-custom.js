@@ -46,7 +46,7 @@ module.exports = {
 
       const sanitizedUserRecord = _.omit(userRecord, ["password"]);
 
-      const newCustomRecord = await Custom.create({
+      const newCustomRecord = await Request.create({
         owner: sanitizedUserRecord,
         request: encodeURIComponent(request),
         serviceType,
