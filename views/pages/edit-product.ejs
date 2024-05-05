@@ -1,4 +1,4 @@
-<div id="edit-product" class="m-3" v-cloak>
+<div id="edit-product" class="m-3" v-cloak >
   <h2>
     <%= product.productTitle %>
   </h2>
@@ -13,29 +13,41 @@
       <div class="input-group input-group-outline">
         <label class="form-label">Product Title</label>
         <input type="text" class="form-control" id="productTitle" v-model.trim="formData.productTitle"
-          @change="setProductIdOnChange(`<%= product.id %>`)"  value="<%= product.productTitle %>"
+          @change="setProductIdOnChange(`<%= product.id %>`)" 
            />
       </div>
+      <template v-if="formData.serviceType === 'custom'">
+        <div class="input-group input-group-outline my-2">
+          <!-- <label class="form-label">Product Image (URL)</label> -->
+          <input type="text" class="form-control" placeholder="Product Image (URL)" id="productImage"
+            v-model.trim="formData.productImage" required aria-required />
+        </div>
+        <div class="input-group input-group-outline my-2">
+          <!-- <label class="form-label">Custom Service Type</label> -->
+          <input type="text" class="form-control" placeholder="Custom Service Type" id="customServiceType"
+            v-model.trim="formData.customServiceType" required aria-required />
+        </div>
+      </template>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Product Description</label>
-        <input type="text" class="form-control" id="productDescription" v-model.trim="formData.productDescription"
-          value="<%= product.productDescription %>"   />
+        <input type="text" class="form-control" id="productDescription" v-model.trim="formData.productDescription"  />
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Detailed Product Description</label>
         <textarea type="text" class="form-control" id="detailedProductDescription"
-          v-model.trim="formData.detailedProductDescription" value="<%= product.detailedProductDescription %>" rows="10"
+          v-model.trim="formData.detailedProductDescription"  rows="10"
            ></textarea>
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Product Features</label>
-        <input type="text" class="form-control" value="<%= product.productFeatures %>" id="productFeatures"
+        <input type="text" class="form-control" id="productFeatures"
           v-model.trim="formData.productFeatures"   />
       </div>
       <div class="input-group input-group-outline my-2">
         <label class="form-label">Service Type</label>
         <select type="text" class="form-control" id="serviceType" v-model.trim="formData.serviceType" @change="setProductIdOnChange(`<%= product.id %>`)" required 
           >
+          <option value="custom" selected>Custom Product</option>
           <option value="spotify">Spotify</option>
           <option value="apple">Apple</option>
           <option value="youtube">Youtube</option>
