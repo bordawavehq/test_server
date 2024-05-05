@@ -30,24 +30,6 @@ module.exports = {
     serviceType: {
       type: "string",
       description: "Service Type",
-      isIn: [
-        "spotify",
-        "apple",
-        "youtube",
-        "shazam",
-        "audiomack",
-        "smart-contract",
-        "website",
-        "crypto-projects",
-        "targeted-ads",
-        "bit-bread-artist-grant",
-        "hq-songs",
-        "hq-distros",
-        "software-bot-development",
-        "social-media-ads",
-        "air-play",
-        "itunes-music",
-      ],
     },
 
     deliveryETA: {
