@@ -43,7 +43,8 @@ parasails.registerPage("edit-product", {
 
     editProduct: async function () {
       this.cloudSuccess = true;
-      window.location = "/store";
+
+      window.location.href = '/store'
     },
   },
 });
