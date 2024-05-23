@@ -202,7 +202,7 @@
     width: 100%;
     height: 100%;
     background-color: #fff;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 999999999;
@@ -228,7 +228,7 @@
 </style>
 
 <body class="g-sidenav-show bg-gray-200">
-  <div purpose="page-wrap" style="position:relative;">
+  <div purpose="page-wrap">
     <% if(me){ %>
     <nav class="mobile_nav container-fluid">
       <a href="/dashboard">
@@ -405,7 +405,7 @@
     </aside>
     <% } %>
 
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="position:relative;">
       <% if(me && me.isSuperAdmin === false){ %>
       <div class="support_system">
         <button class="support_btn">
