@@ -7,35 +7,18 @@
 
 module.exports = {
   attributes: {
-    owner:{
-      model:"user"
-    },
-    
-    hash: {
-      type: "string",
-      description: "Blockchain Transaction Hash",
+    owner: {
+      model: "user",
     },
 
-    blockchain: {
-      type: "string",
-      description: "Blockchain",
-    },
-
-    amount: {
+    products: {
       type: "json",
-      description: "Amount of Funds Transfered",
-      example: `{crypto:0.423ETH, dollars: '$34232'}`,
+      description: "Products Paid",
     },
 
-    from: {
-      type: "string",
-      description: "Buyer's Wallet Address",
-    },
-
-    to: {
-      type: "string",
-      description: "Company's receiving Wallet",
+    amountPaid: {
+      type: "number",
+      description: "Amount paid in $ USD",
     },
   },
 };
-
