@@ -215,6 +215,11 @@ without necessarily having a billing card.`,
     balance: {
       type:'number',
       description:"User's Account Balance in USD ($)"
+    },
+
+    receipts:{
+      collection:"receipt",
+      via:'owner'
     }
   },
 };
