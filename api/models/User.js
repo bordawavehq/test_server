@@ -210,6 +210,11 @@ without necessarily having a billing card.`,
     wallets:{
       collection:"wallet",
       via:"owner"
+    },
+
+    balance: {
+      type:'number',
+      description:"User's Account Balance in USD ($)"
     }
   },
 };
