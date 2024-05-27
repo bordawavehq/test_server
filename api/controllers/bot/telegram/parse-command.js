@@ -109,7 +109,7 @@ module.exports = {
     const verifyETHhash = async (txhash) => {
       const test_net = "https://api-sepolia.etherscan.io";
       const main_net = "https://api.etherscan.io";
-      const apiKey = "XJRSJ2T3QI44NC2TP1MJNQ8PB7J515DPIM";
+      const apiKey = process.env.ETHEXPLORER_KEY;
       const endpoint = `${test_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
       try {
         const response = await axios.get(endpoint);
@@ -127,7 +127,7 @@ module.exports = {
 
     async function findEthPayment(chatId, buyerWallet, txHash) {
       const companyWallet = "0xF2255c5F4dd0a2dfC4B65bab08EE27CA58333362";
-      const API_KEY = "XJRSJ2T3QI44NC2TP1MJNQ8PB7J515DPIM";
+      const API_KEY = process.env.ETHEXPLORER_KEY;
       const testnet = "https://api-sepolia.etherscan.io/api";
       const mainnet = "https://api.etherscan.io/api";
       const endpoint = `${testnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
