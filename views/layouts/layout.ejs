@@ -51,6 +51,7 @@
   <link id="pagestyle" href="/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <link href="favicon.ico" type="image/ico" />
   <link rel="stylesheet" href="/css/custom.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!--STYLES END-->
 </head>
 
@@ -197,6 +198,33 @@
     box-shadow: 0px 0px 30px 15px rgba(0, 0, 0, 0.1);
   }
 
+  .telegram_verification {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .telegram_message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .telegram_message a {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
 </style>
 
 <body class="g-sidenav-show bg-gray-200">
@@ -247,7 +275,7 @@
     </nav>
     <%} %>
 
-    <% if(me){ %>
+    <% if(me && me?.telegram[0]?.isVerified){ %>
     <aside
       class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
       id="sidenav-main">
@@ -377,7 +405,7 @@
     </aside>
     <% } %>
 
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" style="position:relative;">
       <% if(me && me.isSuperAdmin === false){ %>
       <div class="support_system">
         <button class="support_btn">
@@ -397,9 +425,62 @@
         </div>
       </div>
       <% }%>
+
+      <% if(me && !me?.telegram[0]?.isVerified) { %>
+      <div class="telegram_verification">
+        <div class="telegram_message">
+          <h3>Telegram Verification Required</h3>
+          <p>Verify Your Email Address Using the Audiobaze Telegram Bot</p>
+          <% if(me.emailProofToken){ %>
+          <p>
+            <% if(me && !me?.telegram[0]?.isVerified) { %>
+            <div class="telegram_verification">
+              <div class="telegram_message">
+                <h3>Telegram Verification Required</h3>
+                <p>Verify Your Email Address Using the Audiobaze Telegram Bot</p>
+                <% if(me.emailProofToken){ %>
+                <p>Verification Token:<%= me.emailProofToken %></p>
+                <% } %>
+                <a href="https://t.me/audiobaze_admin_bot" class="btn bg-gradient-primary btn-md"
+                >Audiobaze
+                  Admin Bot <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                    <g fill="none">
+                      <g clip-path="url(#akarIconsTelegramFill0)">
+                        <path fill="#fff" fill-rule="evenodd"
+                          d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12S5.373 0 12 0s12 5.373 12 12M12.43 8.859c-1.167.485-3.5 1.49-6.998 3.014c-.568.226-.866.447-.893.663c-.046.366.412.51 1.034.705c.085.027.173.054.263.084c.613.199 1.437.432 1.865.441c.389.008.823-.152 1.302-.48c3.268-2.207 4.955-3.322 5.061-3.346c.075-.017.179-.039.249.024c.07.062.063.18.056.212c-.046.193-1.84 1.862-2.77 2.726c-.29.269-.495.46-.537.504c-.094.097-.19.19-.282.279c-.57.548-.996.96.024 1.632c.49.323.882.59 1.273.856c.427.291.853.581 1.405.943c.14.092.274.187.405.28c.497.355.944.673 1.496.623c.32-.03.652-.331.82-1.23c.397-2.126 1.179-6.73 1.36-8.628a2.111 2.111 0 0 0-.02-.472a.506.506 0 0 0-.172-.325c-.143-.117-.365-.142-.465-.14c-.451.008-1.143.249-4.476 1.635"
+                          clip-rule="evenodd" />
+                      </g>
+                      <defs>
+                        <clipPath id="akarIconsTelegramFill0">
+                          <path fill="#fff" d="M0 0h24v24H0z" />
+                        </clipPath>
+                      </defs>
+                    </g>
+                  </svg></a>
+              </div>
+            </div>
+            <% } %><%= me.emailProofToken %></p>
+          <% } %>
+          <a href="https://t.me/audiobaze_admin_bot" class="btn bg-gradient-primary btn-md" target="_blank">Audiobaze
+            Admin Bot <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+              <g fill="none">
+                <g clip-path="url(#akarIconsTelegramFill0)">
+                  <path fill="#fff" fill-rule="evenodd"
+                    d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12S5.373 0 12 0s12 5.373 12 12M12.43 8.859c-1.167.485-3.5 1.49-6.998 3.014c-.568.226-.866.447-.893.663c-.046.366.412.51 1.034.705c.085.027.173.054.263.084c.613.199 1.437.432 1.865.441c.389.008.823-.152 1.302-.48c3.268-2.207 4.955-3.322 5.061-3.346c.075-.017.179-.039.249.024c.07.062.063.18.056.212c-.046.193-1.84 1.862-2.77 2.726c-.29.269-.495.46-.537.504c-.094.097-.19.19-.282.279c-.57.548-.996.96.024 1.632c.49.323.882.59 1.273.856c.427.291.853.581 1.405.943c.14.092.274.187.405.28c.497.355.944.673 1.496.623c.32-.03.652-.331.82-1.23c.397-2.126 1.179-6.73 1.36-8.628a2.111 2.111 0 0 0-.02-.472a.506.506 0 0 0-.172-.325c-.143-.117-.365-.142-.465-.14c-.451.008-1.143.249-4.476 1.635"
+                    clip-rule="evenodd" />
+                </g>
+                <defs>
+                  <clipPath id="akarIconsTelegramFill0">
+                    <path fill="#fff" d="M0 0h24v24H0z" />
+                  </clipPath>
+                </defs>
+              </g>
+            </svg></a>
+        </div>
+      </div>
+      <% } %>
       <%- body %>
     </main>
-
 
     <% /* Client-side JavaScript========================Scripts can be hard-coded as «script» tags,
                     automatically injected by the asset pipeline between "SCRIPTS" and "SCRIPTS END" , or both.
@@ -933,6 +1014,8 @@
         closeNav()
       })
 
+    </script>
+    <script>
     </script>
 
     <% if(me && !me.isSuperAdmin){ %>

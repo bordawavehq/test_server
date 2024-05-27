@@ -9,20 +9,20 @@
  */
 
 module.exports.policies = {
-
-  '*': 'is-logged-in',
+  "*": "is-logged-in",
 
   // Bypass the `is-logged-in` policy for:
-  'entrance/*': true,
-  'account/logout': true,
-  'view-homepage-or-redirect': true,
-  'view-faq': true,
-  'view-contact': true,
-  'legal/view-terms': true,
-  'legal/view-privacy': true,
-  'deliver-contact-form-message': true,
+  "entrance/*": true,
+  "account/logout": true,
+  "view-homepage-or-redirect": true,
+  "view-faq": true,
+  "view-contact": true,
+  "legal/view-terms": true,
+  "legal/view-privacy": true,
+  "deliver-contact-form-message": true,
   "key/generate-license": "is-super-admin",
-  "bot/profile/get-user": "is-bot-user" ,
+  "bot/profile/get-user": "is-bot-user",
   "bot/auth/bot-login": true,
-  "system/status":true
+  "bot/telegram/parse-command": true,
+  "system/status": true,
 };
