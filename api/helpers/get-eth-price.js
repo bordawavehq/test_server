@@ -19,7 +19,7 @@ module.exports = {
   },
 
   fn: async function ({tokenAmount}) {
-    const API_KEY = "XJRSJ2T3QI44NC2TP1MJNQ8PB7J515DPIM";
+    const API_KEY = process.env.ETHEXPLORER_KEY;
     const testnet = "https://api-sepolia.etherscan.io/api";
     const mainnet = "https://api.etherscan.io/api";
     const endpoint = `${testnet}?module=stats&action=ethprice&apikey=${API_KEY}`;

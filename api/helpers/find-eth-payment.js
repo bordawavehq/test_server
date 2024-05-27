@@ -29,7 +29,7 @@ module.exports = {
 
   fn: async function ({ chatId, buyerWallet, txHash }) {
     const companyWallet = "0xF2255c5F4dd0a2dfC4B65bab08EE27CA58333362";
-    const API_KEY = "XJRSJ2T3QI44NC2TP1MJNQ8PB7J515DPIM";
+    const API_KEY = process.env.ETHEXPLORER_KEY;
     const testnet = "https://api-sepolia.etherscan.io/api";
     const mainnet = "https://api.etherscan.io/api";
     const endpoint = `${testnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
