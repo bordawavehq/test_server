@@ -1160,7 +1160,7 @@ module.exports = {
         await sails.helpers.sendMessage(
           chat.id,
           `Successfully Generated Receipt 📝\n\n ${
-            user.fullName
+            updatedUser.fullName
           }\n ${products.join("\n\n")} \nTotal Paid: $${receipt.amountPaid}`
         );
       } catch (error) {
