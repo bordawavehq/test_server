@@ -42,7 +42,7 @@
   <% if (order.status==="completed" ) { %>
     <% if (!me.isSuperAdmin) { %>
       <h3>Transaction Completed</h3>
-      <p>Your License Key is Delivered to your Email Address: <%= me?.emailAddress %>
+      <p>This Transaction has been confirmed, Your paid service will be delivered at the time stated in the product description
       </p>
       <% } else { %>
         <p>Transaction ID: <%= order.transactionId %>
