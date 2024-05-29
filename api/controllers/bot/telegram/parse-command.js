@@ -110,7 +110,7 @@ module.exports = {
       const test_net = "https://api-sepolia.etherscan.io";
       const main_net = "https://api.etherscan.io";
       const apiKey = process.env.ETHEXPLORER_KEY;
-      const endpoint = `${test_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
+      const endpoint = `${main_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
       try {
         const response = await axios.get(endpoint);
         const data = response.data;
@@ -130,7 +130,7 @@ module.exports = {
       const API_KEY = process.env.ETHEXPLORER_KEY;
       const testnet = "https://api-sepolia.etherscan.io/api";
       const mainnet = "https://api.etherscan.io/api";
-      const endpoint = `${testnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
+      const endpoint = `${mainnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
 
       function weiToEth(wei) {
         const weiBigInt = BigInt(wei);
