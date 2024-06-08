@@ -314,7 +314,9 @@ module.exports = {
     if (type === "private" && (command === "/help" || command === "help")) {
       await sails.helpers.sendMessage(
         chat.id,
-        `Oh! You need some help with the command list? 😅 I gotchu \n/start - Start Audiobaze Store\n/dashboard - Get Dashboard Information\nAn Alternative is to use the Store Right here in Telegram\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store`
+        `Oh! You need some help with the command list? 😅 I gotchu \n/start - Start Audiobaze Store\n/dashboard - Get Dashboard Information\nstart - Start Audiobaze Store\ndashboard - Get Dashboard Information\nhelp - Get Bot Command List\nstore - Get Audiobaze Products\nverifyToken - Verify Email Address Token\nsetwallet - Set a new wallet address\nverifyTx - verify crypto transactions\nmywallets - see your wallets\norders - see your audiobaze orders\nbalance - Check your current balance\nmytransactions - Check Your Transactions\npayfororder - pay for order from your audiobaze balance\nhelp - to get all help commands
+
+        An Alternative is to use the Store Right here in Telegram\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store`
       );
     }
 
