@@ -110,7 +110,7 @@ module.exports = {
       const test_net = "https://api-sepolia.etherscan.io";
       const main_net = "https://api.etherscan.io";
       const apiKey = process.env.ETHEXPLORER_KEY;
-      const endpoint = `${test_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
+      const endpoint = `${main_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
       try {
         const response = await axios.get(endpoint);
         const data = response.data;
@@ -130,7 +130,7 @@ module.exports = {
       const API_KEY = process.env.ETHEXPLORER_KEY;
       const testnet = "https://api-sepolia.etherscan.io/api";
       const mainnet = "https://api.etherscan.io/api";
-      const endpoint = `${testnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
+      const endpoint = `${mainnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
 
       function weiToEth(wei) {
         const weiBigInt = BigInt(wei);
@@ -703,7 +703,7 @@ module.exports = {
               order.orderDate
             }\nStatus: ${transactionStatus(order.status)}\nPrice:$${
               order.amountPaid
-            }\n\nSet Your Paying Wallet Address: using /setwallet\nTo verify transaction if payment made /verify:TransactionID `
+            }\n\nSet Your Paying Wallet Address: using /setwallet\nTo verify transaction if payment made /verifytx:TransactionID `
           );
         });
 
@@ -1117,7 +1117,7 @@ module.exports = {
             remainder
           ).toFixed(
             2
-          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the Transaction\n\nAudiobaze Wallets\nUSDT (TRC20 Network): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw\nBTC : 1GqD8jni8K9UDT5kVT9571cgvptxEGAXxS\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nLTC: ltc1q6f7cftvd4je4f5mh0arz7my69rp0ccrp38zr79`
+          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the Transaction\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f`
         );
 
         return;
