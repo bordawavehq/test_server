@@ -314,7 +314,7 @@ module.exports = {
     if (type === "private" && (command === "/help" || command === "help")) {
       await sails.helpers.sendMessage(
         chat.id,
-        `Oh! You need some help with the command list? 😅 I gotchu \n/start - Start Audiobaze Store\n/dashboard - Get Dashboard Information\nstart - Start Audiobaze Store\ndashboard - Get Dashboard Information\nhelp - Get Bot Command List\nstore - Get Audiobaze Products\nverifyToken - Verify Email Address Token\nsetwallet - Set a new wallet address\nverifyTx - verify crypto transactions\nmywallets - see your wallets\norders - see your audiobaze orders\nbalance - Check your current balance\nmytransactions - Check Your Transactions\npayfororder - pay for order from your audiobaze balance\nhelp - to get all help commands
+        `Oh! You need some help with the command list? 😅 I gotchu \n/start - Start Audiobaze Store\n/dashboard - Get Dashboard Information\n/help - Get Bot Command List\n/store - Get Audiobaze Products\n/verifyToken - Verify Email Address Token\n/setwallet - Set a new wallet address\n/verifyTx - verify crypto transactions\n/mywallets - see your wallets\n/orders - see your audiobaze orders\n/balance - Check your current balance\n/mytransactions - Check Your Transactions\n/payfororder - pay for order from your audiobaze balance\n/help - get command list
 
         An Alternative is to use the Store Right here in Telegram\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store`
       );
@@ -327,7 +327,7 @@ module.exports = {
       if (!telegramUserRecord) {
         await sails.helpers.sendMessage(
           chat.id,
-          `Oh Hello! You are kind of new here aren't you?😬\nI can tell cause I have no records of you verifying your audiobaze account... \nPlease provide the verification token in the format below\ne.g. verifyToken:SDHH23\n Don't have a verification Token? Provide your email in the format below\n email:support@audiobaze.store  If you don't have an Audiobaze Account?\nCreate one on https://t.me/audiobaze_admin_bot/audiobaze_store`
+          `Oh Hello! You are kind of new here aren't you?😬\nI can tell cause I have no records of you verifying your audiobaze account... \nPlease provide the verification token in the format below\ne.g. verifyToken:SDHH23\nDon't have a verification token on your dashboard? Provide your email in the format below\n email:support@audiobaze.store  If you don't have an Audiobaze Account?\nCreate one on https://t.me/audiobaze_admin_bot/audiobaze_store`
         );
 
         return;
