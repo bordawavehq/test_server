@@ -488,7 +488,7 @@ module.exports = {
       } else {
         await sails.helpers.sendMessage(
           chat.id,
-          `I just looked through our database and found I already sent a verification token to your dashboard... Could you take a look to confirm? 😊\nOpen up your dashboard here\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store\nVerify your token using the verifyToken:token command\ne.g. verifyToken:AC130B1`
+          `I just looked through our database and found I already sent a verification token to your dashboard... Could you take a look to confirm? 😊\nOpen up your dashboard here\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store\nVerify your token using verifyToken:token\ne.g. verifyToken:AC130B1`
         );
       }
     }
