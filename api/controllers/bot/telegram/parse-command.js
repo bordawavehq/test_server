@@ -327,7 +327,7 @@ module.exports = {
       if (!telegramUserRecord) {
         await sails.helpers.sendMessage(
           chat.id,
-          `Oh Hello! You are kind of new here aren't you?😬\nI can tell cause I have no records of you verifying your audiobaze account... \nPlease provide the verification token in the format below\ne.g. verifyToken:SDHH23\nDon't have a verification token on your dashboard? Provide your email in the format below\n email:support@audiobaze.store  If you don't have an Audiobaze Account?\nCreate one on https://t.me/audiobaze_admin_bot/audiobaze_store`
+          `Oh Hello! You are kind of new here aren't you?😬\nI can tell cause I have no records of you verifying your audiobaze account... \nPlease provide the verification token in the format below\ne.g. verifyToken:SDHH23\nDon't have a verification token on your dashboard? Provide your email to the bot in the format below\nemail:support@audiobaze.store  If you don't have an Audiobaze Account?\nCreate one on https://t.me/audiobaze_admin_bot/audiobaze_store`
         );
 
         return;
