@@ -488,7 +488,7 @@ module.exports = {
       } else {
         await sails.helpers.sendMessage(
           chat.id,
-          `I just looked through our database and found I already sent a verification token to your dashboard... Could you take a look to confirm? 😊\nOpen up your dashboard here\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store`
+          `I just looked through our database and found I already sent a verification token to your dashboard... Could you take a look to confirm? 😊\nOpen up your dashboard here\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store\nVerify your token using the verifyToken:token command\ne.g. verifyToken:AC130B1`
         );
       }
     }
@@ -1006,18 +1006,23 @@ module.exports = {
     }
 
     if (type === "private" && command.includes("balance")) {
-      await validateUser(chat.id);
-      const user = await getUser(chat.id);
+      try {
+        await validateUser(chat.id);
+        const user = await getUser(chat.id);
 
-      await sails.helpers.sendMessage(
-        chat.id,
-        `Hello ${
-          user.fullName
-        }\nYour Current Account Balance: $${user.balance.toFixed(
-          2
-        )}\nTo make payment for Audiobaze Products, use the /payfororder: command.`
-      );
-      return;
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Hello ${
+            user.fullName
+          }\nYour Current Account Balance: $${user.balance.toFixed(
+            2
+          )}\nTo make payment for Audiobaze Products, use the /payfororder: command.`
+        );
+
+        return;
+      } catch (error) {
+        return;
+      }
     }
 
     if (type === "private" && command.includes("mytransactions")) {
