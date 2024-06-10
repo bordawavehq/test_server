@@ -236,7 +236,32 @@ module.exports = {
       return transaction;
     }
 
-    const verifyTronHash = async (txHash) => {};
+    async function verifyTronHash(txHash) {
+      try {
+        const response = await axios.get(
+          `https://apilist.tronscanapi.com/api/transaction-info?hash=${txHash}`,
+          {
+            headers: {
+              "TRON-PRO-API-KEY": process.env.TRONEXPLORER_KEY,
+            },
+          }
+        );
+
+        const data = response.data;
+
+        if (!data) {
+          return null;
+        }
+
+        if (data.contractRet !== "SUCCESS") {
+          return null;
+        }
+
+        return data["tokenTransferInfo"];
+      } catch (error) {
+        throw Error(error);
+      }
+    }
 
     const commandParser = () => {
       if (update.message) {
@@ -795,7 +820,7 @@ module.exports = {
       }
     }
 
-    if (type === "private" && command.includes("/setwallet")) {
+    if (type === "private" && command.includes("setwallet")) {
       function extractWalletAddress(inputText) {
         const pattern = /setwallet:\s*([a-zA-Z0-9]+)/;
         const match = inputText.match(pattern);
@@ -963,6 +988,8 @@ module.exports = {
                   2
                 )}`
               );
+
+              return;
             } catch (error) {
               sails.log.error(error);
               await sails.helpers.sendMessage(
@@ -982,6 +1009,105 @@ module.exports = {
                 : ""
             }`
           );
+        }
+        if (blockchain === "TRON") {
+          const transaction = await verifyTronHash(hash);
+
+          if (!transaction) {
+            await sails.helpers.sendMessage(
+              chat.id,
+              `I couldn't verify this transaction on ${blockchain} with the Wallet Address:${address}... ${
+                wallets.length > 1
+                  ? i !== wallets.length - 1
+                    ? "Will attempt other blockchains of wallets you have stored"
+                    : "I have tried all wallets you have stored on audiobaze store"
+                  : ""
+              }`
+            );
+          }
+
+          sails.log.debug(transaction);
+
+          if (transaction) {
+            const {
+              to_address,
+              from_address,
+              amount_str,
+              symbol,
+              contract_address,
+              name,
+              type,
+              tokenType,
+            } = transaction;
+
+            if (
+              from_address !== address ||
+              to_address !== "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG"
+            ) {
+              await sails.helpers.sendMessage(
+                chat.id,
+                `Transaction Hash doesn't have record of a transaction from your wallet address to Audiobaze Store's Wallet Address❌`
+              );
+            }
+
+            if (
+              symbol === "USDT" &&
+              from_address === address &&
+              to_address === "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG" &&
+              contract_address === "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" &&
+              name === "Tether USD" &&
+              type === "Transfer" &&
+              tokenType === "trc20"
+            ) {
+              const amountPaid = parseInt(amount_str) / 1000000;
+              const newBalance = user.balance + amountPaid;
+
+              const transactionRecord = await Transaction.findOne({
+                hash,
+                from: from_address,
+                to: "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG",
+              });
+
+              if (transactionRecord) {
+                await sails.helpers.sendMessage(
+                  chat.id,
+                  `This Transaction has already been verified and your balance updated😉`
+                );
+
+                return;
+              }
+
+              const newUser = await User.updateOne({ id: user.id }).set({
+                balance: newBalance,
+              });
+
+              await Transaction.create({
+                hash,
+                blockchain,
+                amount: {
+                  dollars: amountPaid,
+                  crypto: "NA",
+                },
+                from: from_address,
+                to: "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG",
+              });
+
+              await sails.helpers.sendMessage(
+                chat.id,
+                `Successfully located transaction on ${blockchain}!\nAmount Paid: ${amountPaid}\nTxHash:${hash}
+                  `
+              );
+
+              await sails.helpers.sendMessage(
+                chat.id,
+                `Hello User\nYour Transaction has been confirmed and your Audiobaze Store Wallet Balance is $${newUser.balance.toFixed(
+                  2
+                )}`
+              );
+
+              return;
+            }
+          }
         }
       }
     }
