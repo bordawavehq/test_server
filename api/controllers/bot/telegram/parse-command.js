@@ -63,7 +63,7 @@ module.exports = {
         if (!telegramRecord) {
           await sails.helpers.sendMessage(
             chatId,
-            `Sorry You can't access that for the following reasons\n1. You are new here! \n2. You are not on Audiobaze's System as a Verfied User\n \nPlease provide your verification token in the format below\ne.g. verifyToken:SD2F1S`
+            `Sorry You can't access that for the following reasons\n1. You are new here! \n2. You are not on Audiobaze's System as a Verfied User\n \nPlease provide your verification token in the format below\ne.g. verifytoken:SD2F1S`
           );
         }
 
@@ -110,7 +110,7 @@ module.exports = {
       const test_net = "https://api-sepolia.etherscan.io";
       const main_net = "https://api.etherscan.io";
       const apiKey = process.env.ETHEXPLORER_KEY;
-      const endpoint = `${main_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
+      const endpoint = `${test_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
       try {
         const response = await axios.get(endpoint);
         const data = response.data;
@@ -130,7 +130,7 @@ module.exports = {
       const API_KEY = process.env.ETHEXPLORER_KEY;
       const testnet = "https://api-sepolia.etherscan.io/api";
       const mainnet = "https://api.etherscan.io/api";
-      const endpoint = `${mainnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
+      const endpoint = `${testnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
 
       function weiToEth(wei) {
         const weiBigInt = BigInt(wei);
@@ -236,6 +236,8 @@ module.exports = {
       return transaction;
     }
 
+    const verifyTronHash = async (txHash) => {};
+
     const commandParser = () => {
       if (update.message) {
         return {
@@ -314,8 +316,10 @@ module.exports = {
     if (type === "private" && (command === "/help" || command === "help")) {
       await sails.helpers.sendMessage(
         chat.id,
-        `Oh! You need some help with the command list? 😅 I gotchu \n/start - Start Audiobaze Store\n/dashboard - Get Dashboard Information\n/help - Get Bot Command List\n/store - Get Audiobaze Products\n/verifyToken - Verify Email Address Token\n/setwallet - Set a new wallet address\n/verifyTx - verify crypto transactions\n/mywallets - see your wallets\n/orders - see your audiobaze orders\n/balance - Check your current balance\n/mytransactions - Check Your Transactions\n/payfororder - pay for order from your audiobaze balance\n/help - get command list
+        `Oh! You need some help with the command list? 😅 I gotchu \n/start - Start Audiobaze Store\n/dashboard - Get Dashboard Information\n/help - Get Bot Command List\n/store - Get Audiobaze Products\n/verifytoken - Verify Email Address Token\n/setwallet - Set a new wallet address\n/verifytx - verify crypto transactions\n/mywallets - see your wallets\n/orders - see your audiobaze orders\n/balance - Check your current balance\n/mytransactions - Check Your Transactions\n/payfororder - pay for order from your audiobaze balance\n/help - get command list\n
+        Commands are to be used the exact same way as described by the bot.
 
+      
         An Alternative is to use the Store Right here in Telegram\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store`
       );
     }
@@ -327,7 +331,7 @@ module.exports = {
       if (!telegramUserRecord) {
         await sails.helpers.sendMessage(
           chat.id,
-          `Oh Hello! You are kind of new here aren't you?😬\nI can tell cause I have no records of you verifying your audiobaze account... \nPlease provide the verification token in the format below\ne.g. verifyToken:SDHH23\nDon't have a verification token on your dashboard? Provide your email to the bot in the format below\nemail:support@audiobaze.store  If you don't have an Audiobaze Account?\nCreate one on https://t.me/audiobaze_admin_bot/audiobaze_store`
+          `Oh Hello! You are kind of new here aren't you?😬\nI can tell cause I have no records of you verifying your audiobaze account... \nPlease provide the verification token in the format below\ne.g. verifytoken:SDHH23\nDon't have a verification token on your dashboard? Provide your email to the bot in the format below\nemail:support@audiobaze.store  If you don't have an Audiobaze Account?\nCreate one on https://t.me/audiobaze_admin_bot/audiobaze_store`
         );
 
         return;
@@ -348,7 +352,7 @@ module.exports = {
       if (!telegramRecord) {
         await sails.helpers.sendMessage(
           chat.id,
-          `Sorry 😅\nYou don't seem to have a verified account on Audiobaze\nHow about we fix that?\nCould you verify account using the verifyToken commnand? \ne.g.verifyToken:DH22AS\nOr you could request for a token by providing your email address\ne.g. email:support@audiobaze.store`
+          `Sorry 😅\nYou don't seem to have a verified account on Audiobaze\nHow about we fix that?\nCould you verify account using the verifytoken commnand? \ne.g.verifytoken:DH22AS\nOr you could request for a token by providing your email address\ne.g. email:support@audiobaze.store`
         );
 
         return;
@@ -460,7 +464,7 @@ module.exports = {
           setTimeout(async () => {
             await sails.helpers.sendMessage(
               chat.id,
-              `Hello ${userRecord.fullName}!\nFound Your Email: ${isEmail}\nA verification token is currently available on your Audiobaze Dashboard,\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store to login to your dashboard\nPlease provide the token\ne.g. verifyToken:12345678`
+              `Hello ${userRecord.fullName}!\nFound Your Email: ${isEmail}\nA verification token is currently available on your Audiobaze Dashboard,\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store to login to your dashboard\nPlease provide the token\ne.g. verifytoken:12345678`
             );
           }, 3000);
         } catch (error) {
@@ -488,16 +492,16 @@ module.exports = {
       } else {
         await sails.helpers.sendMessage(
           chat.id,
-          `I just looked through our database and found I already sent a verification token to your dashboard... Could you take a look to confirm? 😊\nOpen up your dashboard here\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store\nVerify your token using verifyToken:token\ne.g. verifyToken:AC130B1`
+          `I just looked through our database and found I already sent a verification token to your dashboard... Could you take a look to confirm? 😊\nOpen up your dashboard here\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store\nVerify your token using verifytoken:token\ne.g. verifytoken:AC130B1`
         );
       }
     }
 
-    if (type === "private" && command.includes("verifyToken")) {
+    if (type === "private" && command.includes("verifytoken")) {
       await sails.helpers.sendMessage(chat.id, `Verification in progress...`);
       function extractToken(token) {
         try {
-          const regex = /verifyToken:(.*)/;
+          const regex = /verifytoken:(.*)/;
           const match = token.match(regex);
           return match[1];
         } catch (error) {
@@ -782,7 +786,7 @@ module.exports = {
         setTimeout(async () => {
           await sails.helpers.sendMessage(
             chat.id,
-            `Hello ${adminRecord.fullName}!\nFound Your Email: ${adminRecord.emailAddress}\nA verification token is currently available on your Audiobaze Dashboard,\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store to login to your dashboard\nPlease provide the token\ne.g. verifyToken:12345678`
+            `Hello ${adminRecord.fullName}!\nFound Your Email: ${adminRecord.emailAddress}\nA verification token is currently available on your Audiobaze Dashboard,\nTap/Click here https://t.me/audiobaze_admin_bot/audiobaze_store to login to your dashboard\nPlease provide the token\ne.g. verifytoken:12345678`
           );
         }, 2000);
       } catch (error) {
@@ -925,8 +929,6 @@ module.exports = {
               chat.id,
               `Hash Validation on Etherscan 💎 Failed ❌`
             );
-
-            return;
           }
           function weiToEth(wei) {
             const weiBigInt = BigInt(wei);
@@ -965,10 +967,17 @@ module.exports = {
               );
             }
           }
+
+          await sails.helpers.sendMessage(
+            chat.id,
+            `I couldn't verify this transaction on ${blockchain} with the Wallet Address:${address}... ${
+              wallets.length > 1
+                ? "Will attempt other blockchains of wallets you have stored"
+                : ""
+            }`
+          );
         }
       }
-
-      return;
     }
 
     if (type === "private" && command.includes("mywallets")) {
