@@ -1109,6 +1109,18 @@ module.exports = {
             }
           }
         }
+        if (blockchain === "BTC") {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `Transaction Verification for ${blockchain} is in development, verify transactions on this chain with the Audiobaze Admin`
+          );
+        }
+        if (blockchain === "LTC") {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `Transaction Verification for ${blockchain} is in development, verify transactions on this chain with the Audiobaze Admin`
+          );
+        }
       }
     }
 
