@@ -795,7 +795,7 @@ module.exports = {
       }
     }
 
-    if (type === "private" && command.includes("setwallet")) {
+    if (type === "private" && command.includes("/setwallet")) {
       function extractWalletAddress(inputText) {
         const pattern = /setwallet:\s*([a-zA-Z0-9]+)/;
         const match = inputText.match(pattern);
@@ -859,11 +859,15 @@ module.exports = {
         return;
       }
 
+      // Find User Record
+      const tgUser = await Telegram.findOne({ telegramChatId: chat.id });
+
       // Create new Wallet Record
       try {
         const walletRecord = await Wallet.findOne({
           address: walletAddress,
           blockchain: walletType,
+          owner: tgUser.owner,
         });
 
         if (walletRecord) {
