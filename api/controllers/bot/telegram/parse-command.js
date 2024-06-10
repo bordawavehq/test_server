@@ -1042,7 +1042,7 @@ module.exports = {
 
             if (
               from_address !== address ||
-              to_address !== "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG"
+              to_address !== "TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw"
             ) {
               await sails.helpers.sendMessage(
                 chat.id,
@@ -1053,7 +1053,7 @@ module.exports = {
             if (
               symbol === "USDT" &&
               from_address === address &&
-              to_address === "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG" &&
+              to_address === "TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw" &&
               contract_address === "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" &&
               name === "Tether USD" &&
               type === "Transfer" &&
@@ -1065,7 +1065,7 @@ module.exports = {
               const transactionRecord = await Transaction.findOne({
                 hash,
                 from: from_address,
-                to: "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG",
+                to: "TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw",
               });
 
               if (transactionRecord) {
@@ -1089,7 +1089,7 @@ module.exports = {
                   crypto: "NA",
                 },
                 from: from_address,
-                to: "TWyTpjkmqn2UDMakFdsmuf6s63fRzp2KyG",
+                to: "TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw",
               });
 
               await sails.helpers.sendMessage(
