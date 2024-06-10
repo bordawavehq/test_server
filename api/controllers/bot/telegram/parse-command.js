@@ -976,7 +976,9 @@ module.exports = {
             chat.id,
             `I couldn't verify this transaction on ${blockchain} with the Wallet Address:${address}... ${
               wallets.length > 1
-                ? "Will attempt other blockchains of wallets you have stored"
+                ? i !== wallets.length - 1
+                  ? "Will attempt other blockchains of wallets you have stored"
+                  : "I have tried all wallets you have stored on audiobaze store"
                 : ""
             }`
           );
@@ -1096,7 +1098,7 @@ module.exports = {
       return;
     }
 
-    if (type === "private" && command.includes("payfororder")) {
+    if (type === "private" && command.includes("/payfororder")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
       const txId = getPayForOrderTx(command);
