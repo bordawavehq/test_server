@@ -297,6 +297,16 @@ module.exports = {
           data: update.callback_query.data,
         };
       }
+
+      return {
+        type: "unspecified",
+        command: "unknown",
+        chat: {
+          id: update.message.chat.id,
+          firstName: update.message.chat.first_name,
+          username: update?.message?.chat?.username,
+        },
+      };
     };
 
     const emailExtract = (emailAddress) => {
@@ -322,7 +332,7 @@ module.exports = {
           chatId,
           `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
         );
-        return;
+        return null;
       }
       const userRecord = await User.findOne({ id: telegramRecord.owner });
 
@@ -332,7 +342,7 @@ module.exports = {
           chatId,
           `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
         );
-        return;
+        return null;
       }
 
       const sanitizedUser = _.omit(userRecord, ["password"]);
@@ -1240,6 +1250,16 @@ module.exports = {
     if (type === "private" && command.includes("mywallets")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
       const wallets = await Wallet.find({ owner: user.id });
       if (wallets.length === 0) {
         await sails.helpers.sendMessage(
