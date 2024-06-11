@@ -35,7 +35,7 @@ module.exports = {
         sails.log.info(res.data);
       })
       .catch((error) => {
-        sails.log.info(error.data);
+        sails.log.info(error);
       });
   },
 };
