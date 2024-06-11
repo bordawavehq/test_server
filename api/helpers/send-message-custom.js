@@ -14,6 +14,10 @@ module.exports = {
       type: "string",
       description: "Message to send to user",
     },
+    keyboard: {
+      type: "json",
+      description: "Keyboard Markup",
+    },
   },
 
   exits: {
@@ -22,7 +26,7 @@ module.exports = {
     },
   },
 
-  fn: async function ({ chatId, text }) {
+  fn: async function ({ chatId, text, keyboard }) {
     const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 
@@ -30,6 +34,7 @@ module.exports = {
       .post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatId,
         text: text,
+        reply_markup: keyboard,
       })
       .then((res) => {
         sails.log.info(res.data);

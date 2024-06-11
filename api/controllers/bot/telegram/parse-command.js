@@ -41,7 +41,18 @@ module.exports = {
       "mytransactions",
       "payfororder",
       "/payfororder",
+      "/custom",
+      "custom",
     ];
+
+    const inlineKeyboard = {
+      inline_keyboard: [
+        [
+          { text: "Button 1", callback_data: "button1" },
+          { text: "Button 2", callback_data: "button2" },
+        ],
+      ],
+    };
 
     function isValidCommand(command, botCommandList) {
       for (i = 0; i < botCommandList.length; i++) {
@@ -110,7 +121,7 @@ module.exports = {
       const test_net = "https://api-sepolia.etherscan.io";
       const main_net = "https://api.etherscan.io";
       const apiKey = process.env.ETHEXPLORER_KEY;
-      const endpoint = `${test_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
+      const endpoint = `${main_net}/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${apiKey}`;
       try {
         const response = await axios.get(endpoint);
         const data = response.data;
@@ -130,7 +141,7 @@ module.exports = {
       const API_KEY = process.env.ETHEXPLORER_KEY;
       const testnet = "https://api-sepolia.etherscan.io/api";
       const mainnet = "https://api.etherscan.io/api";
-      const endpoint = `${testnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
+      const endpoint = `${mainnet}?module=account&action=txlist&address=${companyWallet}&startblock=0&endblock=99999999&sort=desc&apikey=${API_KEY}`;
 
       function weiToEth(wei) {
         const weiBigInt = BigInt(wei);
@@ -275,6 +286,17 @@ module.exports = {
           },
         };
       }
+      if (update.callback_query) {
+        return {
+          type: "button_click",
+          chat: {
+            id: update.callback_query.message.chat.id,
+            firstName: update.callback_query.from.first_name,
+            username: update.callback_query.from.username,
+          },
+          data: update.callback_query.data,
+        };
+      }
     };
 
     const emailExtract = (emailAddress) => {
@@ -366,6 +388,95 @@ module.exports = {
         chat.id,
         `Oh Hi There! I remember you!\nYou are a verified Audiobaze User! How can I help you today?\nTo See a list of commands, Click/Tap /help 😊`
       );
+    }
+
+    if (type === "private" && command.includes("/custom")) {
+      function extractCustomOrder(input) {
+        const regex = /custom:(.+)/;
+        const match = regex.exec(input);
+
+        if (match && match[1]) {
+          return match[1];
+        } else {
+          return null; // Return null if no match is found or if the matched string is empty
+        }
+      }
+
+      try {
+        await validateUser(chat.id);
+        const user = await getUser(chat.id);
+        const order = extractCustomOrder(command);
+
+        if (!order) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `Seems you are trying to submit a custom order...\nThis command submits a custom order to an admin, please make sure you are as descriptive as possible\nSubmit your order using the custom: command followed by your request\ne.g. custom:"I need a crypto trading site, my budget is $1000."`
+          );
+
+          return;
+        }
+
+        const admins = await User.find({ isSuperAdmin: true });
+
+        if (admins.length === 0) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There are currently no admins available to take your request... Please try again later!`
+          );
+
+          return;
+        }
+
+        const adminTelegrams = await Promise.all(
+          admins.map(async (admin) => {
+            const telegram = await Telegram.findOne({ owner: admin.id });
+            if (!telegram) {
+              return null;
+            }
+
+            return telegram;
+          })
+        );
+
+        sails.log.debug("Admin Telegrams", adminTelegrams);
+
+        const nullExists = adminTelegrams.find((admin) => admin === null);
+
+        if (nullExists) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There are currently no admins available to take your request... Please try again later!`
+          );
+
+          return;
+        }
+
+        for (var i = 0; i < adminTelegrams.length; i++) {
+          if (!adminTelegrams[i]) {
+            continue;
+          }
+
+          await sails.helpers.sendMessage(
+            adminTelegrams[i].telegramChatId,
+            `${user.fullName} just made a custom order request\nEmail Address: ${user.emailAddress}\nTelegram Username: ${chat.username}\nCustom Order:${order}`
+          );
+        }
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Your Custom Order has been submited. An Admin will contact you shortly...`
+        );
+
+        return;
+      } catch (error) {
+        sails.log.error(error);
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem processing that request... ❌`
+        );
+
+        return;
+      }
     }
 
     if (type === "private" && command.includes("dashboard")) {
@@ -502,6 +613,7 @@ module.exports = {
           try {
             await Telegram.create({
               owner: userRecord.id,
+              telegramUserName: chat.username ? chat.username : null,
             });
 
             await processVerification();
@@ -541,7 +653,7 @@ module.exports = {
           setTimeout(async () => {
             await sails.helpers.sendMessage(
               chat.id,
-              `😶Email Proof Token you just provided is invalid, could you confirm it's the right one and try again?`
+              `😶Email Proof Token you just provided is invalid, could you confirm it's the right one and try again?\nProvide your verification token like this /verifytoken:2SD221`
             );
           }, 2000);
 
@@ -791,6 +903,7 @@ module.exports = {
         if (!telegramRecord) {
           await Telegram.create({
             owner: adminRecord.id,
+            telegramUserName: chat.username ? chat.username : null,
           });
 
           await sails.helpers.sendMessage(
@@ -867,7 +980,7 @@ module.exports = {
       if (!walletAddress) {
         await sails.helpers.sendMessage(
           chat.id,
-          `There was a bit of an issue storing your wallet address, could you wait a moment and try again ❌`
+          `There was a bit of an issue storing your wallet address, could you wait a moment and try again ❌\nMake sure you are providing your wallet address the right way\ne.g./setwallet:0xe7776De78740f28a96412eE5cbbB8f90896b11A5`
         );
 
         return;
@@ -878,7 +991,7 @@ module.exports = {
       if (walletType === "Unknown") {
         await sails.helpers.sendMessage(
           chat.id,
-          `There was a bit of an issue storing your wallet address, could you wait a moment and try again ❌`
+          `There was a bit of an issue storing your wallet address, could you wait a moment and try again ❌\nMake sure you are providing your wallet address the right way\ne.g./setwallet:0xe7776De78740f28a96412eE5cbbB8f90896b11A5\nWe only accept Wallet Address of the following blockchains\nBTC, LTC, ETC & TRON.`
         );
 
         return;
@@ -943,7 +1056,7 @@ module.exports = {
       if (!hash) {
         await sails.helpers.sendMessage(
           chat.id,
-          `Failed to Extract Transaction Hash❌`
+          `Failed to Extract Transaction Hash❌\nMake sure you have the transaction hash in your command\ne.g. verifytx:0xb96306a1477dc8e070b4fd1587b7accc058e9698aff64bf9fb606c7e2effc2ef`
         );
         return;
       }
@@ -1244,7 +1357,7 @@ module.exports = {
       if (!txId) {
         await sails.helpers.sendMessage(
           chat.id,
-          `Failed To Get Order Tx\nPlease try again ❌`
+          `Failed To Get Order Tx\nPlease try again ❌\nCommand should include the Tx ID\ne.g. /payfororder:SDAS22121212`
         );
 
         return;

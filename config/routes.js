@@ -127,6 +127,7 @@ module.exports.routes = {
   "DELETE /cart": { action: "cart/empty-cart" },
 
   // Custom Order
+  "GET /order/custom": { action: "view-custom-order" },
   "POST /order/custom": { action: "order/create-custom" },
   "DELETE /order/custom/:id": { action: "order/delete-custom" },
 
