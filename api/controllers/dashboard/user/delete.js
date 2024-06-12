@@ -27,6 +27,7 @@ module.exports = {
       await License.destroyOne({ currentKeyUser: user.emailAddress });
       await Sub.destroyOne({ owner: id });
       await User.destroyOne({ id });
+      await Telegram.destroyOne({ owner: user.id });
 
       return res.status(200).redirect("/users");
     } catch (error) {
