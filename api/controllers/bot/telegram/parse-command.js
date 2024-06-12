@@ -395,6 +395,13 @@ module.exports = {
       return;
     }
 
+    if (type === "unspecified") {
+      sails.log.error(
+        "An Unspecified Action was attempted with this bot",
+        update
+      );
+      return;
+    }
     if (type === "private" && (command === "hello" || command === "hi")) {
       await sails.helpers.sendMessage(
         chat.id,
