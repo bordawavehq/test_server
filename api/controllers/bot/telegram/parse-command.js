@@ -56,7 +56,7 @@ module.exports = {
 
     function isValidCommand(command, botCommandList) {
       for (i = 0; i < botCommandList.length; i++) {
-        if (command.toLowerCase().includes(botCommandList[i].toLowerCase())) {
+        if (command.includes(botCommandList[i])) {
           return true;
         }
       }
@@ -383,7 +383,7 @@ module.exports = {
     if (!isValid) {
       await sails.helpers.sendMessage(
         chat.id,
-        `Ah Sorry! 😥 I can't seem to make sense of that... Could you try /help to get a list of commands?
+        `Ah Sorry! 😥 I can't seem to make sense of that... Could you try /help to get a list of commands?\nAlso make sure the command is in lowercase
           `
       );
 
