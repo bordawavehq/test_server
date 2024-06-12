@@ -289,12 +289,37 @@ module.exports = {
       if (update.callback_query) {
         return {
           type: "button_click",
+          command: "unknown",
           chat: {
             id: update.callback_query.message.chat.id,
             firstName: update.callback_query.from.first_name,
             username: update.callback_query.from.username,
           },
           data: update.callback_query.data,
+        };
+      }
+
+      if (update.my_chat_member) {
+        return {
+          type: "event",
+          command: "unknown",
+          chat: {
+            id: update.my_chat_member.chat.id,
+            firstName: update.my_chat_member.chat.first_name,
+            username: update?.my_chat_member?.chat?.username,
+          },
+        };
+      }
+
+      if (update.edited_message) {
+        return {
+          type: "private",
+          command: update.edited_message.text,
+          chat: {
+            id: update.edited_message.chat.id,
+            firstName: update.edited_message.chat.first_name,
+            username: update.edited_message.chat.username,
+          },
         };
       }
 
@@ -326,14 +351,16 @@ module.exports = {
 
     async function getUser(chatId) {
       const telegramRecord = await Telegram.findOne({ telegramChatId: chatId });
+
       if (!telegramRecord) {
         sails.log.error(`User Telegram Record Not Found ❌`);
         await sails.helpers.sendMessage(
-          chatId,
+          chat.id,
           `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
         );
         return null;
       }
+
       const userRecord = await User.findOne({ id: telegramRecord.owner });
 
       if (!userRecord) {
@@ -355,11 +382,16 @@ module.exports = {
 
     if (!isValid) {
       await sails.helpers.sendMessage(
-        update.message.chat.id,
+        chat.id,
         `Ah Sorry! 😥 I can't seem to make sense of that... Could you try /help to get a list of commands?
           `
       );
 
+      return;
+    }
+
+    if (type === "event") {
+      sails.log.info("An event just occured...", update);
       return;
     }
 
@@ -416,6 +448,15 @@ module.exports = {
         await validateUser(chat.id);
         const user = await getUser(chat.id);
         const order = extractCustomOrder(command);
+
+        if (!user) {
+          await sails.helpers.sendMessage(
+            chatId,
+            `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
+          );
+
+          return;
+        }
 
         if (!order) {
           await sails.helpers.sendMessage(
@@ -1051,6 +1092,16 @@ module.exports = {
     if (type === "private" && command.includes("verifytx")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
+        );
+
+        return;
+      }
+
       const wallets = await Wallet.find({ owner: user.id });
 
       if (wallets.length === 0) {
@@ -1296,6 +1347,15 @@ module.exports = {
         await validateUser(chat.id);
         const user = await getUser(chat.id);
 
+        if (!user) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+          );
+
+          return;
+        }
+
         await sails.helpers.sendMessage(
           chat.id,
           `Hello ${
@@ -1314,6 +1374,16 @@ module.exports = {
     if (type === "private" && command.includes("mytransactions")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
       const wallets = await Wallet.find({ owner: user.id });
 
       if (wallets.length === 0) {
@@ -1372,6 +1442,16 @@ module.exports = {
     if (type === "private" && command.includes("/payfororder")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
       const txId = getPayForOrderTx(command);
 
       if (!txId) {
