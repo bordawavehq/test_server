@@ -127,6 +127,7 @@ module.exports.routes = {
   "DELETE /cart": { action: "cart/empty-cart" },
 
   // Custom Order
+  "GET /order/custom": { action: "view-custom-order" },
   "POST /order/custom": { action: "order/create-custom" },
   "DELETE /order/custom/:id": { action: "order/delete-custom" },
 
@@ -155,4 +156,7 @@ module.exports.routes = {
 
   // Stay Alive Cron Job
   "GET /cron-job": { action: "system/status" },
+
+  // Telegram Hook
+  "POST /webhook": { action: "bot/telegram/parse-command" },
 };

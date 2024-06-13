@@ -187,14 +187,10 @@ without necessarily having a billing card.`,
       defaultsTo: false,
     },
 
-    //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
-    //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
-    //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
-    // n/a
-
-    //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
-    //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
-    //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+    telegram:{
+      collection:"telegram",
+      via:"owner"
+    },
 
     subscriptions: {
       collection: "sub",
@@ -210,5 +206,20 @@ without necessarily having a billing card.`,
       collection:"cart",
       via:'owner'
     },
+
+    wallets:{
+      collection:"wallet",
+      via:"owner"
+    },
+
+    balance: {
+      type:'number',
+      description:"User's Account Balance in USD ($)"
+    },
+
+    receipts:{
+      collection:"receipt",
+      via:'owner'
+    }
   },
 };

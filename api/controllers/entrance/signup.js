@@ -63,6 +63,15 @@ the account verification message.)`,
 
     const today = new Date();
 
+    function generateKey() {
+      var key = "";
+      var charset = "ABCDEFGHIJKLMONPQRSTUVWXYZ0123456789";
+
+      for (var i = 0; i < 6; i++)
+        key += charset.charAt(Math.floor(Math.random() * charset.length));
+      return key;
+    }
+
     // Build up data for the new user record and save it to the database.
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
     var newUserRecord = await User.create(
@@ -73,6 +82,7 @@ the account verification message.)`,
           password: await sails.helpers.passwords.hashPassword(password),
           tosAcceptedByIp: this.req.ip,
           accountCreationDate: format(today, "dd/MM/yyyy"),
+          emailProofToken: generateKey(),
         },
         sails.config.custom.verifyEmailAddresses
           ? {
@@ -111,6 +121,14 @@ the account verification message.)`,
     // when they're already logged in), broadcast a message that we can display in other open tabs.
     if (sails.hooks.sockets) {
       await sails.helpers.broadcastSessionChange(this.req);
+    }
+
+    try {
+      await Telegram.create({
+        owner: newUserRecord.id,
+      });
+    } catch (error) {
+      sails.log.error(error);
     }
 
     if (sails.config.custom.verifyEmailAddresses) {

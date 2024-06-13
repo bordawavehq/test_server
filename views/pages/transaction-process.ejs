@@ -42,7 +42,8 @@
   <% if (order.status==="completed" ) { %>
     <% if (!me.isSuperAdmin) { %>
       <h3>Transaction Completed</h3>
-      <p>Your License Key is Delivered to your Email Address: <%= me?.emailAddress %>
+      <p>This Transaction has been confirmed, Your paid service will be delivered at the time stated in the product
+        description
       </p>
       <% } else { %>
         <p>Transaction ID: <%= order.transactionId %>
@@ -79,12 +80,12 @@
                                   alt="copy" /></span>
                             </p>
                             <p>LTC : <span style="font-weight: bold; cursor: pointer;" id="ltcAddress"
-                                onclick="copyLTCWalletAddress()">ltc1q6f7cftvd4je4f5mh0arz7my69rp0ccrp38zr79 <img
-                                  width="15" height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
+                                onclick="copyLTCWalletAddress()">LY5dc1ZgxzETBfrk7jQD1Y7P2TdwZRqaGQ <img width="15"
+                                  height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
                                   alt="copy" /></span>
                             </p>
-                            <p>Contact Audiobaze Admin to confirm transaction using Crypto Tx Hash & ID : <span
-                                style="font-weight: bold; cursor: pointer;" id="audiobazetxid"
+                            <p>Contact Audiobaze Admin or Audiobaze Bot to confirm transaction using Crypto Tx Hash & ID
+                              : <span style="font-weight: bold; cursor: pointer;" id="audiobazetxid"
                                 onclick="copyAudiobazeTransaction()">
                                 <%= order.transactionId %>
                                   <img width="15" height="15" src="https://img.icons8.com/material-sharp/24/copy.png"
