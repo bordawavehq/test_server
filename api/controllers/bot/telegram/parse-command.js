@@ -43,20 +43,14 @@ module.exports = {
       "/payfororder",
       "/custom",
       "custom",
+      "delete-wallet",
+      "make-payment",
+      "get-wallets",
     ];
-
-    const inlineKeyboard = {
-      inline_keyboard: [
-        [
-          { text: "Button 1", callback_data: "button1" },
-          { text: "Button 2", callback_data: "button2" },
-        ],
-      ],
-    };
 
     function isValidCommand(command, botCommandList) {
       for (i = 0; i < botCommandList.length; i++) {
-        if (command.toLowerCase().includes(botCommandList[i].toLowerCase())) {
+        if (command.includes(botCommandList[i])) {
           return true;
         }
       }
@@ -287,14 +281,40 @@ module.exports = {
         };
       }
       if (update.callback_query) {
+        sails.log.info(update.callback_query);
         return {
           type: "button_click",
+          command: update.callback_query.data,
           chat: {
             id: update.callback_query.message.chat.id,
             firstName: update.callback_query.from.first_name,
             username: update.callback_query.from.username,
           },
           data: update.callback_query.data,
+        };
+      }
+
+      if (update.my_chat_member) {
+        return {
+          type: "event",
+          command: "unknown",
+          chat: {
+            id: update.my_chat_member.chat.id,
+            firstName: update.my_chat_member.chat.first_name,
+            username: update?.my_chat_member?.chat?.username,
+          },
+        };
+      }
+
+      if (update.edited_message) {
+        return {
+          type: "private",
+          command: update.edited_message.text,
+          chat: {
+            id: update.edited_message.chat.id,
+            firstName: update.edited_message.chat.first_name,
+            username: update.edited_message.chat.username,
+          },
         };
       }
 
@@ -326,14 +346,16 @@ module.exports = {
 
     async function getUser(chatId) {
       const telegramRecord = await Telegram.findOne({ telegramChatId: chatId });
+
       if (!telegramRecord) {
         sails.log.error(`User Telegram Record Not Found ❌`);
         await sails.helpers.sendMessage(
-          chatId,
+          chat.id,
           `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
         );
         return null;
       }
+
       const userRecord = await User.findOne({ id: telegramRecord.owner });
 
       if (!userRecord) {
@@ -355,14 +377,26 @@ module.exports = {
 
     if (!isValid) {
       await sails.helpers.sendMessage(
-        update.message.chat.id,
-        `Ah Sorry! 😥 I can't seem to make sense of that... Could you try /help to get a list of commands?
+        chat.id,
+        `Ah Sorry! 😥 I can't seem to make sense of that... Could you try /help to get a list of commands?\nAlso make sure the command is in lowercase
           `
       );
 
       return;
     }
 
+    if (type === "event") {
+      sails.log.info("An event just occured...", update);
+      return;
+    }
+
+    if (type === "unspecified") {
+      sails.log.error(
+        "An Unspecified Action was attempted with this bot",
+        update
+      );
+      return;
+    }
     if (type === "private" && (command === "hello" || command === "hi")) {
       await sails.helpers.sendMessage(
         chat.id,
@@ -416,6 +450,15 @@ module.exports = {
         await validateUser(chat.id);
         const user = await getUser(chat.id);
         const order = extractCustomOrder(command);
+
+        if (!user) {
+          await sails.helpers.sendMessage(
+            chatId,
+            `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
+          );
+
+          return;
+        }
 
         if (!order) {
           await sails.helpers.sendMessage(
@@ -538,7 +581,18 @@ module.exports = {
         }
       }
 
-      await sails.helpers.sendMessage(
+      const inlineKeyboard = {
+        inline_keyboard: [
+          [
+            {
+              text: "Fund Wallet",
+              callback_data: `get-wallets`,
+            },
+          ],
+        ],
+      };
+
+      await sails.helpers.sendMessageCustom(
         chat.id,
         `Hi There! ${userRecord.fullName}\nEmail Address: ${
           userRecord.emailAddress
@@ -546,11 +600,19 @@ module.exports = {
           userRecord.activeSubscription
             ? "You have an active Subscription"
             : "You have no active subscription❌"
-        }\nAccount Balance 💵: $${userRecord.balance.toFixed(2)}`
+        }\nAccount Balance 💵: $${userRecord.balance.toFixed(2)}`,
+        inlineKeyboard
       );
       return;
     }
 
+    if (type === "button_click" && command.includes("get-wallets")) {
+      await sails.helpers.sendMessage(
+        chat.id,
+        `Audiobaze Wallets (BTC & LTC Coming Soon)\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nUSDT (TRC20): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw\nMake Payments to any of the wallet addresses above and use /verifytx to verify the transaction and update your balance.
+        `
+      );
+    }
     if (type === "private" && command.includes("email")) {
       const isEmail = emailExtract(command);
 
@@ -800,7 +862,10 @@ module.exports = {
           const orders = Order.find({});
 
           if (orders.length === 0) {
-            await sails.helpers.sendMessage(chat.id, ``);
+            await sails.helpers.sendMessage(
+              chat.id,
+              `You have no orders here.`
+            );
 
             return;
           }
@@ -848,6 +913,33 @@ module.exports = {
             }\nQuantity: ${product.quantity}`;
           });
 
+          const inlineKeyboard = {
+            inline_keyboard: [
+              [
+                {
+                  text: "Make Payment",
+                  callback_data: `make-payment-${order.transactionId}`,
+                },
+              ],
+            ],
+          };
+
+          if (order.status === "processing") {
+            await sails.helpers.sendMessageCustom(
+              chat.id,
+              `ORDERED PRODUCTS\n${productList.join(
+                "\n\n"
+              )}\n\nTransaction ID: ${
+                order.transactionId
+              }\nDate of Transaction: ${
+                order.orderDate
+              }\nStatus: ${transactionStatus(order.status)}\nPrice:$${
+                order.amountPaid
+              }\n\nSet Your Paying Wallet Address: using /setwallet\nTo verify transaction if payment made /verifytx:TransactionID `,
+              inlineKeyboard
+            );
+          }
+
           await sails.helpers.sendMessage(
             chat.id,
             `ORDERED PRODUCTS\n${productList.join("\n\n")}\n\nTransaction ID: ${
@@ -865,6 +957,118 @@ module.exports = {
       } catch (error) {
         sails.log.error(error);
         return;
+      }
+    }
+
+    if (type === "button_click" && command.includes("make-payment")) {
+      await validateUser(chat.id);
+      const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
+      await sails.helpers.sendMessage(chat.id, `Processing Payment ⌛`);
+
+      function extractId(input) {
+        const match = input.match(/make-payment-([a-zA-Z0-9]+)$/);
+        return match ? match[1] : null;
+      }
+
+      const id = extractId(command);
+      if (!id) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Failed to Extract Payment ID`
+        );
+      }
+
+      const order = await Order.findOne({
+        transactionId: id,
+        owner: user.id,
+        status: "processing",
+      });
+
+      if (!order) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Failed to find an order in processing state with that Tx ID, please try again later... ❌`
+        );
+
+        return;
+      }
+
+      // Attempt Payment
+      const costOfOrder = order.amountPaid;
+
+      if (costOfOrder > user.balance) {
+        const remainder = user.balance - costOfOrder;
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `You have insufficient balance ❌\nYou are currently $${Math.abs(
+            remainder
+          ).toFixed(
+            2
+          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the transaction and update your balance\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nUSDT (TRC20): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw`
+        );
+
+        return;
+      }
+
+      await sails.helpers.sendMessage(
+        chat.id,
+        `Order Found\nTx: ${order.transactionId}\nProcessing Order... 📝`
+      );
+
+      // Update User & Order Record
+      try {
+        const remainder = user.balance - costOfOrder;
+        const updatedUser = await User.updateOne({
+          id: user.id,
+        }).set({
+          balance: remainder,
+        });
+
+        const updatedOrder = await Order.updateOne({
+          id: order.id,
+        }).set({
+          status: "completed",
+        });
+
+        const receipt = await Receipt.create({
+          owner: user.id,
+          products: updatedOrder.purchasedProducts,
+          amountPaid: costOfOrder,
+        }).fetch();
+
+        const products = receipt.products.map((product, i) => {
+          return `Product No.${i + 1}\n${product.productTitle}\nService Type:${
+            product.serviceType
+          }\nETA: ${product.deliveryETA}\nPrice: ${
+            product.quantity * product.price
+          }\nQuantity: ${product.quantity}`;
+        });
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Successfully Generated Receipt 📝\n\n ${
+            updatedUser.fullName
+          }\n ${products.join("\n\n")} \nTotal Paid: $${receipt.amountPaid}`
+        );
+      } catch (error) {
+        sails.log.error(error);
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a server error processing this order\n
+          Failed To Generate Receipt ❌`
+        );
       }
     }
 
@@ -1051,6 +1255,16 @@ module.exports = {
     if (type === "private" && command.includes("verifytx")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem extracting your user record ❌\nPlease make sure your account is verified and try again...`
+        );
+
+        return;
+      }
+
       const wallets = await Wallet.find({ owner: user.id });
 
       if (wallets.length === 0) {
@@ -1278,9 +1492,21 @@ module.exports = {
       );
 
       const walletProcess = wallets.map(async (wallet) => {
-        await sails.helpers.sendMessage(
+        const inlineKeyboard = {
+          inline_keyboard: [
+            [
+              {
+                text: "Delete Wallet",
+                callback_data: `delete-wallet-${wallet.id}`,
+              },
+            ],
+          ],
+        };
+
+        await sails.helpers.sendMessageCustom(
           chat.id,
-          `Wallet Address: ${wallet.address}\nBlockchain:${wallet.blockchain}`
+          `Wallet Address: ${wallet.address}\nBlockchain:${wallet.blockchain}`,
+          inlineKeyboard
         );
       });
 
@@ -1291,10 +1517,79 @@ module.exports = {
       return;
     }
 
+    if (type === "button_click" && command.includes("delete-wallet")) {
+      await validateUser(chat.id);
+      const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
+      function extractId(input) {
+        const match = input.match(/delete-wallet-([a-zA-Z0-9]+)$/);
+        return match ? match[1] : null;
+      }
+
+      const id = extractId(command);
+
+      if (!id) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the Wallet your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
+      try {
+        const wallet = await Wallet.findOne({ id });
+        if (!wallet) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There was a problem finding the Wallet your telegram is linked to... Please Try Again Later`
+          );
+
+          return;
+        }
+
+        await Wallet.destroyOne({ id });
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Wallet Successfully Deleted ✅`
+        );
+
+        return;
+      } catch (error) {
+        sails.log.error(error);
+        if (!wallet) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There was a problem deleting the Wallet your telegram is linked to... Please Try Again Later`
+          );
+
+          return;
+        }
+      }
+    }
     if (type === "private" && command.includes("balance")) {
       try {
         await validateUser(chat.id);
         const user = await getUser(chat.id);
+
+        if (!user) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+          );
+
+          return;
+        }
 
         await sails.helpers.sendMessage(
           chat.id,
@@ -1314,6 +1609,16 @@ module.exports = {
     if (type === "private" && command.includes("mytransactions")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
       const wallets = await Wallet.find({ owner: user.id });
 
       if (wallets.length === 0) {
@@ -1372,6 +1677,16 @@ module.exports = {
     if (type === "private" && command.includes("/payfororder")) {
       await validateUser(chat.id);
       const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
       const txId = getPayForOrderTx(command);
 
       if (!txId) {
@@ -1410,7 +1725,7 @@ module.exports = {
             remainder
           ).toFixed(
             2
-          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the Transaction\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f`
+          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the transaction and update your balance\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nUSDT (TRC20): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw`
         );
 
         return;
