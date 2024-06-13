@@ -45,18 +45,12 @@ module.exports = {
       "custom",
     ];
 
-    const inlineKeyboard = {
-      inline_keyboard: [
-        [
-          { text: "Button 1", callback_data: "button1" },
-          { text: "Button 2", callback_data: "button2" },
-        ],
-      ],
-    };
-
     function isValidCommand(command, botCommandList) {
       for (i = 0; i < botCommandList.length; i++) {
-        if (command.includes(botCommandList[i])) {
+        if (
+          command.includes(botCommandList[i]) ||
+          command.includes("delete-wallet")
+        ) {
           return true;
         }
       }
@@ -287,9 +281,10 @@ module.exports = {
         };
       }
       if (update.callback_query) {
+        sails.log.info(update.callback_query);
         return {
           type: "button_click",
-          command: "unknown",
+          command: update.callback_query.data,
           chat: {
             id: update.callback_query.message.chat.id,
             firstName: update.callback_query.from.first_name,
@@ -1336,9 +1331,21 @@ module.exports = {
       );
 
       const walletProcess = wallets.map(async (wallet) => {
-        await sails.helpers.sendMessage(
+        const inlineKeyboard = {
+          inline_keyboard: [
+            [
+              {
+                text: "Delete Wallet",
+                callback_data: `delete-wallet-${wallet.id}`,
+              },
+            ],
+          ],
+        };
+
+        await sails.helpers.sendMessageCustom(
           chat.id,
-          `Wallet Address: ${wallet.address}\nBlockchain:${wallet.blockchain}`
+          `Wallet Address: ${wallet.address}\nBlockchain:${wallet.blockchain}`,
+          inlineKeyboard
         );
       });
 
@@ -1349,6 +1356,66 @@ module.exports = {
       return;
     }
 
+    if (type === "button_click" && command.includes("delete-wallet")) {
+      await validateUser(chat.id);
+      const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
+      function extractId(input) {
+        const match = input.match(/delete-wallet-([a-zA-Z0-9]+)$/);
+        return match ? match[1] : null;
+      }
+
+      const id = extractId(command);
+
+      if (!id) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the Wallet your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
+      try {
+        const wallet = await Wallet.findOne({ id });
+        if (!wallet) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There was a problem finding the Wallet your telegram is linked to... Please Try Again Later`
+          );
+
+          return;
+        }
+
+        await Wallet.destroyOne({ id });
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Wallet Successfully Deleted ✅`
+        );
+
+        return;
+      } catch (error) {
+        sails.log.error(error);
+        if (!wallet) {
+          await sails.helpers.sendMessage(
+            chat.id,
+            `There was a problem deleting the Wallet your telegram is linked to... Please Try Again Later`
+          );
+
+          return;
+        }
+      }
+    }
     if (type === "private" && command.includes("balance")) {
       try {
         await validateUser(chat.id);
