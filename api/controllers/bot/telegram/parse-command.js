@@ -43,14 +43,14 @@ module.exports = {
       "/payfororder",
       "/custom",
       "custom",
+      "delete-wallet",
+      "make-payment",
+      "get-wallets",
     ];
 
     function isValidCommand(command, botCommandList) {
       for (i = 0; i < botCommandList.length; i++) {
-        if (
-          command.includes(botCommandList[i]) ||
-          command.includes("delete-wallet")
-        ) {
+        if (command.includes(botCommandList[i])) {
           return true;
         }
       }
@@ -581,7 +581,18 @@ module.exports = {
         }
       }
 
-      await sails.helpers.sendMessage(
+      const inlineKeyboard = {
+        inline_keyboard: [
+          [
+            {
+              text: "Fund Wallet",
+              callback_data: `get-wallets`,
+            },
+          ],
+        ],
+      };
+
+      await sails.helpers.sendMessageCustom(
         chat.id,
         `Hi There! ${userRecord.fullName}\nEmail Address: ${
           userRecord.emailAddress
@@ -589,11 +600,19 @@ module.exports = {
           userRecord.activeSubscription
             ? "You have an active Subscription"
             : "You have no active subscription❌"
-        }\nAccount Balance 💵: $${userRecord.balance.toFixed(2)}`
+        }\nAccount Balance 💵: $${userRecord.balance.toFixed(2)}`,
+        inlineKeyboard
       );
       return;
     }
 
+    if (type === "button_click" && command.includes("get-wallets")) {
+      await sails.helpers.sendMessage(
+        chat.id,
+        `Audiobaze Wallets (BTC & LTC Coming Soon)\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nUSDT (TRC20): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw\nMake Payments to any of the wallet addresses above and use /verifytx to verify the transaction and update your balance.
+        `
+      );
+    }
     if (type === "private" && command.includes("email")) {
       const isEmail = emailExtract(command);
 
@@ -843,7 +862,10 @@ module.exports = {
           const orders = Order.find({});
 
           if (orders.length === 0) {
-            await sails.helpers.sendMessage(chat.id, ``);
+            await sails.helpers.sendMessage(
+              chat.id,
+              `You have no orders here.`
+            );
 
             return;
           }
@@ -891,6 +913,33 @@ module.exports = {
             }\nQuantity: ${product.quantity}`;
           });
 
+          const inlineKeyboard = {
+            inline_keyboard: [
+              [
+                {
+                  text: "Make Payment",
+                  callback_data: `make-payment-${order.transactionId}`,
+                },
+              ],
+            ],
+          };
+
+          if (order.status === "processing") {
+            await sails.helpers.sendMessageCustom(
+              chat.id,
+              `ORDERED PRODUCTS\n${productList.join(
+                "\n\n"
+              )}\n\nTransaction ID: ${
+                order.transactionId
+              }\nDate of Transaction: ${
+                order.orderDate
+              }\nStatus: ${transactionStatus(order.status)}\nPrice:$${
+                order.amountPaid
+              }\n\nSet Your Paying Wallet Address: using /setwallet\nTo verify transaction if payment made /verifytx:TransactionID `,
+              inlineKeyboard
+            );
+          }
+
           await sails.helpers.sendMessage(
             chat.id,
             `ORDERED PRODUCTS\n${productList.join("\n\n")}\n\nTransaction ID: ${
@@ -908,6 +957,118 @@ module.exports = {
       } catch (error) {
         sails.log.error(error);
         return;
+      }
+    }
+
+    if (type === "button_click" && command.includes("make-payment")) {
+      await validateUser(chat.id);
+      const user = await getUser(chat.id);
+
+      if (!user) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a problem finding the audiobaze account your telegram is linked to... Please Try Again Later`
+        );
+
+        return;
+      }
+
+      await sails.helpers.sendMessage(chat.id, `Processing Payment ⌛`);
+
+      function extractId(input) {
+        const match = input.match(/make-payment-([a-zA-Z0-9]+)$/);
+        return match ? match[1] : null;
+      }
+
+      const id = extractId(command);
+      if (!id) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Failed to Extract Payment ID`
+        );
+      }
+
+      const order = await Order.findOne({
+        transactionId: id,
+        owner: user.id,
+        status: "processing",
+      });
+
+      if (!order) {
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Failed to find an order in processing state with that Tx ID, please try again later... ❌`
+        );
+
+        return;
+      }
+
+      // Attempt Payment
+      const costOfOrder = order.amountPaid;
+
+      if (costOfOrder > user.balance) {
+        const remainder = user.balance - costOfOrder;
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `You have insufficient balance ❌\nYou are currently $${Math.abs(
+            remainder
+          ).toFixed(
+            2
+          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the transaction and update your balance\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nUSDT (TRC20): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw`
+        );
+
+        return;
+      }
+
+      await sails.helpers.sendMessage(
+        chat.id,
+        `Order Found\nTx: ${order.transactionId}\nProcessing Order... 📝`
+      );
+
+      // Update User & Order Record
+      try {
+        const remainder = user.balance - costOfOrder;
+        const updatedUser = await User.updateOne({
+          id: user.id,
+        }).set({
+          balance: remainder,
+        });
+
+        const updatedOrder = await Order.updateOne({
+          id: order.id,
+        }).set({
+          status: "completed",
+        });
+
+        const receipt = await Receipt.create({
+          owner: user.id,
+          products: updatedOrder.purchasedProducts,
+          amountPaid: costOfOrder,
+        }).fetch();
+
+        const products = receipt.products.map((product, i) => {
+          return `Product No.${i + 1}\n${product.productTitle}\nService Type:${
+            product.serviceType
+          }\nETA: ${product.deliveryETA}\nPrice: ${
+            product.quantity * product.price
+          }\nQuantity: ${product.quantity}`;
+        });
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `Successfully Generated Receipt 📝\n\n ${
+            updatedUser.fullName
+          }\n ${products.join("\n\n")} \nTotal Paid: $${receipt.amountPaid}`
+        );
+      } catch (error) {
+        sails.log.error(error);
+
+        await sails.helpers.sendMessage(
+          chat.id,
+          `There was a server error processing this order\n
+          Failed To Generate Receipt ❌`
+        );
       }
     }
 
@@ -1564,7 +1725,7 @@ module.exports = {
             remainder
           ).toFixed(
             2
-          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the Transaction\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f`
+          )} short on this transaction\nMake Payment to any of the wallets below and then use the /verifytx:Txhash command to verify the transaction and update your balance\n\nAudiobaze Wallets\nETH (ERC20): 0x30f98Bb3fEe1D1Dc1552F132E6E9E5BFB506123f\nUSDT (TRC20): TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw`
         );
 
         return;
