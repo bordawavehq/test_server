@@ -4,7 +4,7 @@
     <h1 class="mt-1 mb-5">
       Welcome <% if(me.isSuperAdmin===true) {%> Admin<% } else { %>
           <%= me.fullName %>
-        <% } %>!
+            <% } %>!
     </h1>
     <% if(me.isSuperAdmin===true) {%>
       <div class="row mt-4" id="adminDashboard">
@@ -230,21 +230,7 @@
               </div>
             </div>
           </div>
-
-          <div class="row mt-4">
-            <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
-              <div class="card shadow-dark p-3">
-                <div class="my-3">
-                  <h3>Activate License Key</h3>
-                  <p>
-                    You will need to activate your license key to use Audiobaze
-                    spotify bot services.
-                  </p>
-                  <a href="/activatelicense" class="btn btn-info">Go Activate!</a>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+          <!-- <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
               <div class="card bg-gradient-primary shadow-dark p-3">
                 <div class="my-3 text-white">
                   <h3 class="text-white">VPS Hosting and Streaming Services</h3>
@@ -256,7 +242,20 @@
                 </div>
               </div>
             </div> -->
-            <% if(!me.activeSubscription ){ %>
+          <% if(!me.activeSubscription ){ %>
+            <div class="row mt-4">
+              <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+                <div class="card shadow-dark p-3">
+                  <div class="my-3">
+                    <h3>Activate License Key</h3>
+                    <p>
+                      You will need to activate your license key to use Audiobaze
+                      spotify bot services.
+                    </p>
+                    <a href="/activatelicense" class="btn btn-info">Go Activate!</a>
+                  </div>
+                </div>
+              </div>
               <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
                 <div class="card bg-gradient-dark shadow-dark p-3">
                   <div class="my-3 text-white">
@@ -283,8 +282,8 @@
                     </div>
                   </div>
                   <% } %>
-          </div>
-          <% } %>
+            </div>
+            <% } %>
   </div>
   <router-view></router-view>
 </div>
