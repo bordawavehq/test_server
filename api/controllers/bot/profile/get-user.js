@@ -17,7 +17,17 @@ module.exports = {
 
       const newRecord = _.omit(userRecord, "password");
 
-      return res.status(200).json(newRecord);
+      // Current Active Subscription
+      const subscriptionRecord = await Sub.findOne({
+        owner: id,
+        activeStatus: true,
+      });
+
+      const record = subscriptionRecord || null;
+
+      return res
+        .status(200)
+        .json({ ...newRecord, currentSubscription: record });
     } catch (error) {
       return res.serverError({
         message: "Failed to retrieve user data",
