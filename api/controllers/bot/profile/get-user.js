@@ -23,11 +23,14 @@ module.exports = {
         activeStatus: true,
       });
 
+      // Current Orders
+      const orders = await Order.find({ owner: id });
+
       const record = subscriptionRecord || null;
 
       return res
         .status(200)
-        .json({ ...newRecord, currentSubscription: record });
+        .json({ ...newRecord, currentSubscription: record, orders });
     } catch (error) {
       return res.serverError({
         message: "Failed to retrieve user data",
