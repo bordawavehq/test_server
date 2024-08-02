@@ -161,4 +161,7 @@ module.exports.routes = {
 
   // Telegram Hook
   "POST /webhook": { action: "bot/telegram/parse-command" },
+
+  // Daily Chart Page
+  "GET /store/buy-spotify-chart": { action: "special/view-daily-chart" },
 };
