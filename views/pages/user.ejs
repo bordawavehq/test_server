@@ -13,6 +13,11 @@
           </p>
           <p>Currently Active Till <%= activeSubscription.expiryDate %>
           </p>
+          <form id="setExpiryForm">
+            <input type="date" name="expiryDate" id="expiryDate" class="col-md-3" required />
+            <input type="hidden" name="customerId" id="customerId" value="<%= user.id %>" required />
+            <button type="submit" class="btn btn-primary bg-gradient-info">Set Expiry Date</button>
+          </form>
           <div>
             <a href="/user/revoke/<%= user.id %>" class="btn btn-primary">Revoke Access</a>
 
@@ -52,4 +57,14 @@
     </div>
   </div>
 </div>
+<script>
+  const setExpiryForm = document.getElementById('setExpiryForm');
+  const expiryDate = document.getElementById('expiryDate')
+  console.log(setExpiryForm)
+
+  setExpiryForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log(expiryDate.value)
+  })
+</script>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

@@ -275,7 +275,7 @@
     </nav>
     <%} %>
 
-    <% if(me && me?.telegram[0]?.isVerified){ %>
+    <% if(me && me?.emailStatus === "confirmed"){ %>
     <aside
       class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark"
       id="sidenav-main">
@@ -422,63 +422,22 @@
           <ul class="support-links">
             <li><a href="https://t.me/musicprofit4"> <i class="material-icons opacity-10">telegram</i>Contact Admin</a>
             </li>
-            <li><a href="https://wa.me/message/4J3AOQWT2GEKE1"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"><path fill="currentColor" d="m1.9 11.7l.447.224l.138-.277L2.3 11.4zm1.4 1.4l.3-.4l-.247-.185l-.277.138zM.5 14.5l-.447-.224a.5.5 0 0 0 .67.671zm4-10l-.277-.416A.5.5 0 0 0 4 4.5zm6 6v.5a.5.5 0 0 0 .416-.223zM6.254 5.026l.493-.083zm.14.836l-.493.082zm-.432.997l.277.416zm4.68 3.428l.416.277zm-.668-1.541l.083-.493zm-.836-.14l-.082.493zm-.997.432l-.416-.277zM0 7.5c0 1.688.558 3.247 1.5 4.5l.8-.6A6.47 6.47 0 0 1 1 7.5zM7.5 0A7.5 7.5 0 0 0 0 7.5h1A6.5 6.5 0 0 1 7.5 1zM15 7.5A7.5 7.5 0 0 0 7.5 0v1A6.5 6.5 0 0 1 14 7.5zM7.5 15A7.5 7.5 0 0 0 15 7.5h-1A6.5 6.5 0 0 1 7.5 14zM3 13.5A7.47 7.47 0 0 0 7.5 15v-1a6.469 6.469 0 0 1-3.9-1.3zM.723 14.947l2.8-1.4l-.448-.894l-2.8 1.4zm.729-3.47l-1.4 2.8l.894.447l1.4-2.8zM4 4.5v1h1v-1zM9.5 11h1v-1h-1zM4 5.5A5.5 5.5 0 0 0 9.5 11v-1A4.5 4.5 0 0 1 5 5.5zm.777-.584l.214-.142l-.555-.832l-.213.142zm.984.192l.14.836l.986-.164l-.14-.837zm-.076 1.335l-.962.641l.554.832l.962-.641zm.216-.499a.5.5 0 0 1-.216.499l.554.832a1.5 1.5 0 0 0 .648-1.495zm-.91-1.17a.5.5 0 0 1 .77.334l.986-.165a1.5 1.5 0 0 0-2.311-1.001zm5.925 6.003l.142-.213l-.832-.555l-.142.214zm-.86-2.524l-.836-.14l-.164.987l.836.139zm-2.33.508l-.642.962l.832.554l.641-.962zm1.494-.648a1.5 1.5 0 0 0-1.495.648l.832.554a.5.5 0 0 1 .499-.216zm1.838 2.451a1.5 1.5 0 0 0-1.001-2.311l-.165.986a.5.5 0 0 1 .334.77z"/></svg>WhatsApp</a>
+            <li><a href="https://wa.me/message/4J3AOQWT2GEKE1"><svg xmlns="http://www.w3.org/2000/svg" width="15"
+                  height="15" viewBox="0 0 15 15">
+                  <path fill="currentColor"
+                    d="m1.9 11.7l.447.224l.138-.277L2.3 11.4zm1.4 1.4l.3-.4l-.247-.185l-.277.138zM.5 14.5l-.447-.224a.5.5 0 0 0 .67.671zm4-10l-.277-.416A.5.5 0 0 0 4 4.5zm6 6v.5a.5.5 0 0 0 .416-.223zM6.254 5.026l.493-.083zm.14.836l-.493.082zm-.432.997l.277.416zm4.68 3.428l.416.277zm-.668-1.541l.083-.493zm-.836-.14l-.082.493zm-.997.432l-.416-.277zM0 7.5c0 1.688.558 3.247 1.5 4.5l.8-.6A6.47 6.47 0 0 1 1 7.5zM7.5 0A7.5 7.5 0 0 0 0 7.5h1A6.5 6.5 0 0 1 7.5 1zM15 7.5A7.5 7.5 0 0 0 7.5 0v1A6.5 6.5 0 0 1 14 7.5zM7.5 15A7.5 7.5 0 0 0 15 7.5h-1A6.5 6.5 0 0 1 7.5 14zM3 13.5A7.47 7.47 0 0 0 7.5 15v-1a6.469 6.469 0 0 1-3.9-1.3zM.723 14.947l2.8-1.4l-.448-.894l-2.8 1.4zm.729-3.47l-1.4 2.8l.894.447l1.4-2.8zM4 4.5v1h1v-1zM9.5 11h1v-1h-1zM4 5.5A5.5 5.5 0 0 0 9.5 11v-1A4.5 4.5 0 0 1 5 5.5zm.777-.584l.214-.142l-.555-.832l-.213.142zm.984.192l.14.836l.986-.164l-.14-.837zm-.076 1.335l-.962.641l.554.832l.962-.641zm.216-.499a.5.5 0 0 1-.216.499l.554.832a1.5 1.5 0 0 0 .648-1.495zm-.91-1.17a.5.5 0 0 1 .77.334l.986-.165a1.5 1.5 0 0 0-2.311-1.001zm5.925 6.003l.142-.213l-.832-.555l-.142.214zm-.86-2.524l-.836-.14l-.164.987l.836.139zm-2.33.508l-.642.962l.832.554l.641-.962zm1.494-.648a1.5 1.5 0 0 0-1.495.648l.832.554a.5.5 0 0 1 .499-.216zm1.838 2.451a1.5 1.5 0 0 0-1.001-2.311l-.165.986a.5.5 0 0 1 .334.77z" />
+                  </svg>WhatsApp</a>
             </li>
           </ul>
         </div>
       </div>
       <% }%>
 
-      <% if(me && !me?.telegram[0]?.isVerified) { %>
+      <% if(me && me.emailStatus !== "confirmed") { %>
       <div class="telegram_verification">
         <div class="telegram_message">
-          <h3>Telegram Verification Required</h3>
-          <p>Verify Your Email Address Using the Audiobaze Telegram Bot</p>
-          <% if(me.emailProofToken){ %>
-          <p>
-            <% if(me && !me?.telegram[0]?.isVerified) { %>
-            <div class="telegram_verification">
-              <div class="telegram_message">
-                <h3>Telegram Verification Required</h3>
-                <p>Verify Your Email Address Using the Audiobaze Telegram Bot</p>
-                <% if(me.emailProofToken){ %>
-                <p>Verification Token:<%= me.emailProofToken %></p>
-                <% } %>
-                <p>Click the link below</p>
-                <a href="https://t.me/audiobaze_admin_bot" class="btn bg-gradient-primary btn-md">Audiobaze
-                  Admin Bot <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-                    <g fill="none">
-                      <g clip-path="url(#akarIconsTelegramFill0)">
-                        <path fill="#fff" fill-rule="evenodd"
-                          d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12S5.373 0 12 0s12 5.373 12 12M12.43 8.859c-1.167.485-3.5 1.49-6.998 3.014c-.568.226-.866.447-.893.663c-.046.366.412.51 1.034.705c.085.027.173.054.263.084c.613.199 1.437.432 1.865.441c.389.008.823-.152 1.302-.48c3.268-2.207 4.955-3.322 5.061-3.346c.075-.017.179-.039.249.024c.07.062.063.18.056.212c-.046.193-1.84 1.862-2.77 2.726c-.29.269-.495.46-.537.504c-.094.097-.19.19-.282.279c-.57.548-.996.96.024 1.632c.49.323.882.59 1.273.856c.427.291.853.581 1.405.943c.14.092.274.187.405.28c.497.355.944.673 1.496.623c.32-.03.652-.331.82-1.23c.397-2.126 1.179-6.73 1.36-8.628a2.111 2.111 0 0 0-.02-.472a.506.506 0 0 0-.172-.325c-.143-.117-.365-.142-.465-.14c-.451.008-1.143.249-4.476 1.635"
-                          clip-rule="evenodd" />
-                      </g>
-                      <defs>
-                        <clipPath id="akarIconsTelegramFill0">
-                          <path fill="#fff" d="M0 0h24v24H0z" />
-                        </clipPath>
-                      </defs>
-                    </g>
-                  </svg></a>
-              </div>
-            </div>
-            <% } %><%= me.emailProofToken %></p>
-          <% } %>
-          <a href="https://t.me/audiobaze_admin_bot" class="btn bg-gradient-primary btn-md" target="_blank">Audiobaze
-            Admin Bot <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-              <g fill="none">
-                <g clip-path="url(#akarIconsTelegramFill0)">
-                  <path fill="#fff" fill-rule="evenodd"
-                    d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12S5.373 0 12 0s12 5.373 12 12M12.43 8.859c-1.167.485-3.5 1.49-6.998 3.014c-.568.226-.866.447-.893.663c-.046.366.412.51 1.034.705c.085.027.173.054.263.084c.613.199 1.437.432 1.865.441c.389.008.823-.152 1.302-.48c3.268-2.207 4.955-3.322 5.061-3.346c.075-.017.179-.039.249.024c.07.062.063.18.056.212c-.046.193-1.84 1.862-2.77 2.726c-.29.269-.495.46-.537.504c-.094.097-.19.19-.282.279c-.57.548-.996.96.024 1.632c.49.323.882.59 1.273.856c.427.291.853.581 1.405.943c.14.092.274.187.405.28c.497.355.944.673 1.496.623c.32-.03.652-.331.82-1.23c.397-2.126 1.179-6.73 1.36-8.628a2.111 2.111 0 0 0-.02-.472a.506.506 0 0 0-.172-.325c-.143-.117-.365-.142-.465-.14c-.451.008-1.143.249-4.476 1.635"
-                    clip-rule="evenodd" />
-                </g>
-                <defs>
-                  <clipPath id="akarIconsTelegramFill0">
-                    <path fill="#fff" d="M0 0h24v24H0z" />
-                  </clipPath>
-                </defs>
-              </g>
-            </svg></a>
+          <h3>Email Verification Required</h3>
+          <p>A Verification Email Has been Delivered to <span style="color:blue;"><%= me.emailAddress %></span>, Please Click the Verification Email to Verify Your Account  </p>
         </div>
       </div>
       <% } %>

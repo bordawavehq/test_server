@@ -31,22 +31,26 @@ module.exports = {
   },
 
   fn: async function ({ to, subject, html }) {
-    let transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
+    try {
+      let transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      });
 
-    let info = await transporter.sendMail({
-      from: `"Audiobaze Store" <support@audiobaze.store>`,
-      to: to,
-      subject: subject,
-      html: html,
-    });
+      let info = await transporter.sendMail({
+        from: `"Audiobaze Store" <support@audiobaze.store>`,
+        to: to,
+        subject: subject,
+        html: html,
+      });
 
-    return info;
+      return info;
+    } catch (error) {
+      sails.log.error(error);
+    }
   },
 };

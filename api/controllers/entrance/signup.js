@@ -1,4 +1,5 @@
 const { format } = require("date-fns");
+const url = require("url");
 
 module.exports = {
   friendlyName: "Signup",
@@ -82,7 +83,6 @@ the account verification message.)`,
           password: await sails.helpers.passwords.hashPassword(password),
           tosAcceptedByIp: this.req.ip,
           accountCreationDate: format(today, "dd/MM/yyyy"),
-          emailProofToken: generateKey(),
         },
         sails.config.custom.verifyEmailAddresses
           ? {
@@ -132,16 +132,22 @@ the account verification message.)`,
     }
 
     if (sails.config.custom.verifyEmailAddresses) {
-      // Send "confirm account" email
-      await sails.helpers.sendEmail.with({
-        to: newEmailAddress,
-        subject: "Please confirm your account",
-        template: "email-verify-account",
-        templateData: {
-          fullName,
-          token: newUserRecord.emailProofToken,
-        },
+      const emailBody = await sails.renderView("emails/email-verify-account", {
+        layout: false,
+        fullName,
+        token: newUserRecord.emailProofToken,
+        url: url,
       });
+
+      try {
+        await sails.helpers.sendEmail.with({
+          to: newEmailAddress,
+          subject: "Audiobaze Store : Confirm Your Email Address",
+          html: emailBody,
+        });
+      } catch (error) {
+        sails.log.error(error);
+      }
     } else {
       sails.log.info(
         "Skipping new account email verification... (since `verifyEmailAddresses` is disabled)"

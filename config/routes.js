@@ -76,6 +76,8 @@ module.exports.routes = {
   // Licence Keys
   "GET /api/v1/generate/license/:number": { action: "key/generate-license" },
   "POST /activate/licensekey": { action: "license/activate-license" },
+  // Set Expiry Date
+  "POST /service/expiry": { action: "license/set-expiry" },
   // View Keys
   "GET /keys": { action: "view-list-keys" },
 
