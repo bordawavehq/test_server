@@ -1,0 +1,69 @@
+<div id="daily-chart" v-cloak>
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Product Image Section -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <img src="https://d2j6dbq0eux0bg.cloudfront.net/images/38922114/4114211265.png" class="img-fluid"
+          alt="Spotify Promotion Image">
+      </div>
+
+      <!-- Product Description Section -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <h2>Get Into Spotify Daily Charts</h2>
+        <h4>Store/Music Promotion</h4>
+        <p>This is your chance to test our Spotify promotion! The promotion can focus on your entire Spotify profile, or
+          just give an extra push to a selected single of your choice. Don't miss this opportunity to amplify your music
+          this festive season!</p>
+        <h5>How We Promote:</h5>
+        <p>We elevate your music on Spotify by launching targeted ads through Spotify's Advertising Studio. Focusing on
+          audiences who enjoy similar artists at a specific location, we ensure your songs reach the right ears! This
+          quick promotion strategy leads to being featured on the Spotify Charts and boosts your Algorithmic Streams and
+          overall engagement, making our direct Spotify approach a powerful tool for your music's promotion.</p>
+        <h5>What's In It For You:</h5>
+        <ul>
+          <li>Extremely targeted ads that will get you into official Spotify Charts!</li>
+          <li>Ads targeting 5-7 similar artists for maximum relevance.</li>
+          <li>Location Targeting (Pick a country and we get you into its charts)</li>
+        </ul>
+        <p>Before placing the order:</p>
+        <p>Please find out how many streams you need to chart in the country <a
+            href="https://charts.spotify.com/charts/view/regional-pt-daily/2024-02-08" target="_blank">here</a>.</p>
+        <h5>Benefits Beyond Compare:</h5>
+        <p>With our fast and organic ads, we propel your Spotify music to the right places, triggering Spotify
+          Algorithms
+          and get your song into Spotify Charts!</p>
+      </div>
+
+      <!-- Form Section -->
+      <div class="col-lg-4 col-md-12">
+        <form>
+          <div class="input-group input-group-outline mb-3">
+            <label for="songLink" class="form-label">Enter Your Spofity Song Link</label>
+            <input type="text" class="form-control" id="songLink">
+          </div>
+          <div class="input-group input-group-outline mb-3">
+            <select class="form-control" id="spotifyCharting" required>
+              <option disabled selected>Select Charting Option</option>
+              <option>10k streams</option>
+              <option>20k streams</option>
+              <option>30k streams</option>
+              <option>50k streams</option>
+              <option>100k streams</option>
+            </select>
+          </div>
+          <div class="input-group input-group-outline mb-3">
+            <label for="chartCountry" class="form-label">What Country You Want to Chart In?</label>
+            <input type="text" class="form-control" id="chartCountry">
+          </div>
+          <div class="input-group input-group-outline mb-3">
+            <label for="similarArtists" class="form-label">List a few similar Artists</label>
+            <input type="text" class="form-control" id="similarArtists">
+          </div>
+          <button type="submit" class="btn bg-gradient-primary btn-block">Get Invoice</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
