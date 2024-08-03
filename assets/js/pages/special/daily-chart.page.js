@@ -36,7 +36,7 @@ parasails.registerPage("daily-chart", {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    submitForm: async function () {
+    submittedForm: async function () {
       this.syncing = true;
       alert("Successfully Received Your Request... Redirecting to Dashboard");
       this.syncing = false;

@@ -229,7 +229,10 @@ module.exports = {
      * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
      *                                                                          *
      ***************************************************************************/
-    onlyAllowOrigins: ["https://audiobazev2.onrender.com"],
+    onlyAllowOrigins: [
+      "https://audiobazev2.onrender.com",
+      "https://app.audiobaze.store",
+    ],
     /***************************************************************************
      *                                                                          *
      * If you are deploying a cluster of multiple servers and/or processes,     *
