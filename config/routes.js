@@ -164,4 +164,15 @@ module.exports.routes = {
 
   // Daily Chart Page
   "GET /store/buy-spotify-chart": { action: "special/view-daily-chart" },
+
+  // Create Invoice
+  "POST /store/process-spotify-chart-request": {
+    action: "special/process-chart-request",
+  },
+
+  // Requests
+  "GET /store/spotify-chart/requests": { action: "special/view-requests" },
+
+  // Invoice
+  "GET /store/invoice/:id": { action: "special/view-invoice-user" },
 };

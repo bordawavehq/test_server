@@ -1,0 +1,96 @@
+<div id="invoice-user" v-cloak>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center">Spotify Chart Invoice</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Bill To:</h4>
+                    <p><strong>
+                            <%= request.user.fullName %>
+                        </strong></p>
+                    <p>Song Link: <%= request.songLink %>
+                    </p>
+                    <p>No. Of Streams: <%= request.noOfStreams %>
+                    </p>
+                    <p>Country to Chart in: <%= request.country %>
+                    </p>
+                    <p>Similar Artists: <%= request.similarArtists %>
+                    </p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <h4>Payment Details:</h4>
+                    <p>Status: <span class="badge badge-<%= request.status === 'paid' ? 'success' : 'danger' %>">
+                            <%= request.status %>
+                        </span></p>
+                    <p>Cost: $<%= request.cost %>
+                    </p>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <!-- Payment Options -->
+    <div class="row">
+        <div class="col-md-6 text-wrap">
+            <h4>Crypto Payment Options</h4>
+            <p>USDT (TRC20 Network) : <span style="font-weight: bold; cursor: pointer;" id="usdtAddress"
+                    onclick="copyUSDTWallet()">TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw <img width="15" height="15"
+                        src="https://img.icons8.com/material-sharp/24/copy.png" alt="copy" /></span></p>
+            <p>BTC : <span style="font-weight: bold; cursor: pointer;" id="btcAddress"
+                    onclick="copyBTCWalletAddress()">bc1qg3yjfllgkxhf6kpedtg0zpzvd3g6rxtj6hcecx <img width="15"
+                        height="15" src="https://img.icons8.com/material-sharp/24/copy.png" alt="copy" /></span></p>
+            <p>ETH (ERC20) : <span style="font-weight: bold; cursor: pointer;" id="ethAddress"
+                    onclick="copyETHWalletAddress()">0x4ee7D1b3Bc19878DB14fe373F200d6F640c23c7A <img width="15"
+                        height="15" src="https://img.icons8.com/material-sharp/24/copy.png" alt="copy" /></span></p>
+            <p>LTC : <span style="font-weight: bold; cursor: pointer;" id="ltcAddress"
+                    onclick="copyLTCWalletAddress()">LeJS8nsXQzm5ZdBfxFg8qXxsQiipvpf6nh <img width="15" height="15"
+                        src="https://img.icons8.com/material-sharp/24/copy.png" alt="copy" /></span></p>
+        </div>
+        <div class="col-md-6">
+            <h4>Bank Transfer</h4>
+            <p>Pay 500 USD with ACH or wire transfer</p>
+            <p><strong>Account Holder:</strong> Bryan Allen Furo</p>
+            <p><strong>Account Number:</strong> 40630272216981647</p>
+            <p><strong>Routing Number:</strong> 121000248</p>
+            <p><strong>Swift Code:</strong> WFBIUS6S</p>
+            <p><strong>Address:</strong> 580 California Street, San Francisco, CA 94104, US</p>
+            <p><strong>Account Type:</strong> Checking</p>
+            <p>* Bank transfers, and ACH payments, can take up to five business days.</p>
+            <p>* Please use RNM6743RJ as the transfer reference.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        var dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+        alert("Copied: " + text);
+    }
+
+    function copyUSDTWallet() {
+        copyToClipboard("TCbRcFoB1AykKW4bD11xGHdM29QoLKQdAw");
+    }
+
+    function copyBTCWalletAddress() {
+        copyToClipboard("bc1qg3yjfllgkxhf6kpedtg0zpzvd3g6rxtj6hcecx");
+    }
+
+    function copyETHWalletAddress() {
+        copyToClipboard("0x4ee7D1b3Bc19878DB14fe373F200d6F640c23c7A");
+    }
+
+    function copyLTCWalletAddress() {
+        copyToClipboard("LeJS8nsXQzm5ZdBfxFg8qXxsQiipvpf6nh");
+    }
+</script>
+
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

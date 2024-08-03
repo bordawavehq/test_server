@@ -11,7 +11,7 @@ module.exports = {
   },
 
   fn: async function () {
-    const { res } = this;
+    const { req, res } = this;
 
     try {
       const [unactivated, totalNoOfUsers, activated, unactivatedUsers] =
@@ -30,12 +30,19 @@ module.exports = {
 
       const record = subscriptionRecord || null;
 
+      // Look Up Chart Requests
+      const requests = await SpotifyInvoice.find({});
+      const userRequests = requests.filter(
+        (request) => request.user.id === req.me.id
+      );
+
       return res.view("pages/dashboard/welcome", {
         unactivated: unactivated.length,
         totalNoOfUsers: totalNoOfUsers.length,
         activated: activated.length,
         unactivatedUsers: unactivatedUsers.length,
         currentSubscription: record,
+        noOfChartRequests: userRequests.length,
       });
     } catch (error) {
       sails.log.error(error);

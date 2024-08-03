@@ -1,0 +1,13 @@
+<p style="margin-bottom: 25px; font-size: large;">Hello Admin!</p>
+<p style="margin-bottom: 25px;">You have a new Spotify Chart Request from <%= fullName %>
+</p>
+<p style="margin-bottom: 25px;">Song Link <%= songLink %>
+</p>
+<p style="margin-bottom: 25px;">No. Of Streams <%= noOfStreams %>
+</p>
+<p style="margin-bottom: 25px;">Country <%= country %>
+</p>
+<p style="margin-bottom: 25px;">Similar Artists <%= similarArtists %>
+</p>
+<p>Login To Your Dashboard To send them an invoice <a
+        href="<%= url.resolve(sails.config.custom.baseUrl,'/dashboard') %>">Go to Audiobaze.Store</a> </p>

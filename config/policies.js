@@ -19,6 +19,7 @@ module.exports.policies = {
   "view-contact": true,
   "legal/view-terms": true,
   "legal/view-privacy": true,
+  "special/view-invoice-user": true,
   "deliver-contact-form-message": true,
   "key/generate-license": "is-super-admin",
   "bot/profile/get-user": "is-bot-user",

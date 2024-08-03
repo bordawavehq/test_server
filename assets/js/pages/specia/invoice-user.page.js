@@ -1,36 +1,18 @@
-parasails.registerPage("daily-chart", {
+parasails.registerPage('invoice-user', {
   //  ╦╔╗╔╦╔╦╗╦╔═╗╦    ╔═╗╔╦╗╔═╗╔╦╗╔═╗
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
-    syncing: false,
-
-    formData: {
-      
-    },
-
-    formErrors: {
-      /* … */
-    },
-
-    formRules: {
-      songLink: { required: true },
-      noOfStreams: { required: true },
-      country: { required: true },
-      similarArtists: { required: true },
-    },
-
-    // Server error state for the form
-    cloudError: "",
+    //…
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function () {
+  beforeMount: function() {
     //…
   },
-  mounted: async function () {
+  mounted: async function() {
     //…
   },
 
@@ -38,13 +20,6 @@ parasails.registerPage("daily-chart", {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    submitForm: async function () {
-      this.syncing = true;
-      alert("Successfully Received Your Request... Redirecting to Dashboard");
-      this.syncing = false;
-      setTimeout(() => {
-        window.location = "/dashboard";
-      }, 2000);
-    },
-  },
+    //…
+  }
 });
