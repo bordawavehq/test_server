@@ -175,4 +175,12 @@ module.exports.routes = {
 
   // Invoice
   "GET /store/invoice/:id": { action: "special/view-invoice-user" },
+  // Admin Quotes
+  "GET /store/invoice/create/:id": { action: "special/view-create-invoice" },
+  // Create Invoice Action
+  "PATCH /store/invoice/create": {
+    action: "special/create-invoice",
+  },
+  // Set Status to Paid
+  "GET /store/invoice/verify/:id": { action: "special/verify-payment" },
 };

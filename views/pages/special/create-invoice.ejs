@@ -1,0 +1,60 @@
+<div id="create-invoice" v-cloak>
+  <div class="container mt-5 py-3">
+    <div class="row">
+      <!-- Left Column: Create Invoice Form -->
+      <div class="col-md-4 mx-auto card">
+        <h2 class="mt-3">Create Invoice</h2>
+        <ajax-form action="createInvoice" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-data="formData"
+          :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedForm()">
+          <div class="input-group input-group-dynamic mb-3">
+            <label for="cost" class="form-check-label">Cost ($)</label>
+            <input type="number" class="form-control" id="cost" min="0" v-model.trim="formData.cost" required>
+          </div>
+          <div class="input-group input-group-dynamic mb-3">
+            <label for="issueDate" class="form-check-label">Issue Date</label>
+            <input type="date" class="form-control" id="issueDate" v-model.trim="formData.issueDate" :min="todayDate"
+              required>
+          </div>
+          <div class="input-group input-group-dynamic mb-3">
+            <label for="dueDate" class="form-check-label">Due Date</label>
+            <input type="date" class="form-control" id="dueDate" v-model.trim="formData.dueDate" :min="todayDate">
+          </div>
+          <div class="mx-auto d-flex gap-2 justify-center">
+            <button type="submit" class="btn btn-success" :syncing="syncing" @click="setId(`<%= request.id %>`)">Create
+              Invoice</button>
+            <button class="btn bg-gradient-primary" @click="verifyPayment(`<%= request.id %>`)">Verify Payment</button>
+          </div>
+        </ajax-form>
+        <hr>
+      </div>
+
+      <!-- Right Column: Rendered Invoice Details -->
+      <div class="col-md-7 mx-auto card">
+        <h2 class="mt-3">Invoice Details</h2>
+        <p><strong>Client Name:</strong>
+          <%= request.user.fullName %>
+        </p>
+        <p><strong>Status:</strong>
+          <% if(request.status==='paid' ) { %>
+            <span class="badge badge-success">Paid</span>
+            <% } else { %>
+              <span class="badge badge-warning">Unpaid</span>
+              <% } %>
+        </p>
+        <p><strong>Song Link:</strong> <a href="<%= request.songLink %>" target="_blank">
+            <%= request.songLink %>
+          </a></p>
+        <p><strong>No. of Streams:</strong>
+          <%= request.noOfStreams %>
+        </p>
+        <p><strong>Country to Chart In:</strong>
+          <%= request.country %>
+        </p>
+        <p><strong>Similar Artists:</strong>
+          <%= request.similarArtists %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

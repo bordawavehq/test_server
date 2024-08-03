@@ -36,5 +36,13 @@ module.exports = {
       isIn: ["paid", "unpaid"],
       defaultsTo: "unpaid",
     },
+    issueDate: {
+      type: "string",
+      description: "Issue Date",
+    },
+    dueDate: {
+      type: "string",
+      description: "Due Date",
+    },
   },
 };
