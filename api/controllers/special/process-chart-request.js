@@ -57,11 +57,11 @@ module.exports = {
         url
       });
 
-      await sails.helpers.sendEmail.with({
-        to: "byranallen781@gmail.com",
-        subject: "[ALERT] Spotify Chart Request",
-        html: emailBody,
-      });
+      await sails.helpers.sendEmail(
+        "adefeyitimi@gmail.com",
+       "[ALERT] Spotify Chart Request",
+        emailBody,
+      );
 
       return res
         .status(200)

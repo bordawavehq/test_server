@@ -30,41 +30,40 @@
             href="https://charts.spotify.com/charts/view/regional-pt-daily/2024-02-08" target="_blank">here</a>.</p>
         <h5>Benefits Beyond Compare:</h5>
         <p>With our fast and organic ads, we propel your Spotify music to the right places, triggering Spotify
-          Algorithms
-          and get your song into Spotify Charts!</p>
+          Algorithms and get your song into Spotify Charts!</p>
       </div>
 
       <!-- Form Section -->
       <div class="col-lg-4 col-md-12">
         <ajax-form action="processChartRequest" :syncing.sync="syncing" :cloud-error.sync="cloudError"
-          :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submitForm()">
+          :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submitForm">
           <div class="input-group input-group-outline mb-3">
             <label for="songLink" class="form-label">Enter Your Spotify Song Link</label>
             <input type="url" class="form-control" id="songLink" v-model.trim="formData.songLink"
-              :class="[formErrors.songLink ? 'is-invalid' : '']" focus-first required>
+              :class="{ 'is-invalid': formErrors.songLink }" focus-first required>
           </div>
-          <div class="form-group mb-3 d-flex flex-col">
-            <label for="songLink" class="form-label">Select No Of Streams</label>
+          <div class="mb-3 d-flex flex-col items-start w-full">
+            <label for="noOfStreams" class="form-label">Select No Of Streams</label>
             <select class="form-control-lg" id="spotifyCharting" required v-model.trim="formData.noOfStreams"
-              class="[formErrors.noOfStreams ? 'is-invalid' : '']">
-              <option class="form-control" value="10k streams" selected>10k streams</option>
-              <option class="form-control" value="20k streams">20k streams</option>
-              <option class="form-control" value="30k streams">30k streams</option>
-              <option class="form-control" value="50k streams">50k streams</option>
-              <option class="form-control" value="100k streams">100k streams</option>
+              :class="{ 'is-invalid': formErrors.noOfStreams }">
+              <option value="10k streams">10k streams</option>
+              <option value="20k streams">20k streams</option>
+              <option value="30k streams">30k streams</option>
+              <option value="50k streams">50k streams</option>
+              <option value="100k streams">100k streams</option>
             </select>
           </div>
           <div class="input-group input-group-outline mb-3">
             <label for="chartCountry" class="form-label">What Country You Want to Chart In?</label>
             <input type="text" class="form-control" id="chartCountry" v-model.trim="formData.country"
-              class="[formErrors.country ? 'is-invalid' : '']" required>
+              :class="{ 'is-invalid': formErrors.country }" required>
           </div>
           <div class="input-group input-group-outline mb-3">
             <label for="similarArtists" class="form-label">List a few similar Artists</label>
             <input type="text" class="form-control" id="similarArtists" v-model.trim="formData.similarArtists"
-              class="[formErrors.similarArtists ? 'is-invalid' : '']" required>
+              :class="{ 'is-invalid': formErrors.similarArtists }" required>
           </div>
-          <cloud-error v-if="cloudError==='failed'" class="text-error">
+          <cloud-error v-if="cloudError === 'failed'" class="text-error">
             There was a problem processing your request... Please Try Again Later
           </cloud-error>
           <cloud-error v-else-if="cloudError"></cloud-error>
@@ -74,6 +73,5 @@
       </div>
     </div>
   </div>
-
 </div>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
