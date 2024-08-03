@@ -101,6 +101,19 @@
       </div>
 
       <div class="row mt-4">
+        <div class="col-xl-4 col-md-4 col-lg-4 mb-xl-0 mb-4">
+          <div class="card bg-gradient-dark shadow-primary p-3">
+            <div class="my-3 text-white">
+              <h3 class="text-white">Manage Spotify Daily Chart Request</h3>
+              <p>
+                Manage Spotify Daily Chart Requests
+              </p>
+              <div class="d-flex flex-col items-start items-loading gap-1">
+                <a href="/store/spotify-chart/requests" class="btn bg-gradient-info">View Requests</a>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-xl-4 col-md-4 col-lg-4 mb-4 mb-xl-0">
           <div class="card shadow-dark p-3">
             <div class="my-2">
@@ -254,7 +267,7 @@
                       season
                       promotion. Don’t miss this chance to amplify your music and reach a wider audience today!
                     </p>
-                    <div class="d-flex flex-col items-center gap-1">
+                    <div class="d-flex flex-col items-start items-loading gap-1">
                       <a href="/store/buy-spotify-chart" class="btn bg-gradient-primary">Buy</a>
                       <% if(noOfChartRequests.length !==0) {%>
                         <a href="/store/spotify-chart/requests" class="btn bg-gradient-info">View Requests</a>
