@@ -5,9 +5,7 @@ parasails.registerPage("daily-chart", {
   data: {
     syncing: false,
 
-    formData: {
-      
-    },
+    formData: {},
 
     formErrors: {
       /* … */
@@ -42,9 +40,8 @@ parasails.registerPage("daily-chart", {
       this.syncing = true;
       alert("Successfully Received Your Request... Redirecting to Dashboard");
       this.syncing = false;
-      setTimeout(() => {
-        window.location = "/dashboard";
-      }, 2000);
+
+      window.location = "/dashboard";
     },
   },
 });
