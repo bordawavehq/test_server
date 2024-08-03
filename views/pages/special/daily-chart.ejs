@@ -35,8 +35,8 @@
 
       <!-- Form Section -->
       <div class="col-lg-4 col-md-12">
-        <ajax-form action="processChartRequest" :syncing.sync="syncing" :cloud-error.sync="cloudError"
-          :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submitForm">
+        <ajax-form action="processRequest" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+          :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submitForm()">
           <div class="input-group input-group-outline mb-3">
             <label for="songLink" class="form-label">Enter Your Spotify Song Link</label>
             <input type="url" class="form-control" id="songLink" v-model.trim="formData.songLink"

@@ -170,6 +170,11 @@ module.exports.routes = {
     action: "special/process-chart-request",
   },
 
+  // Create Invoice
+  "POST /store/process-request": {
+    action: "special/process-request",
+  },
+
   // Requests
   "GET /store/spotify-chart/requests": { action: "special/view-requests" },
 
