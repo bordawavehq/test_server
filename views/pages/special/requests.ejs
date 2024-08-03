@@ -3,53 +3,57 @@
     <h3>Spotify Charts Boost</h3>
     <div class="row">
       <div class="col-xl-12">
-        <div class="row py-5">
-          <% requests.forEach(request=>{ %>
-            <div class="col-md-3">
-              <div class="card shadow-dark p-3 d-flex align-items-center justify-content-center text-center my-3">
-                <img src="https://charts.spotify.com/SpotifyChartsLogoPurple.svg" alt="" class="img-fluid">
-                <p class="font-weight-bold">User : <%= request.user.fullName %>
-                </p>
-                <p class="font-weight-bold">No. Of Streams : <%= request.noOfStreams %>
-                    <p class="font-weight-bold">Country : <%= request.country %>
+        <% if(requests.length===0) { %>
+          <h3 class="text-center">No Requests made at this time</h3>
+          <% } %>
+            <div class="row py-5">
+              <% requests.forEach(request=>{ %>
+                <div class="col-md-3">
+                  <div class="card shadow-dark p-3 d-flex align-items-center justify-content-center text-center my-3">
+                    <img src="https://charts.spotify.com/SpotifyChartsLogoPurple.svg" alt="" class="img-fluid">
+                    <p class="font-weight-bold">User : <%= request.user.fullName %>
                     </p>
-                    <p class="font-weight-bold">Cost : <% if(request.cost===0) { %><span class="badge-info badge">Quote
-                          in Process</span>
-                        <% } else {%>
-                          <span>$ <%= request.cost %></span>
-                          <% } %>
-                    </p>
-                    <p class="font-weight-bold">Payment Status : <% if(request.status==="unpaid" ) { %><span
-                          class="badge-danger badge">Unpaid</span>
-                        <% } else {%>
-                          <span class="badge-success badge">Paid</span>
-                          <% } %>
-                    </p>
-                    <p class="font-weight-bold">Similar Artists : <%= request.similarArtists %>
-                    </p>
-                    <p class="font-weight-bold d-block">Song Link <a href="<%= request.songLink %>"
-                        class="d-inline-block text-truncate">
-                        <%= request.songLink %>
-                      </a></p>
-                    <a class="btn bg-gradient-primary" target="_blank" href="<%= request.songLink %>">Play Song <svg
-                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14">
-                        <path fill="currentColor" fill-rule="evenodd"
-                          d="M2.676.02a1.74 1.74 0 0 0-.845.218a1.64 1.64 0 0 0-.895 1.433v10.677a1.64 1.64 0 0 0 .895 1.433a1.74 1.74 0 0 0 1.718-.016l8.63-5.338a1.61 1.61 0 0 0-.001-2.876L3.548.253A1.74 1.74 0 0 0 2.676.02"
-                          clip-rule="evenodd" />
-                      </svg> </a>
-                    <% if(me.isSuperAdmin){ %>
-                      <a href="/store/invoice/create/<%= request.id %>" class="btn bg bg-gradient-secondary">
-                        Create Invoice
-                      </a>
-                      <% } else {%>
-                        <a href="/store/invoice/<%= request.id %>" class="btn bg bg-gradient-info">
-                          View Quote
-                        </a>
-                        <% } %>
-              </div>
+                    <p class="font-weight-bold">No. Of Streams : <%= request.noOfStreams %>
+                        <p class="font-weight-bold">Country : <%= request.country %>
+                        </p>
+                        <p class="font-weight-bold">Cost : <% if(request.cost===0) { %><span
+                              class="badge-info badge">Quote
+                              in Process</span>
+                            <% } else {%>
+                              <span>$ <%= request.cost %></span>
+                              <% } %>
+                        </p>
+                        <p class="font-weight-bold">Payment Status : <% if(request.status==="unpaid" ) { %><span
+                              class="badge-danger badge">Unpaid</span>
+                            <% } else {%>
+                              <span class="badge-success badge">Paid</span>
+                              <% } %>
+                        </p>
+                        <p class="font-weight-bold">Similar Artists : <%= request.similarArtists %>
+                        </p>
+                        <p class="font-weight-bold d-block">Song Link <a href="<%= request.songLink %>"
+                            class="d-inline-block text-truncate">
+                            <%= request.songLink %>
+                          </a></p>
+                        <a class="btn bg-gradient-primary" target="_blank" href="<%= request.songLink %>">Play Song <svg
+                            xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14">
+                            <path fill="currentColor" fill-rule="evenodd"
+                              d="M2.676.02a1.74 1.74 0 0 0-.845.218a1.64 1.64 0 0 0-.895 1.433v10.677a1.64 1.64 0 0 0 .895 1.433a1.74 1.74 0 0 0 1.718-.016l8.63-5.338a1.61 1.61 0 0 0-.001-2.876L3.548.253A1.74 1.74 0 0 0 2.676.02"
+                              clip-rule="evenodd" />
+                          </svg> </a>
+                        <% if(me.isSuperAdmin){ %>
+                          <a href="/store/invoice/create/<%= request.id %>" class="btn bg bg-gradient-secondary">
+                            Create Invoice
+                          </a>
+                          <% } else {%>
+                            <a href="/store/invoice/<%= request.id %>" class="btn bg bg-gradient-info">
+                              View Quote
+                            </a>
+                            <% } %>
+                  </div>
+                </div>
+                <% }) %>
             </div>
-            <% }) %>
-        </div>
       </div>
     </div>
   </div>
