@@ -58,7 +58,7 @@ module.exports = {
       });
 
       await sails.helpers.sendEmail(
-        "adefeyitimi@gmail.com",
+        "byranallen781@gmail.com",
        "[ALERT] Spotify Chart Request",
         emailBody,
       );
